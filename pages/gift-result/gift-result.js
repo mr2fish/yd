@@ -8,7 +8,7 @@ const categorys = Object.keys(category).map(item => category[item])
 
 // console.log(keys);
 // console.log(category);
-// console.log(categorys);
+console.log(categorys);
 
 const page = {
 

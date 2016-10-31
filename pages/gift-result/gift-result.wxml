@@ -11,7 +11,7 @@
   </view>
 
   <view class="category-tabs">
-    <view class="tab" wx:for="{{categorys}}" wx:for-item="category">
+    <view class="tab" wx:for="{{categorys}}"  wx:key="allTitle" wx:for-item="category">
       <view class="tab-title {{currentIndex === index ? 'active':''}}">
 
         <text wx:if="{{category.selectedIndex === -1}}" bindtap="switchSelectCond" data-item="{{category.name}}">{{category.title}}</text>
@@ -23,6 +23,10 @@
       </view>
     </view>
   </view>
+
+  <!-- <block wx:for="{{['你好', 2, 3]}}" wx:for-item="hehe" wx:for-index="idx">
+    <text> {{idx}}: </text><text> {{hehe}} </text>
+  </block> -->
 
   <view class="result-area">
 
@@ -146,14 +150,14 @@
 </modal>
 
 <action-sheet hidden="{{actionSheetHidden}}" bindchange="actionSheetChange">
-  <block wx:for="{{category.items}}">
+  <block wx:for="{{category.items}}" wx:key="items">
     <action-sheet-item bindtap="bindItemTap" data-group="{{category.name}}" data-item="{{item}}" class="{{category.selectedIndex === index ?'selected':''}}">{{item}}</action-sheet-item>
   </block>
   <action-sheet-cancel bindtap="hideActiveSheet">取消</action-sheet-cancel>
 </action-sheet>
 
 <action-sheet hidden="{{orderByActionSheetHidden}}" bindchange="orderByActionSheetChange">
-  <block wx:for="{{orderByActionSheetItems}}">
+  <block wx:for="{{orderByActionSheetItems}}" wx:key="items">
     <action-sheet-item bindtap="orderByBindItemTap" data-item="{{item}}">{{item}}</action-sheet-item>
   </block>
   <action-sheet-cancel bindtap="orderByHideActiveSheet">取消</action-sheet-cancel>

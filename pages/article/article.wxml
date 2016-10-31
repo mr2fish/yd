@@ -57,7 +57,7 @@
 
   <view class="content">
 
-    <view wx:for="{{contents}}" wx:for-item="content">
+    <view wx:for="{{contents}}" wx:for-item="content" wx:key="type">
       <!-- type: img -->
       <!--
         图片宽高需要计算

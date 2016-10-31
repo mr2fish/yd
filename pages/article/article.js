@@ -45,10 +45,10 @@ const page = {
               value: '有调机器人'
             }
           },
-          contents: {
+          contents: [{
             type: 'p',
-            value: '很抱歉，页面发生了错误，请重试'
-          }
+            value: '有调机器人正在写文章...'
+          }]
         })
       },
       complete: function(){
