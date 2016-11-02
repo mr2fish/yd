@@ -46,6 +46,8 @@ page {
   border-top-left-radius: 200rpx;
   border-bottom-left-radius: 200rpx;
   height: 28rpx;
+  /* 无效 */
+  /*letter-spacing: 10px;*/
 }
 
 .search-btn{
@@ -73,6 +75,11 @@ page {
 }
 .pull-right{
   float: right;
+}
+
+/* 小程序中也存在web端一样的问题*/
+image{
+  vertical-align: middle;
 }
 
 /*.container {
