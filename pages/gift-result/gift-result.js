@@ -15,6 +15,8 @@ const page = {
   data: {
     // 控制模态提示框的显示隐藏
     modalHidden: true,
+    // 控制loading的显示隐藏
+    loadingHidden: true,
     // 控制顶部调出来的actionSheet显示隐藏
     actionSheetHidden: true,
     // 控制orderBy调出来的actionSheet显示隐藏
@@ -60,18 +62,30 @@ const page = {
   }
 
   ,onLoad(options) {
-    // console.log(app.keyword)
-    const keyword = options.keyword
-    // console.log(keyword);
-    if (keyword && keyword.trim()) {
+    // query处理
+    const queryParameter = JSON.parse(options.queryParameter)
+    console.log(queryParameter)
+    const keyword = queryParameter.query
+    console.log(keyword);
+    if (queryParameter && keyword) {
       this.setData({
         keyword: keyword
         ,categorys: categorys
       })
     }
-    this.setData({
-      categorys: categorys
-    })
+    // wx.request({
+    //   url: 'http://s.diaox2.com/ddsearch_dev/q',
+    //   header: {'Content-Type': 'application/json'},
+    //   data: queryParameter,
+    //   success(res) {}
+    // })
+    setTimeout(() => {
+      this.setData({
+        loadingHidden: true,
+
+      })
+    }, 2000)
+
   }
   // 查看全部 start
   ,viewAll(){

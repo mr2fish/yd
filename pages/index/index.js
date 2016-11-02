@@ -84,12 +84,29 @@ const page = {
 
   ,confirm(){
     const keyword = this.data.keyword
-    console.log(keyword)
     if (!keyword || !keyword.trim()) {
       return this.showModal('你还没有输入内容哦亲')
     }
+    // const queryParameter = { scene:"告白",relation:"基友",price:[0,1000], query:"第一个" }
+    const queryParameter = { query: keyword }
+    for (const category of categorys) {
+       const name = category.name
+       const selectedIndex = category.selectedIndex
+       if(selectedIndex === 0){
+         continue
+       }
+       if(name === 'price'){
+         queryParameter[name] =
+                            category
+                                .items[selectedIndex]
+                                .split(/-|\+/)
+                                .filter(price => price !== '')
+       }else{
+         queryParameter[name] = category.items[selectedIndex]
+       }
+    }
     wx.navigateTo({
-        url:'../gift-result/gift-result?keyword=' + keyword
+        url:'../gift-result/gift-result?queryParameter=' + JSON.stringify(queryParameter)
     })
   }
 

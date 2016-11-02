@@ -258,3 +258,15 @@
   line-height: 1.909;
   font-size: 22rpx ;
 }
+
+
+/* sku */
+.sku{
+  background-color: #efeff4;
+  line-height: 1.71;
+  font-size: 28rpx;
+  color: #535353;
+  padding: 24rpx;
+  margin: 24rpx 0;
+  display: flex;
+}

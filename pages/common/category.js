@@ -102,4 +102,4 @@ const categorys = {
 
 }
 export default categorys
-export {defaultItem}
+export { defaultItem }

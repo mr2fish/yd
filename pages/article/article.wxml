@@ -57,8 +57,18 @@
 
   <view class="content">
 
+    <view>
+      <view class="sku">
+        <image
+          src="http://content.image.alimmdn.com/sku/14779768991_jpg.jpg@200w_200h_1e%7C200x200-5rc"
+          style="width:150rpx;height:150rpx;">
+        </image>
+        <text class="sku-title">May28TH.Me丝巾表带石英表</text>
+        <class class="sku-price">约</class>
+      </view>
+    </view>
+
     <view wx:for="{{contents}}" wx:for-item="content" wx:key="type">
-      <!-- type: img -->
       <!--
         图片宽高需要计算
         整个屏幕大小：750rpx
@@ -66,6 +76,7 @@
         图片宽度大小：750 - 48 = 702rpx
         图片高度大小：图片高宽比 * 图片宽度大小 = ( naturalHeight / naturalWidth ) * 702
       -->
+      <!-- type: img -->
       <image wx:if="{{content.type === 'img'}}"
              src="{{content.value}}"
              class="img"
@@ -83,6 +94,7 @@
       <!-- type: p/h2/h3/editorhead/editorcontent/tips/lift/address -->
       <text wx:else class="{{content.type}}"> {{content.value}} </text>
     </view>
+
 
     <!-- <text class="editorhead">小编说</text>
     <text class="editorcontent">上次手贱，在写《当我们说原牛，其实我们在谈什么？》的时候卖了个关子，表示脱浆保养以后慢慢聊，结果文章发出来后评论区里面各种关心养护问题，于是在内部群里被花样吊打。霸气的雪姨最后拎着皮鞭撂了狠话，“抓紧整一篇保养的文章出来，不然这个嘿嘿嘿就不是那个嘿嘿嘿了！”于是无奈再次转入码字状态……PS. 文章最后有补充上次原牛入门款推荐——女款原牛的推荐哦！

@@ -1,5 +1,5 @@
 <!--index.wxml-->
-<!-- <loading hidden="{{loadingHidden}}">加载中...</loading> -->
+<loading hidden="{{loadingHidden}}">玩命搜索数据</loading>
 <view class="container">
 
   <view class="search-box">
