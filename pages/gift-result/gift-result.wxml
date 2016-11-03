@@ -30,15 +30,33 @@
 
   <view class="result-area">
 
-    <view class="section-sep first-section-sep clearfix">
+    <view class="section-sep first-section-sep clearfix" wx:if="{{raiders.length > 0}}">
       <view class="section-sep-container">
         <text class="pull-left">攻略</text>
         <text class="pull-right" bindtap="viewAll">全部 <i class="arrow arrow-right arrow-red">▴</i></text>
       </view>
     </view>
 
-    <view class="up-list">
-      <view class="up-list-item">
+    <view class="up-list" wx:if="{{raiders.length > 0}}">
+
+      <block wx:for="{{raiders}}" wx:for-item="raider" wx:for-key="cid">
+        <view class="up-list-item">
+          <navigator url="../article/article?id={{raider.aid}}">
+           <view class="item-desc-container">
+              <image class="item-img" src="{{raider.cover_image_url}}"></image>
+              <view class="info-view">
+                <text class="title">{{raider.title}}</text>
+                <view class="target-word">
+                  <text class="keyword">{{ raider.rendered_keywords[0][0] }}</text>
+                  <!-- <text class="other-word">{{ raider.rendered_keywords[0][0] }}</text> -->
+                </view>
+              </view>
+           </view>
+         </navigator>
+       </view>
+      </block>
+
+      <!-- <view class="up-list-item">
         <navigator url="../article/article?id=7966">
          <view class="item-desc-container">
             <image class="item-img" src="//a.diaox2.com/cms/sites/default/files/20161015/zk/SAOCOVER.jpg"></image>
@@ -66,7 +84,8 @@
          </view>
       </view>
       </navigator>
-    </view>
+    </view> -->
+
   </view>
 
   <view class="section-sep clearfix">
@@ -77,8 +96,22 @@
   </view>
 
   <view class="down-list">
+    <block wx:for="{{goods}}" wx:for-item="good">
+      <view class="down-list-item">
+        <navigator url="../article/article?id={{good.aid}}">
+        <view class="image-container">
+          <image src="{{good.cover_image_url}}"></image>
+        </view>
+        <view class="info-container">
+          <text class="info">{{good.rendered_title}}</text>
+          <text class="price">{{ ( !good.price || good.price === "N/A" ) ? "无":good.price }}</text>
+        </view>
+        </navigator>
+      </view>
 
-    <view class="down-list-item">
+    </block>
+
+    <!-- <view class="down-list-item">
       <navigator url="../article/article?id=7486">
       <view class="image-container">
         <image src="//content.image.alimmdn.com/sku/1469850064em_pic_jpg.jpeg@320w_320h_1e%7C320x320-5rc"></image>
@@ -127,8 +160,6 @@
     </view>
 
     <view class="down-list-item">
-      <!-- 1213报错 -->
-      <!-- <navigator url="../article/article?id=1213"> -->
       <navigator url="../article/article?id=1215">
       <view class="image-container">
         <image src="//content.image.alimmdn.com/cms/sites/default/files/20161008/firstpage/t21.jpg@320w_320h_1e%7C320x320-5rc"></image>
@@ -138,7 +169,9 @@
         <text class="price">￥158</text>
       </view>
       </navigator>
-    </view>
+    </view> -->
+
+
   </view>
   </view>
 </view>

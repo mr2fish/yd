@@ -1,6 +1,7 @@
 //index.js
 //获取应用实例
 import common from '../common/common'
+import result from '../common/search_result'
 import category, { defaultItem } from '../common/category'
 const app = common.app
 const keys = Object.keys(category)
@@ -16,7 +17,7 @@ const page = {
     // 控制模态提示框的显示隐藏
     modalHidden: true,
     // 控制loading的显示隐藏
-    loadingHidden: true,
+    loadingHidden: false,
     // 控制顶部调出来的actionSheet显示隐藏
     actionSheetHidden: true,
     // 控制orderBy调出来的actionSheet显示隐藏
@@ -60,31 +61,97 @@ const page = {
 
     this.hideActiveSheet()
   }
-
+  ,renderByQuery(query){
+    
+  }
   ,onLoad(options) {
     // query处理
-    const queryParameter = JSON.parse(options.queryParameter)
-    console.log(queryParameter)
-    const keyword = queryParameter.query
-    console.log(keyword);
-    if (queryParameter && keyword) {
-      this.setData({
-        keyword: keyword
-        ,categorys: categorys
-      })
-    }
-    // wx.request({
-    //   url: 'http://s.diaox2.com/ddsearch_dev/q',
-    //   header: {'Content-Type': 'application/json'},
-    //   data: queryParameter,
-    //   success(res) {}
-    // })
-    setTimeout(() => {
-      this.setData({
-        loadingHidden: true,
+    let queryParameterString = options.queryParameter
+    queryParameterString = '{"query": "雨伞", "relation": "妈妈", "scene": "新年", "category": "生活日用", "price": [500, 800]}'
+    if(queryParameterString){
+      const queryParameter = JSON.parse(queryParameterString)
+      queryParameter.m = 'wechat'
+      const keyword = queryParameter.query
+      console.log(queryParameter);
+      if (queryParameter && keyword) {
+        this.setData({
+          keyword: keyword
+          ,categorys: categorys
+        })
+      }
 
-      })
-    }, 2000)
+
+      setTimeout(() => {
+
+        console.log(result);
+        const IMG_URL_PREFIX = 'http://a.diaox2.com/cms/sites/default/files'
+        const meta_infos = result.meta_infos
+        // raiders 攻略
+        let raiders = []
+        // goods 单品
+        let goods = []
+        const aids = result.aids
+        for(let aid of aids){
+          let meta_info = meta_infos[aid]
+          const ctype = meta_info.ctype
+          const cover_image_url = meta_info.cover_image_url
+          if( !/http:\/\/|https:\/\//i.test(cover_image_url) ){
+            meta_info.cover_image_url = IMG_URL_PREFIX + cover_image_url
+          }
+          meta_info.aid = aid
+          if(ctype !== 1){
+            raiders.push(meta_info)
+          }else if(ctype === 1){
+            goods.push(meta_info)
+          }
+        }
+        // 攻略最多只有2篇
+        if( raiders.length > 2){
+          raiders = raiders.slice(0, 2)
+        }
+
+        /**
+         * 1. ctype不准
+         * 2. remove_aids数据不全
+         * 3. 单品无price过滤掉
+         */
+
+        // 单品至少有2篇
+        // 不足2篇，remove_aids来补
+        if( goods.length < 2){
+          const aids = result.remove_aids
+          // console.log(aids);
+          for(let aid of aids){
+            let meta_info = meta_infos[aid]
+            if(!meta_info) continue
+            if(meta_info.ctype === 1){
+              console.log('done');
+              goods.push(meta_info)
+            }else{
+              console.log('done else');
+            }
+          }
+        }
+
+        console.log(raiders);
+        console.log(goods);
+
+        this.setData({
+          loadingHidden: true,
+          raiders: raiders,
+          goods: goods
+        })
+
+      }, 200)
+
+      // wx.request({
+      //   url: 'http://s.diaox2.com/ddsearch_dev/q',
+      //   header: {'Content-Type': 'application/json'},
+      //   data: queryParameter,
+      //   success(res) {}
+      // })
+
+    }
 
   }
   // 查看全部 start
