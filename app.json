@@ -1,7 +1,8 @@
 {
   "pages": [
-    "pages/gift-result/gift-result",
+    "pages/filter/filter",
     "pages/index/index",
+    "pages/gift-result/gift-result",
     "pages/sku/sku",
     "pages/article/article",
     "pages/all/all",
