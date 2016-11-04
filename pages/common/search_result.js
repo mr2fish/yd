@@ -295,20 +295,7 @@ const result = {
             "thumb_image_url": "20150211/goodthing/00_1.jpg"
         },
         "6121": {
-            "rendered_keywords": [
-                [
-                    "雨伞",
-                    1
-                ],
-                [
-                    "伞",
-                    0
-                ],
-                [
-                    "下雨",
-                    0
-                ]
-            ],
+            "rendered_keywords": [["雨伞",1],["伞",0],["下雨",0]],
             "title_color": 4294967295,
             "cid": 26289494824937,
             "url": "http://c.diaox2.com/view/app/?m=show&id=6121",

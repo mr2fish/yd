@@ -62,7 +62,7 @@ const page = {
     this.hideActiveSheet()
   }
   ,renderByQuery(query){
-    
+
   }
   ,onLoad(options) {
     // query处理
@@ -99,9 +99,9 @@ const page = {
             meta_info.cover_image_url = IMG_URL_PREFIX + cover_image_url
           }
           meta_info.aid = aid
-          if(ctype !== 1){
+          if(ctype !== 2){
             raiders.push(meta_info)
-          }else if(ctype === 1){
+          }else if(ctype === 2){
             goods.push(meta_info)
           }
         }
@@ -111,9 +111,10 @@ const page = {
         }
 
         /**
-         * 1. ctype不准
+         * 1. ctype不准  不是不准，是文章的ctype应该是2
          * 2. remove_aids数据不全
          * 3. 单品无price过滤掉
+         *    price: 'N/A'
          */
 
         // 单品至少有2篇
@@ -124,7 +125,7 @@ const page = {
           for(let aid of aids){
             let meta_info = meta_infos[aid]
             if(!meta_info) continue
-            if(meta_info.ctype === 1){
+            if(meta_info.ctype === 2){
               console.log('done');
               goods.push(meta_info)
             }else{

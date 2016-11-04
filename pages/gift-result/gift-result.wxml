@@ -38,7 +38,6 @@
     </view>
 
     <view class="up-list" wx:if="{{raiders.length > 0}}">
-
       <block wx:for="{{raiders}}" wx:for-item="raider" wx:for-key="cid">
         <view class="up-list-item">
           <navigator url="../article/article?id={{raider.aid}}">
@@ -96,6 +95,8 @@
   </view>
 
   <view class="down-list">
+
+    <!-- <text>没有结果，试试下面的热门吧~</text> -->
     <block wx:for="{{goods}}" wx:for-item="good">
       <view class="down-list-item">
         <navigator url="../article/article?id={{good.aid}}">
