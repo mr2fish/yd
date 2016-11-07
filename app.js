@@ -9,23 +9,23 @@ App({
     const self = this
     // console.log(self)
     self.aaa = '这是挂到app上的数据' // 这个同步挂载的数据在其他文件中是可以访问的
-    wx.request({
-      url: 'http://s.diaox2.com/view/app/gift_supply.php',
-      header: {
-          'Content-Type': 'application/json'
-      },
-      /**
-       * 异步往app上挂载数据，在其他文件中调用
-       * app并不会得到挂载的数据
-       * 所以取到的数据不挂载到app上了而是存在本地
-       */
-      success(res) {
-        self.gifts = res
-        // console.log(res)
-        // 把数据存入本地
-        // wx.setStorageSync('key','value')
-      }
-    })
+    // wx.request({
+    //   url: 'http://s.diaox2.com/view/app/gift_supply.php',
+    //   header: {
+    //       'Content-Type': 'application/json'
+    //   },
+    //   /**
+    //    * 异步往app上挂载数据，在其他文件中调用
+    //    * app并不会得到挂载的数据
+    //    * 所以取到的数据不挂载到app上了而是存在本地
+    //    */
+    //   success(res) {
+    //     self.gifts = res
+    //     // console.log(res)
+    //     // 把数据存入本地
+    //     // wx.setStorageSync('key','value')
+    //   }
+    // })
   },
   onShow(){
     // console.log('App Show')

@@ -31,7 +31,6 @@ const page = {
   ,bindItemTap(e) {
 
     const target = e.target
-
     const item = target.dataset.item
     const group = target.dataset.group
     console.log('bindItemTap')
@@ -61,14 +60,21 @@ const page = {
 
     this.hideActiveSheet()
   }
+
   ,renderByQuery(query){
 
   }
+
   ,onLoad(options) {
+
+    console.log('onload')
     // query处理
     let queryParameterString = options.queryParameter
+    console.log(queryParameterString)
     queryParameterString = '{"query": "雨伞", "relation": "妈妈", "scene": "新年", "category": "生活日用", "price": [500, 800]}'
-    if(queryParameterString){
+
+    if(queryParameterString) {
+
       const queryParameter = JSON.parse(queryParameterString)
       queryParameter.m = 'wechat'
       const keyword = queryParameter.query
@@ -82,7 +88,6 @@ const page = {
 
 
       setTimeout(() => {
-
         console.log(result);
         const IMG_URL_PREFIX = 'http://a.diaox2.com/cms/sites/default/files'
         const meta_infos = result.meta_infos
@@ -144,16 +149,13 @@ const page = {
         })
 
       }, 200)
-
       // wx.request({
       //   url: 'http://s.diaox2.com/ddsearch_dev/q',
       //   header: {'Content-Type': 'application/json'},
       //   data: queryParameter,
       //   success(res) {}
       // })
-
     }
-
   }
   // 查看全部 start
   ,viewAll(){

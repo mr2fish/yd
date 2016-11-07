@@ -105,6 +105,7 @@ const page = {
          queryParameter[name] = category.items[selectedIndex]
        }
     }
+     console.log(queryParameter);
     wx.navigateTo({
         url:'../gift-result/gift-result?queryParameter=' + JSON.stringify(queryParameter)
     })
