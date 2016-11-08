@@ -6,17 +6,22 @@
 */
 
 /* 顶部tab */
-.category-tabs{
+.category-tabs {
   padding-top: 10rpx;
+  display: -webkit-flex;
   display: flex;
+
   background-color: rgb(46,46,47);
   color: #fff;
   height: 60rpx;
 }
 
 .tab{
+  -webkit-flex:1;
   flex:1;
+  display: -webkit-flex;
   display: flex;
+  -webkit-justify-content: center;
   justify-content: center;
   position: relative;
   overflow: hidden;
@@ -24,14 +29,19 @@
 }
 
 .tab-title{
+  -webkit-flex: 1;
   flex: 1;
+  -webkit-display: flex;
   display: flex;
 }
 
-.tab-title text{
+.tab-title text {
+  -webkit-flex: 1;
   flex: 1;
   padding: 14rpx 0;
   display: flex;
+  display: -webkit-flex;
+  -webkit-justify-content: center;
   justify-content: center;
   width: 100%;
 }
@@ -100,10 +110,12 @@
   font-size: 32rpx;
   line-height: 1;
   display: flex;
+  -webkit-flex-direction: column;
   flex-direction: column;
 }
 
 .section-sep-container{
+  -webkit-flex: 1;
   flex: 1;
   padding-bottom: 20rpx;
   border-bottom:1px #eaeaea solid;
@@ -116,7 +128,9 @@
 
 /* 上部横条结构卡片 */
 .up-list{
+  -webkit-display: flex;
   display: flex;
+  -webkit-flex-direction: column;
   flex-direction: column;
   background-color: #fff;
 }
@@ -126,7 +140,9 @@
 }
 
 .item-desc-container{
+  -webkit-flex: 1;
   flex: 1;
+  display: -webkit-flex;
   display: flex;
   border-bottom: 1px rgb(237,237,237) solid;
   padding-bottom: 30rpx;
@@ -138,6 +154,7 @@
 }
 
 .info-view{
+  -webkit-flex: 1;
   flex: 1;
   margin-left:30rpx;
   font-size: 24rpx;
@@ -159,7 +176,9 @@
 }
 
 .title, .price, .footer-desc {
+    -webkit-flex:1;
     flex:1;
+    display: -webkit-flex;
     display: flex;
 }
 
@@ -174,13 +193,19 @@
   color:#999;
 }
 .source-from{
+    -webkit-justify-content: flex-end;
     justify-content: flex-end;
+    -webkit-flex:1;
     flex:1;
+    -webkit-display: flex;
     display: flex;
+    -webkit-align-items: flex-end;
     align-items: flex-end;
 }
 .source{
+    display: -webkit-flex;
     display: flex;
+    -webkit-align-items: flex-end;
     align-items: flex-end;
 }
 .datetime{
@@ -189,15 +214,19 @@
 
 /* 下方左右结构文章卡片 */
 .down-list{
+  display: -webkit-flex;
   display: flex;
   flex-flow: row wrap;
+  justify-content: -webkit-space-between;
   justify-content: space-between;
   background-color: #fff;
   padding: 30rpx 30rpx 0 30rpx;
 }
 
 .down-list-item{
+  display: -webkit-flex;
   display: flex;
+  flex-direction: -webkit-column;
   flex-direction: column;
   width: 330rpx;
 }
