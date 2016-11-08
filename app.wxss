@@ -47,14 +47,14 @@ page {
 
 .search-input{
   background-color: #fff;
-  /*padding:4px;*/
   padding-left: 12px;
   -webkit-box-flex: 1;
       -ms-flex: 1;
           flex: 1;
   border-top-left-radius: 200rpx;
   border-bottom-left-radius: 200rpx;
-  height: 28rpx;
+  height: 65.182rpx;
+  max-width: 577.294rpx;
   /* 无效 */
   /*letter-spacing: 10px;*/
 }

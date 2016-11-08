@@ -1,6 +1,7 @@
 //index.js
 //获取应用实例
 import common from '../common/common'
+import { handleTitle } from '../../utils/utils'
 import result from '../common/search_result'
 import category, { defaultItem } from '../common/category'
 const app = common.app
@@ -36,6 +37,7 @@ const page = {
     console.log('bindItemTap')
     console.log(item)
 
+    // rendered_title = clearBRandQuot(rendered_title.replace(/<<<<(.*?)>>>>/gi, "<span class='target-word'>$1</span>"));
     outer:
     for(let i = 0, li = categorys.length; i < li; i++){
       let category = categorys[i]
@@ -104,6 +106,9 @@ const page = {
             meta_info.cover_image_url = IMG_URL_PREFIX + cover_image_url
           }
           meta_info.aid = aid
+          console.log(meta_info.title);
+          meta_info.title = handleTitle(meta_info.title)
+          console.log(meta_info.title);
           if(ctype !== 2){
             raiders.push(meta_info)
           }else if(ctype === 2){

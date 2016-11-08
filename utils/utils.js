@@ -67,3 +67,10 @@ export const PI = Math.PI;
 
 export { a, b }
 export default c
+
+export function handleTitle(title = []){
+  if(Array.isArray(title)){
+    return title.join('')
+  }
+  return ''
+}

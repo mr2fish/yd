@@ -3395,7 +3395,8 @@ const result = {
             "buylink": "http://c.diaox2.com/view/app/?m=buy&aid=759",
             "nid": "759",
             "title": [
-                "我有Blunt智能雨伞，下雨不愁"
+                "我有Blunt智能雨伞，下雨不愁",
+                "娃哈哈"
             ],
             "rendered_title": "我有Blunt智能<<<<雨伞>>>>，下雨不愁",
             "latest_version": 9276,

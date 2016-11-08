@@ -26,8 +26,13 @@
 .bg-image{
   background:url(http://a.diaox2.com/cms/sites/default/files/20161013/goodthing/TTCOVER.jpg);
 }*/
+
 .search-box{
-  padding: 38.647rpx 0;
+  padding: 38.647rpx 56rpx;
+}
+
+.bg-image{
+  background:url(http://a.diaox2.com/cms/sites/default/files/20161013/goodthing/TTCOVER.jpg);
 }
 
 .tag{
@@ -56,11 +61,11 @@
 .function-list{
   background-color: #fff;
   text-align: center;
-  padding:36.231rpx 0;
   line-height: 1;
 }
 
 .function-list navigator{
+  padding:36.231rpx 0;
   display: inline-block;
   width: 33.333333%;
 }

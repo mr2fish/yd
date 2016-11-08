@@ -5,6 +5,11 @@
  3. 不认相邻兄弟选择符
 */
 
+.search-box{
+  padding-top: 38.647rpx;
+}
+
+
 /* 顶部tab */
 .category-tabs {
   padding-top: 10rpx;
@@ -235,13 +240,13 @@
   background-color: #eee;
   border:1px rgb(221,221,221) solid;
   width: 330rpx;
-  height: 380rpx;
+  height: 330rpx;
 }
 
 .image-container image{
   /* 注意这个。终于解决了在小程序中图片尺寸的问题了*/
   width: 330rpx;
-  height: 380rpx;
+  height: 330rpx;
 }
 
 .info-container{

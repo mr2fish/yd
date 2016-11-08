@@ -101,7 +101,7 @@
           <image src="{{good.cover_image_url}}"></image>
         </view>
         <view class="info-container">
-          <text class="info">{{good.rendered_title}}</text>
+          <text class="info">{{good.title}}</text>
           <text class="price">{{ ( !good.price || good.price === "N/A" ) ? "无":good.price }}</text>
         </view>
         </navigator>
