@@ -1,17 +1,18 @@
 .container{
   background-color: rgb(240,240,240);
 }
+
 .article-list {
-  width: 640.096rpx;
-  height: 770.531rpx;
+  width: 530rpx;
+  height: 700rpx;
   margin: 0 auto;
-  margin-top: 76.087rpx;
+  margin-top: 120rpx;
   overflow: hidden;
   position: relative;
   border: 1px rgb(199,199,205) solid;
   line-height: 1;
   box-sizing: border-box;
-  border-radius: 18rpx;
+  border-radius: 8rpx;
 }
 
 .article-box {
@@ -20,20 +21,22 @@
 }
 
 .article-box image{
-    width: 640.096rpx;
-    height: 640.096rpx;
+    width: 530rpx;
+    height: 580rpx;
 }
 
 .article-info {
+  /*box-sizing: border-box;
+ min-height: 92rpx;*/
  background-color: #fff;
- height: 130.434rpx;
- padding: 27.173rpx 36.231rpx;
+ padding: 24rpx;
  border-top: 1px rgb(199,199,205) solid;
  font-size: 28rpx;
+ color: #333;
 }
 
 .article-title {
-  max-width: 640.096rpx;
+  max-width: 530rpx;
   display: block;
   overflow: hidden; /*自动隐藏文字*/
   text-overflow: ellipsis;/*文字隐藏后添加省略号*/
@@ -42,22 +45,26 @@
 .price {
   display: block;
   color:#e60012;
-  margin-top: 24.154rpx;
+  margin-top: 16rpx;
 }
 .operate-area {
   margin:0 auto;
-  margin-top: 111rpx;
+  margin-top: 110rpx;
   text-align: center;
 }
 .operate-area view{
   display: inline-block;
-  margin-right: 93rpx;
-  width: 144.323rpx;
-  line-height: 144.323rpx;
+  margin-right: 130rpx;
+  width: 140rpx;
+  height: 140rpx;
   border-radius: 50%;
   background-color:#fff;
   border: 1px rgb(199,199,205) solid;
+  background: url(./icon/like.png) left top no-repeat;
+  background-size: 100%;
 }
 .operate-area .dislike{
   margin-right: 0;
+  background: url(./icon/dislike.png) left top no-repeat;
+  background-size: 100%;
 }

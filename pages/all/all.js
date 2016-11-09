@@ -7,7 +7,6 @@ const app = common.app
 
 const page = {
   onLoad() {
-    console.log('all.js onload...')
     this.setData({
       articles:articles
     })
