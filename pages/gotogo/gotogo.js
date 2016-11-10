@@ -51,8 +51,6 @@ const page = {
   //     currentIndex = 0;
   // }
   ,onLoad(){
-
-
     this.setData({
       gotogos: data
     })
@@ -71,7 +69,6 @@ const page = {
     }
 
     const {rotate, translateX} = ani
-
     /**
      * 创建一个动画实例animation。调用实例的方法来描述动画。最后通过动画实例的export方法
      * 导出动画数据传递给组件的animation属性

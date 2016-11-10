@@ -19,13 +19,7 @@ const res = {
         value: '李彦峰'
       }
     },
-    contents: [{
-      type: 'editorhead',
-      value: '小编说',
-    }, {
-      type: 'editorcontent',
-      value: '上次手贱，在写《当我们说原牛，其实我们在谈什么？》的时候卖了个关子，表示脱浆保养以后慢慢聊，结果文章发出来后评论区里面各种关心养护问题，于是在内部群里被花样吊打。霸气的雪姨最后拎着皮鞭撂了狠话，“抓紧整一篇保养的文章出来，不然这个嘿嘿嘿就不是那个嘿嘿嘿了！”于是无奈再次转入码字状态……PS. 文章最后有补充上次原牛入门款推荐——女款原牛的推荐哦！'
-    }, {
+    contents: [ {
       type: 'sku',
       value: {
         sid: '5046',
@@ -33,6 +27,12 @@ const res = {
         title: 'May28TH.Me丝巾表带石英表',
         price: '￥325起'
       }
+    }, {
+      type: 'editorhead',
+      value: '小编说',
+    }, {
+      type: 'editorcontent',
+      value: '上次手贱，在写《当我们说原牛，其实我们在谈什么？》的时候卖了个关子，表示脱浆保养以后慢慢聊，结果文章发出来后评论区里面各种关心养护问题，于是在内部群里被花样吊打。霸气的雪姨最后拎着皮鞭撂了狠话，“抓紧整一篇保养的文章出来，不然这个嘿嘿嘿就不是那个嘿嘿嘿了！”于是无奈再次转入码字状态……PS. 文章最后有补充上次原牛入门款推荐——女款原牛的推荐哦！'
     }, {
       type: 'img',
       value: 'http://content.image.alimmdn.com/cms/sites/default/files/20160921/goodthing/WechatIMG5.jpg@768w_1l',
