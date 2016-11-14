@@ -1,7 +1,7 @@
 {
   "pages": [
-    "pages/filter/filter",
     "pages/index/index",
+    "pages/filter/filter",
     "pages/article/article",
     "pages/gotogo/gotogo",
     "pages/all/all",
