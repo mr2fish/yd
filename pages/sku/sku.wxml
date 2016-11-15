@@ -11,7 +11,7 @@
     <text class="buy-method-tips">您可以通过以下方式购买</text>
 
     <view class="buy-area">
-      <block wx:for="{{sku.sales}}" wx-key="{{sku.sid}}" wx:for-item="sale">
+      <block wx:for="{{skus.sales}}" wx-key="{{skus.sid}}" wx:for-item="sale">
         <view class="buy-item">
           <view class="item-header">
             <text>{{sale.mart}}</text>

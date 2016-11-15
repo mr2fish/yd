@@ -27,7 +27,7 @@
      </navigator>
      <navigator url="../gotogo/gotogo" hover-class="navigator-hover">
         <view class="function no-border">
-            <image src="icon/gotogo.png"></image>
+            <image src="icon/gotogo.png" style="width:88rpx;height:60rpx;"></image>
             <text>逛一逛</text>
         </view>
      </navigator>

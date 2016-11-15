@@ -5,6 +5,7 @@
 import common from '../common/common'
 import category, { defaultItem } from '../common/category'
 import { copy } from '../../utils/utils'
+import API from '../../utils/API'
 const app = common.app
 const category_copy = copy(category)
 const keys = Object.keys(category_copy)

@@ -1,5 +1,6 @@
 import common from '../common/common'
-import res from '../common/sku'
+import res from '../common/skus'
+import res from '../common/skus'
 const app = common.app
 const page = {
   data: {
@@ -7,17 +8,17 @@ const page = {
     loadingHidden: true
   }
   ,onLoad(options) {
+
+
+
     console.log(options.sid);
     const sid = options.sid
-    console.log(res);
     const sku = res.data[0]
-    console.log(sku);
     const sales = sku.sales
-    console.log(sales);
     const URL_PREFIX = 'http://c.diaox2.com/cms/diaodiao/mart2/'
     let png = 'default.png'
     let ratio = 2.416
-    sku.sales = sku.sales.map(sale => {
+    skus.sales = skus.sales.map(sale => {
       const link = sale.link_m_cps || sale.link_pc_cps || sale.link_m_raw || sale.link_pc_raw
       if(/tmall|天猫/.test(sale.mart) || link.indexOf('tmall.com') !== -1 ){
         png = 'tmall.png'
@@ -49,7 +50,7 @@ const page = {
     })
 
     this.setData({
-      sku: sku
+      skus: skus
     })
     // http://120.27.45.36:3000/v1/getfullsku/1087
   }

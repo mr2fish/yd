@@ -102,23 +102,27 @@ const page = {
       })
     }
   }
+
   ,showActionSheet(items = []) {
     this.setData({
       actionSheetHidden: false,
       actionSheetItems: items
     })
   }
+
   ,hideActiveSheet() {
     this.setData({
       actionSheetHidden: true
     })
   }
+
   ,bindItemTap(e) {
     console.log('bindItemTap')
     const value = e.target.dataset.item
     console.log(value)
     this.hideActiveSheet()
   }
+
   ,actionSheetChange() {
     this.hideActiveSheet()
   }
