@@ -26,14 +26,14 @@ const categorys = keys.map((item) => {
 let currentIndex = 0
 // 取出喜欢列表
 const likes = getLikesFromStorage()
-console.log(likes);
+// console.log(likes);
 // 取出数据
 // 筛选符合条件的数据
-console.log(gotogos);
+// console.log(gotogos);
 const data = gotogos.filter(gotogo => likes.indexOf(gotogo.cid) === -1)
-console.log(data);
+// console.log(data);
 const cids = data.map( gotogo => Number(gotogo.cid) )
-console.log(cids);
+// console.log(cids);
 // 反转数组。由于zindex最后的在最上面，所以反转数组使第一个元素变成
 // 最后一个，这样在界面上就显示为正常的顺序了
 gotogos.reverse()

@@ -1,13 +1,19 @@
 import common from '../common/common'
 import res from '../common/skus'
-import res from '../common/skus'
+import API from '../../utils/API'
 const app = common.app
+
 const page = {
+
   data: {
     modalHidden: true,
     loadingHidden: true
   }
+
   ,onLoad(options) {
+
+    const getfullsku = API.getfullsku.url
+    console.log(getfullsku);
 
 
 

@@ -1,12 +1,12 @@
 {
   "pages": [
+    "pages/sku/sku",
     "pages/index/index",
     "pages/filter/filter",
     "pages/article/article",
     "pages/gotogo/gotogo",
     "pages/all/all",
     "pages/gift-result/gift-result",
-    "pages/sku/sku",
     "pages/result/result",
     "pages/search/search"
   ],
