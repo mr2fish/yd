@@ -1,7 +1,5 @@
 //index.js
 //获取应用实例
-'use strict'
-// const common = require('../common/common')
 import common from '../common/common'
 import category, { defaultItem } from '../common/category'
 import { copy } from '../../utils/utils'
@@ -15,6 +13,8 @@ const categorys = keys.map((item) => {
   cat.items.unshift(defaultItem)
   return cat
 })
+import gift_default from '../common/gift_default'
+console.log(gift_default);
 
 /*
   TODO:
@@ -25,19 +25,23 @@ const categorys = keys.map((item) => {
 
 // console.log("categorys")
 // console.log(categorys)
-
 const page = {
-  data: {
-    modalHidden: true,
-    categorys: categorys,
-    keyword: ''
-    // ,scrollLeft: 0
-  }
-  ,onLoad(){
-    // 由于gifts是异步挂载到app上的，所以需要间隔查询数据是否ready
-    setInterval(function(){
-      // console.log(app.gifts)
-    },1000)
+
+  onLoad(){
+
+    setTimeout(() => {
+      
+    }, 100)
+
+
+    // const giftDefault = API.giftDefault.url
+    // wx.request({
+    //   url: getfullsku,
+    //   data: {id: sid},
+    //   header: {'Content-Type': 'application/json'},
+    //   success: function(res) {
+    //   }
+    // })
   }
   ,reset(){
     this.setData({
@@ -45,20 +49,13 @@ const page = {
         category.selectedIndex = 0
         return category
       })
-      // ,scrollLeft: 1
     })
   }
   //事件处理函数
   ,select(e){
     const target = e.target;
-    // const currentTarget = e.currentTarget;
-    // console.log(this); // 整个page对象
-    // console.log(target); // 大部分情况下 target === currentTarget 。跟web端是一致的。
-    // console.log(currentTarget);
-    // console.log(e.detail); // 鼠标点击的x,y轴坐标
     const item = target.dataset.item
     const group = target.dataset.group
-    // console.log(group)
     outer:
     for(let i = 0, li = categorys.length; i < li; i++){
       let category = categorys[i]
@@ -74,12 +71,9 @@ const page = {
         }
       }
     }
-    // console.log("categorys")
-    // console.log(categorys)
     this.setData({
       categorys: categorys
     })
-    // console.log(item)
   }
 
   ,confirm(){

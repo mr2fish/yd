@@ -20,12 +20,12 @@ const API = new function(){
     // SKU接口
     ,getfullsku: {
       // https://c.diaox2.com/view/app/?m=wsku&id=2345
-      url: `${fetchURL}view/app/`
+      url: `${fetchURL}view/app/?m=wsku`
     }
     // 获取文章信息
     ,getArticle: {
       // https://c.diaox2.com/view/app/?m=wechat&id=2345
-      url: `${fetchURL}view/app/`
+      url: `${fetchURL}view/app/?m=wechat`
     }
     // 获取文章阅读数
     ,getViewCount: {

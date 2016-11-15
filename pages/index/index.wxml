@@ -1,5 +1,4 @@
 <!--index.wxml-->
-<!-- <loading hidden="{{loadingHidden}}">加载中...</loading> -->
 <view class="container">
   <view class="search-box">
    <view class="bg-image"></view>
@@ -37,6 +36,30 @@
   <view class="metainfo-area">
     <text class="tag" data-tag="攻略"></text>
     <view class="up-list">
+
+      <block wx:for="{{meta_infos}}" wx:key="cid" wx:for-item="sale">
+        <view class="buy-item">
+          <view class="item-header">
+            <text>{{sale.mart}}</text>
+            <image src="{{sale.url}}" style="width:{{ 28 * sale.ratio }}rpx;height:28rpx;"></image>
+          </view>
+          <view class="item-info">
+            <view class="info-area">
+              <view class="info">
+                <text class="key">价格：</text>
+                <text class="value price">{{sale.price}}</text>
+              </view>
+              <view class="info">
+                <text class="key">说明：</text>
+                <text class="value">{{sale.intro}}</text>
+              </view>
+            </view>
+            <text class="buy-button" bindtap="buy" data-url="{{sale.link_m_cps || sale.link_pc_cps || sale.link_m_raw || sale.link_pc_raw}}">购买 ></text>
+          </view>
+        </view>
+      </block>
+
+
         <view class="up-list-item">
           <navigator url="../article/article">
              <view class="item-desc-container">
@@ -58,6 +81,7 @@
              </view>
            </navigator>
        </view>
+
        <view class="up-list-item">
          <navigator url="../article/article">
             <view class="item-desc-container">
@@ -124,9 +148,3 @@
     </view>
   </view>
 </view>
-
-<!-- 模态框start -->
-<modal hidden="{{modalHidden}}" no-cancel confirm-text="确定" bindconfirm="hideModal">
-  {{info}}
-</modal>
-<!-- 模态框end -->
