@@ -37,9 +37,10 @@
   padding-left: 44rpx;
   color: #ABACB0;
   font-size: 32rpx;
+  margin-top: 40px;
   display: -webkit-box;
   display: -ms-flexbox;
-  display: flex;
+  display: block;
   box-sizing: border-box;
   -webkit-box-flex: 1;
       -ms-flex: 1;
@@ -49,6 +50,7 @@
       -ms-flex-align: center;
           align-items: center;
 }
+
 
 
 .category-section{

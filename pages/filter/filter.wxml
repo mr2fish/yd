@@ -11,7 +11,6 @@
   </view> -->
 
   <view class="category-panel">
-    <view class="category-container">
       <view class="category-section" wx:for="{{categorys}}" wx:for-item="category" wx:key="allTitle">
         <view class="icon-left">
           <image src="{{category.icon}}"></image>
@@ -29,7 +28,6 @@
           </scroll-view>
         </view>
       </view>
-    </view>
   </view>
 
   <view class="btn-container">

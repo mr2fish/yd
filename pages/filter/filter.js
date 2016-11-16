@@ -89,7 +89,7 @@ const page = {
       // return this.showModal('你还没有输入内容哦亲')
     }
     // const queryParameter = { scene:"告白",relation:"基友",price:[0,1000], query:"第一个" }
-    const queryParameter = { query: keyword }
+    const queryParameter = {}
     for (const category of categorys) {
        const name = category.name
        const selectedIndex = category.selectedIndex
