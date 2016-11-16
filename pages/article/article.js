@@ -4,10 +4,6 @@
 import common from '../common/common'
 import API from '../../utils/API'
 const app = common.app
-// import res from '../common/content'
-// const data = res.data
-// const header = data.header
-// const contents = data.contents
 wx.showToast({
   title: '玩命加载中',
   icon: 'loading'

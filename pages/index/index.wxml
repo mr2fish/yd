@@ -36,31 +36,32 @@
   <view class="metainfo-area">
     <text class="tag" data-tag="攻略"></text>
     <view class="up-list">
-
-      <block wx:for="{{meta_infos}}" wx:key="cid" wx:for-item="sale">
-        <view class="buy-item">
-          <view class="item-header">
-            <text>{{sale.mart}}</text>
-            <image src="{{sale.url}}" style="width:{{ 28 * sale.ratio }}rpx;height:28rpx;"></image>
-          </view>
-          <view class="item-info">
-            <view class="info-area">
-              <view class="info">
-                <text class="key">价格：</text>
-                <text class="value price">{{sale.price}}</text>
-              </view>
-              <view class="info">
-                <text class="key">说明：</text>
-                <text class="value">{{sale.intro}}</text>
-              </view>
-            </view>
-            <text class="buy-button" bindtap="buy" data-url="{{sale.link_m_cps || sale.link_pc_cps || sale.link_m_raw || sale.link_pc_raw}}">购买 ></text>
-          </view>
-        </view>
+      <block wx:for="{{meta_infos}}" wx:key="cid" wx:for-item="meta_info">
+        <view class="up-list-item">
+          <navigator url="../article/article">
+             <view class="item-desc-container">
+                <image class="item-img" src="{{meta_info.thumb_image_url}}"></image>
+                <view class="info-view">
+                  <text class="title">{{meta_info.title}}</text>
+                  <view class="content">sadasdasdasdadadsadsadassadasdasdasdadadsadsadassadasdasdasdadadsadsadassadasdasdasdadadsadsadassadasdasdasdadadsadsadas</view>
+                  <view class="item-footer">
+                    <view class="item-footer-author">
+                      <image src="{{meta_info.author.pic}}" class="avatar"></image>
+                      <text>{{meta_info.author.name}}</text>
+                    </view>
+                    <view class="item-footer-view">
+                      <image src="./icon/view.png" class="view"></image>
+                      <text>{{meta_info.read_count}}</text>
+                    </view>
+                  </view>
+                </view>
+             </view>
+           </navigator>
+       </view>
       </block>
 
 
-        <view class="up-list-item">
+        <!-- <view class="up-list-item">
           <navigator url="../article/article">
              <view class="item-desc-container">
                 <image class="item-img" src="http://a.diaox2.com/cms/sites/default/files/20141015/firstpage/00_0.jpg"></image>
@@ -103,6 +104,7 @@
             </view>
           </navigator>
       </view>
+
       <view class="up-list-item">
         <navigator url="../article/article">
            <view class="item-desc-container">
@@ -124,6 +126,7 @@
            </view>
          </navigator>
      </view>
+
      <view class="up-list-item">
        <navigator url="../article/article">
           <view class="item-desc-container">
@@ -144,7 +147,8 @@
              </view>
           </view>
         </navigator>
-    </view>
+    </view> -->
+
     </view>
   </view>
 </view>
