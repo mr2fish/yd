@@ -19,9 +19,6 @@ const page = {
     orderByActionSheetItems:[PX.zonghe, PX.latest, PX.price_up_to_down, PX.price_down_to_up],
     currentPX: 0 // 当前默认是综合排序
   }
-
-
-
   ,bindItemTap(e) {
     const {item, group} = e.target.dataset
     outer:
@@ -41,11 +38,9 @@ const page = {
     this.setData({categorys, category, currentIndex: -1})
     this.hideActiveSheet()
   }
-
   ,renderByQuery(query){
-
+    console.log(query);
   }
-
   ,onLoad(options) {
     // 取出上游页面传递过来的数据
     let queryParameterString = options.queryParameter || '{"query": "雨伞"}'
@@ -127,9 +122,7 @@ const page = {
   }
   // 查看全部 start
   ,viewAll(){
-    wx.navigateTo({
-      url:'../all/all'
-    })
+    wx.navigateTo({url:'../all/all'})
   }
   // 查看全部 end
 
@@ -146,8 +139,6 @@ const page = {
     this.setData({orderByActionSheetHidden: true})
   }
 
-
-
   ,orderByActionSheetChange() {
     this.orderByHideActiveSheet()
   }
@@ -156,44 +147,30 @@ const page = {
   // 顶部tap操作 start
   ,switchSelectCond(e) {
     const item = e.target.dataset.item
-    const cat = category[item]
     const index = keys.indexOf(item)
     if (item) {
-      this.showActionSheet(cat)
-      this.setData({
-        currentIndex:index
-      })
+      this.showActionSheet(category[item])
+      this.setData({currentIndex:index})
     }
   }
   ,showActionSheet(category = {}) {
-    console.log(category);
-    this.setData({
-      actionSheetHidden: false,
-      category: category
-    })
+    this.setData({category, actionSheetHidden: false})
   }
   ,hideActiveSheet() {
-    this.setData({
-      actionSheetHidden: true,
-      currentIndex: -1
-    })
+    this.setData({actionSheetHidden: true,currentIndex: -1})
   }
-
   ,actionSheetChange() {
     this.hideActiveSheet()
   }
-
   // 顶部tap操作 end
   ,bindChange(e) {
-    console.log( e.detail.value )
     const query = e.detail.value
-    if(value && value.trim()){
+    console.log( query )
+    if(query && query.trim()){
       this.setData({query})
     }
   }
-  
   ,orderByBindItemTap(e){
-    console.log('orderByBindItemTap')
     const value = e.target.dataset.item
     // 取出当前的排序规则
     let currentPX = this.data.currentPX
@@ -221,26 +198,15 @@ const page = {
   ,orderByZonghe(){
     // 把最初的综合排序记住，直接恢复即可
     this.setData({goods: this.data.goods_copy})
-    console.log(this.data.goods_copy);
   }
   ,orderByLatest(){
     this.setData({goods: this.data.goods.sort((prev, next) => next.aid - prev.aid)})
   }
   ,orderByPrice(dir='up_to_down'){
-    if(dir === 'down_to_up'){
-      this.setData({goods: this.data.goods.sort((prev, next) => prev.price_num - next.price_num)})
-    }else{
-      this.setData({goods: this.data.goods.sort((prev, next) => next.price_num - prev.price_num)})
-    }
+    dir === 'down_to_up'?
+     this.setData({goods: this.data.goods.sort((prev, next) => prev.price_num - next.price_num)}):
+     this.setData({goods: this.data.goods.sort((prev, next) => next.price_num - prev.price_num)})
   }
 }
-
-// page.openModal = common.openModal
-// page.closeModal = common.closeModal
-// page.bindChange = common.bindChange
-// page.search = common.search
-
 Object.assign(page, common)
 Page(page)
-  // console.log(app.APP_NAME);
-  // console.log('当前有调小程序版本是：%s',app.version);
