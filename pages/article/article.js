@@ -11,8 +11,8 @@ wx.showToast({
 const page = {
   onLoad(options){
     const self = this
-    const id = options.id || 1210
-    const getArticle = API.getArticle.url
+    const id = options.id || 1211
+    const getArticle = `${API.getArticle.url}/${id}.html`
     wx.request({
       url: getArticle,
       data: {id: id},

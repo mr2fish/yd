@@ -1,42 +1,31 @@
-// 1.  礼物搜索接口（giftq）
-// 2.  逛一逛接口（gift_browser）
-// 3.  SKU接口（getfullsku）
-// 4.  获取文章图文信息接口（已支持https）
-// 5. 文章阅读数接口
-// 6. 礼物首页feed流几口gift_default
+// https://github.com/liaoruoxue/pm2rd/issues/73
 const API = new function(){
-
   const fetchURL = "https://c.diaox2.com/"
-
+  // 下列接口都是GET请求
   return {
     // 礼物搜索接口
     giftq: {
-      url: ''
+      url: `${fetchURL}/view/app/giftq`
     }
-    // 逛一逛接口
+    // 获取首页默认（攻略）数据接口 目前无需提供数据
+    ,giftDefault: {
+      url: `${fetchURL}/view/app/gift_default`
+    }
+    // 逛一逛接口 目前无需提供数据
     ,giftBrowser: {
-      url: ''
+      url: `${fetchURL}/view/app/gift_browser`
     }
-    // SKU接口
-    ,getfullsku: {
-      // https://c.diaox2.com/view/app/?m=wsku&id=2345
-      url: `${fetchURL}view/app/?m=wsku`
-    }
-    // 获取文章信息
+    // 获取文章信息接口
     ,getArticle: {
       // https://c.diaox2.com/view/app/?m=wechat&id=2345
-      url: `${fetchURL}view/app/?m=wechat`
+      // https://c.diaox2.com/view/app/wechat/1234.html
+      url: `${fetchURL}view/app/wechat`
     }
-    // 获取文章阅读数
-    ,getViewCount: {
-      url: ''
-    }
-    // 首页攻略信息
-    ,getViewCount: {
-      url: ''
-    }
-    ,giftDefault: {
-      url: ''
+    // SKU接口
+    ,getFullSku: {
+      // https://c.diaox2.com/view/app/?m=wsku&id=1234
+      // https://c.diaox2.com/view/app/wsku/1234.html
+      url: `${fetchURL}/view/app/wsku`
     }
   }
 }

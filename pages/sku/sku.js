@@ -9,13 +9,10 @@ wx.showToast({
 })
 
 const page = {
-  data: {
-    modalHidden: true
-  }
-
-  ,onLoad(options) {
-    const getfullsku = API.getfullsku.url
+  onLoad(options) {
     const sid = options.sid || 1124
+    const getfullsku = `${API.getFullSku.url}/${sid}.html`
+    // SKU售卖链接各个常见电商的log
     const URL_PREFIX = 'http://c.diaox2.com/cms/diaodiao/mart2/'
     const self = this
     wx.request({
