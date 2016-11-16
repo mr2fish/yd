@@ -1,6 +1,5 @@
 //index.js
 //获取应用实例
-'use strict'
 import common from '../common/common'
 import API from '../../utils/API'
 const app = common.app

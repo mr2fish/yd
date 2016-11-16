@@ -20,7 +20,11 @@
     </view>
   </view>
   <view class="content">
-    <view wx:for="{{contents}}" wx:for-item="content" wx:key="type">
+    <!--
+      注意：使用wx:key有一个坑，wx:key的值必须是唯一的，否则的渲染到页面上的内容会重复
+      重复的是array中最后一个命中了key的值！！！！
+    -->
+    <view wx:for="{{contents}}" wx:for-item="content" wx:key="index">
       <!--
         图片宽高需要计算
         整个屏幕大小：750rpx

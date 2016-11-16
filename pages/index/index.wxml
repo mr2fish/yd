@@ -36,14 +36,14 @@
   <view class="metainfo-area">
     <text class="tag" data-tag="攻略"></text>
     <view class="up-list">
-      <block wx:for="{{meta_infos}}" wx:key="cid" wx:for-item="meta_info">
+      <block wx:for="{{meta_infos}}" wx:key="nid" wx:for-item="meta_info">
         <view class="up-list-item">
-          <navigator url="../article/article">
+          <navigator url="../article/article?id={{meta_info.nid}}">
              <view class="item-desc-container">
                 <image class="item-img" src="{{meta_info.thumb_image_url}}"></image>
                 <view class="info-view">
                   <text class="title">{{meta_info.title}}</text>
-                  <view class="content">sadasdasdasdadadsadsadassadasdasdasdadadsadsadassadasdasdasdadadsadsadassadasdasdasdadadsadsadassadasdasdasdadadsadsadas</view>
+                  <view class="content"></view>
                   <view class="item-footer">
                     <view class="item-footer-author">
                       <image src="{{meta_info.author.pic}}" class="avatar"></image>
