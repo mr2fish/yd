@@ -43,20 +43,19 @@ export function removeLikesFromStorate(){
   return wx.removeStorageSync(LIKES_KEY)
 }
 
+export function extractPriceFromPriceString(priceString){
+  let ret = 0
+  if(priceString){
+    const priceReg = /\d+(\.\d+)?/
+    const match = priceReg.exec(priceString)
+    if(match){
+      ret = match[0]
+    }
+  }
+  return Number(ret)
+}
+
 // export {copy,handleTitle,uniquePush,getLikesFromStorage,setLikesToStorage,removeLikesFromStorate}
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // function a(){
 //   console.log('I am function a')

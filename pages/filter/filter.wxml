@@ -1,15 +1,4 @@
-<!--index.wxml-->
-<!-- <loading hidden="{{loadingHidden}}">加载中...</loading> -->
 <view class="container">
-
-  <!-- <view class="search-box">
-   <view class="bg-image"></view>
-   <input class="search-input" placeholder="搜索你想要的礼物" placeholder-class="placeholder-style" bindchange="bindChange"/>
-   <view class="search-btn">
-     <icon type="search" bindtap="confirm"/>
-   </view>
-  </view> -->
-
   <view class="category-panel">
       <view class="category-section" wx:for="{{categorys}}" wx:for-item="category" wx:key="allTitle">
         <view class="icon-left">
@@ -29,18 +18,8 @@
         </view>
       </view>
   </view>
-
   <view class="btn-container">
     <button type="default" plain="true" bindtap="reset"> 重置 </button>
     <button type="primary" bindtap="confirm" class="confirm" style="background-color: rgb(8,8,8);"> 完成 </button>
   </view>
-
 </view>
-
-
-
-<!-- 模态框start -->
-<modal hidden="{{modalHidden}}" no-cancel confirm-text="确定" bindconfirm="hideModal">
-  {{info}}
-</modal>
-<!-- 模态框end -->

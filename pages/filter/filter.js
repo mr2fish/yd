@@ -1,7 +1,3 @@
-//index.js
-//获取应用实例
-'use strict'
-// const common = require('../common/common')
 import common from '../common/common'
 import category, { defaultItem } from '../common/category'
 import { copy } from '../../utils/utils'
@@ -25,7 +21,6 @@ const categorys = keys.map((item) => {
 */
 const page = {
   data: { categorys }
-  
   ,onLoad(){
     // 由于gifts是异步挂载到app上的，所以需要间隔查询数据是否ready
     setInterval(function(){
@@ -46,12 +41,11 @@ const page = {
   ,select(e){
     const {item, group} = e.target.dataset
     outer:
-    for(let i = 0, li = categorys.length; i < li; i++){
+    for(let i = 0, li = categorys.length; i < li; ++i){
       let category = categorys[i]
-      let items = category.items
-      let name = category.name
+      let {items, name} = category
       if( name === group ){
-        for(let j = 0, lj = items.length; j < lj; j++){
+        for(let j = 0, lj = items.length; j < lj; ++j){
           let data = items[j]
           if(data === item){
             category.selectedIndex = j
@@ -81,7 +75,6 @@ const page = {
     wx.navigateTo({url:`../gift-result/gift-result?queryParameter=${JSON.stringify(queryParameter)}`})
   }
 }
-
 
 Object.assign(page, common)
 Page(page)

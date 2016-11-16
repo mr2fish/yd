@@ -101,5 +101,14 @@ const categorys = {
   }
 
 }
+
+// gift-result 礼物搜索页需要用到的排序字段
+const PX = {
+  zonghe:'综合排序',
+  latest:'最新商品',
+  price_up_to_down:'价格从高到底',
+  price_down_to_up:'价格从低到高'
+}
+
 export default categorys
-export { defaultItem }
+export { defaultItem, PX }

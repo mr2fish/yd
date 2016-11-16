@@ -1,5 +1,3 @@
-//index.js
-//获取应用实例
 import common from '../common/common'
 import category,{defaultItem} from '../common/category'
 

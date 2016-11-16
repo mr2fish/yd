@@ -1,10 +1,7 @@
-//index.js
-//获取应用实例
 import common from '../common/common'
 import gift_default from '../common/gift_default'
 import { handleTitle } from '../../utils/utils'
 const app = common.app
-// console.log(gift_default);
 /*
   TODO:
   1. onLoad 为什么不执行？
