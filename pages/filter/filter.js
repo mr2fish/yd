@@ -23,43 +23,28 @@ const categorys = keys.map((item) => {
      答：因为common.js中已经写了onLoad函数，然后使用Object.assign合并page和common时，common的onLoad给page上的onLoad覆盖了
   2. 在app.js中ajax回调中把数据挂到app对象上，为什么在其他文件引用不到？
 */
-
-// console.log("categorys")
-// console.log(categorys)
-
 const page = {
-  data: {
-    modalHidden: true,
-    categorys: categorys,
-    keyword: ''
-    // ,scrollLeft: 0
-  }
+  data: { categorys }
+  
   ,onLoad(){
     // 由于gifts是异步挂载到app上的，所以需要间隔查询数据是否ready
     setInterval(function(){
       // console.log(app.gifts)
     },1000)
   }
+
   ,reset(){
     this.setData({
       categorys: categorys.map(category => {
         category.selectedIndex = 0
         return category
       })
-      // ,scrollLeft: 1
     })
   }
+
   //事件处理函数
   ,select(e){
-    const target = e.target;
-    // const currentTarget = e.currentTarget;
-    // console.log(this); // 整个page对象
-    // console.log(target); // 大部分情况下 target === currentTarget 。跟web端是一致的。
-    // console.log(currentTarget);
-    // console.log(e.detail); // 鼠标点击的x,y轴坐标
-    const item = target.dataset.item
-    const group = target.dataset.group
-    // console.log(group)
+    const {item, group} = e.target.dataset
     outer:
     for(let i = 0, li = categorys.length; i < li; i++){
       let category = categorys[i]
@@ -75,30 +60,17 @@ const page = {
         }
       }
     }
-    // console.log("categorys")
-    // console.log(categorys)
-    this.setData({
-      categorys: categorys
-    })
-    // console.log(item)
+    this.setData({categorys})
   }
 
   ,confirm(){
-    const keyword = this.data.keyword
-    if (!keyword || !keyword.trim()) {
-      // return this.showModal('你还没有输入内容哦亲')
-    }
     // const queryParameter = { scene:"告白",relation:"基友",price:[0,1000], query:"第一个" }
     const queryParameter = {}
     for (const category of categorys) {
-       const name = category.name
-       const selectedIndex = category.selectedIndex
-       if(selectedIndex === 0){
-         continue
-       }
-       if(name === 'price'){
-         queryParameter[name] =
-                            category
+       const {name, selectedIndex} = category
+       if(selectedIndex === 0) continue;
+       if(name == 'price'){
+         queryParameter[name] = category
                                 .items[selectedIndex]
                                 .split(/-|\+/)
                                 .filter(price => price !== '')
@@ -106,25 +78,10 @@ const page = {
          queryParameter[name] = category.items[selectedIndex]
        }
     }
-    console.log(queryParameter);
-    wx.navigateTo({
-        url:'../gift-result/gift-result?queryParameter=' + JSON.stringify(queryParameter)
-    })
+    wx.navigateTo({url:`../gift-result/gift-result?queryParameter=${JSON.stringify(queryParameter)}`})
   }
-
-  ,bindChange(e) {
-    console.log( e.detail.value )
-    const value = e.detail.value
-    if(value && value.trim()){
-      this.setData({
-        keyword: value
-      })
-    }
-  }
-
 }
 
 
 Object.assign(page, common)
-
 Page(page)
