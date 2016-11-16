@@ -5,10 +5,9 @@ import result from '../common/search_result'
 import category, { defaultItem, PX } from '../common/category'
 const app = common.app
 const keys = Object.keys(category)
-const categorys = Object.keys(category).map(item => category[item])
+const categorys = keys.map(item => category[item])
 
 const page = {
-
   data: {
     categorys,
     // 控制顶部调出来的actionSheet显示隐藏
@@ -17,29 +16,47 @@ const page = {
     orderByActionSheetHidden: true,
     // orderBy排序字段
     orderByActionSheetItems:[PX.zonghe, PX.latest, PX.price_up_to_down, PX.price_down_to_up],
-    currentPX: 0 // 当前默认是综合排序
+    // 当前默认是综合排序
+    currentPX: 0
   }
   ,bindItemTap(e) {
+    console.log('bindItemTap');
     const {item, group} = e.target.dataset
     outer:
-    for(let i = 0, li = categorys.length; i < li; ++i){
-      let category = categorys[i]
+    for(const category of categorys){
       let {items, name} = category
       if( name === group ){
-        for(let j = 0, lj = items.length; j < lj; ++j){
-          let data = items[j]
-          if(data === item){
-            category.selectedIndex = j
+        for(let i = 0, len = items.length; i < len; ++i){
+          if(items[i] === item){
+            category.selectedIndex = i
             break outer;
           }
         }
       }
     }
-    this.setData({categorys, category, currentIndex: -1})
+    // this.setData({categorys, category, currentIndex: -1})
+    this.setData({categorys, currentIndex: -1})
     this.hideActiveSheet()
+    this.renderByQuery()
   }
-  ,renderByQuery(query){
-    console.log(query);
+  ,search(){
+    this.renderByQuery()
+  }
+  ,renderByQuery(){
+    // 组装参数 --start
+    const {query, categorys} = this.data;
+    const queryObject = {}
+    categorys.forEach((category) => {
+      const selectedItem = category.items[category.selectedIndex]
+      if(selectedItem){
+        queryObject[category.name] = selectedItem
+      }
+    })
+    if(query){
+      queryObject.query = query
+    }
+    console.log(queryObject);
+    // 组装参数 --end
   }
   ,onLoad(options) {
     // 取出上游页面传递过来的数据
@@ -143,7 +160,6 @@ const page = {
     this.orderByHideActiveSheet()
   }
   // 排序相关 end
-
   // 顶部tap操作 start
   ,switchSelectCond(e) {
     const item = e.target.dataset.item
@@ -168,6 +184,8 @@ const page = {
     console.log( query )
     if(query && query.trim()){
       this.setData({query})
+    }else{
+      this.setData({query:''})
     }
   }
   ,orderByBindItemTap(e){
