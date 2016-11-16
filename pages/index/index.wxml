@@ -7,7 +7,6 @@
      <icon type="search" bindtap="confirm"/>
    </view>
   </view>
-
   <!-- 功能区 -->
   <view class="function-area">
     <!-- <view class="tag"><text>挑礼神器</text></view> -->
@@ -59,96 +58,6 @@
            </navigator>
        </view>
       </block>
-
-
-        <!-- <view class="up-list-item">
-          <navigator url="../article/article">
-             <view class="item-desc-container">
-                <image class="item-img" src="http://a.diaox2.com/cms/sites/default/files/20141015/firstpage/00_0.jpg"></image>
-                <view class="info-view">
-                  <text class="title">中式厨刀，原来也可以不平凡中式厨刀，原来也可以不平凡中式厨刀，原来也可以不平凡</text>
-                  <view class="content">sadasdasdasdadadsadsadassadasdasdasdadadsadsadassadasdasdasdadadsadsadassadasdasdasdadadsadsadassadasdasdasdadadsadsadas</view>
-                  <view class="item-footer">
-                    <view class="item-footer-author">
-                      <image src="http://c.diaox2.com/cms/diaodiao/people/wangchen.jpg" class="avatar"></image>
-                      <text>路人甲</text>
-                    </view>
-                    <view class="item-footer-view">
-                      <image src="./icon/view.png" class="view"></image>
-                      <text>15280</text>
-                    </view>
-                  </view>
-                </view>
-             </view>
-           </navigator>
-       </view>
-
-       <view class="up-list-item">
-         <navigator url="../article/article">
-            <view class="item-desc-container">
-               <image class="item-img" src="http://a.diaox2.com/cms/sites/default/files/20141015/firstpage/00_0.jpg"></image>
-               <view class="info-view">
-                 <text class="title">中式厨刀，原来也可以不平凡</text>
-                 <view class="content">sadasdasdasdadadsadsadas</view>
-                 <view class="item-footer">
-                   <view class="item-footer-author">
-                     <image src="http://c.diaox2.com/cms/diaodiao/people/wangchen.jpg" class="avatar"></image>
-                     <text>路人甲</text>
-                   </view>
-                   <view class="item-footer-view">
-                     <image src="./icon/view.png" class="view"></image>
-                     <text>15280</text>
-                   </view>
-                 </view>
-               </view>
-            </view>
-          </navigator>
-      </view>
-
-      <view class="up-list-item">
-        <navigator url="../article/article">
-           <view class="item-desc-container">
-              <image class="item-img" src="http://a.diaox2.com/cms/sites/default/files/20141015/firstpage/00_0.jpg"></image>
-              <view class="info-view">
-                <text class="title">中式厨刀，原来也可以不平凡</text>
-                <view class="content">sadasdasdasdadadsadsadas</view>
-                <view class="item-footer">
-                  <view class="item-footer-author">
-                    <image src="http://c.diaox2.com/cms/diaodiao/people/wangchen.jpg" class="avatar"></image>
-                    <text>路人甲</text>
-                  </view>
-                  <view class="item-footer-view">
-                    <image src="./icon/view.png" class="view"></image>
-                    <text>15280</text>
-                  </view>
-                </view>
-              </view>
-           </view>
-         </navigator>
-     </view>
-
-     <view class="up-list-item">
-       <navigator url="../article/article">
-          <view class="item-desc-container">
-             <image class="item-img" src="http://a.diaox2.com/cms/sites/default/files/20141015/firstpage/00_0.jpg"></image>
-             <view class="info-view">
-               <text class="title">中式厨刀，原来也可以不平凡</text>
-               <view class="content">sadasdasdasdadadsadsadas</view>
-               <view class="item-footer">
-                 <view class="item-footer-author">
-                   <image src="http://c.diaox2.com/cms/diaodiao/people/wangchen.jpg" class="avatar"></image>
-                   <text>路人甲</text>
-                 </view>
-                 <view class="item-footer-view">
-                   <image src="./icon/view.png" class="view"></image>
-                   <text>15280</text>
-                 </view>
-               </view>
-             </view>
-          </view>
-        </navigator>
-    </view> -->
-
     </view>
   </view>
 </view>

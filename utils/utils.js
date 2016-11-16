@@ -24,6 +24,7 @@ export function uniquePush(arr, ele){
 
 export function getLikesFromStorage(){
   let likes = wx.getStorageSync(LIKES_KEY)
+  // console.log(likes);
   if(!likes || !Array.isArray(likes)){
       likes = []
   }

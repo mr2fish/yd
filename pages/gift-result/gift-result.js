@@ -7,18 +7,9 @@ import category, { defaultItem } from '../common/category'
 const app = common.app
 const keys = Object.keys(category)
 const categorys = Object.keys(category).map(item => category[item])
-
-// console.log(keys);
-// console.log(category);
-// console.log(categorys);
-
 const page = {
 
   data: {
-    // 控制模态提示框的显示隐藏
-    modalHidden: true,
-    // 控制loading的显示隐藏
-    loadingHidden: false,
     // 控制顶部调出来的actionSheet显示隐藏
     actionSheetHidden: true,
     // 控制orderBy调出来的actionSheet显示隐藏
@@ -26,14 +17,13 @@ const page = {
     // orderBy排序字段
     orderByActionSheetItems:['综合排序','最新商品','价格从高到低','价格从低到高'],
     // categorys: categorys,
-    keyword: ''
+    query: ''
   }
 
   ,bindItemTap(e) {
 
     const target = e.target
-    const item = target.dataset.item
-    const group = target.dataset.group
+    const {item, group} = target.dataset
     console.log('bindItemTap')
     console.log(item)
 
@@ -41,8 +31,7 @@ const page = {
     outer:
     for(let i = 0, li = categorys.length; i < li; i++){
       let category = categorys[i]
-      let items = category.items
-      let name = category.name
+      let {items, name} = category
       if( name === group ){
         for(let j = 0, lj = items.length; j < lj; j++){
           let data = items[j]
@@ -54,43 +43,32 @@ const page = {
       }
     }
 
-    this.setData({
-      categorys: categorys,
-      category: category,
-      currentIndex: -1
-    })
-
+    this.setData({categorys, category, currentIndex: -1})
     this.hideActiveSheet()
   }
 
   ,renderByQuery(query){
-
   }
 
   ,onLoad(options) {
-
-    console.log('onload')
-    // query处理
-    let queryParameterString = options.queryParameter
-    console.log(queryParameterString)
-    queryParameterString = '{"query": "雨伞", "relation": "妈妈", "scene": "新年", "category": "生活日用", "price": [500, 800]}'
+    // 取出上游页面传递过来的数据
+    let queryParameterString = options.queryParameter || '{"query": "雨伞"}'
+    // 从首页传过来的数据
+    // or 从礼物筛选页传过来的数据
+    // queryParameterString = '{"relation": "妈妈", "scene": "新年", "category": "生活日用", "price": [500, 800]}'
 
     if(queryParameterString) {
 
-      const queryParameter = JSON.parse(queryParameterString)
-      queryParameter.m = 'wechat'
-      const keyword = queryParameter.query
-      console.log(queryParameter);
-      if (queryParameter && keyword) {
-        this.setData({
-          keyword: keyword
-          ,categorys: categorys
-        })
+      const queryObject = JSON.parse(queryParameterString)
+      const query = queryObject.query
+      console.log(queryObject);
+      if (queryObject && query) {
+        this.setData({query: query,categorys: categorys})
       }
 
 
       setTimeout(() => {
-        console.log(result);
+        // console.log(result);
         const IMG_URL_PREFIX = 'http://a.diaox2.com/cms/sites/default/files'
         const meta_infos = result.meta_infos
         // raiders 攻略
@@ -106,9 +84,9 @@ const page = {
             meta_info.cover_image_url = IMG_URL_PREFIX + cover_image_url
           }
           meta_info.aid = aid
-          console.log(meta_info.title);
+          // console.log(meta_info.title);
           meta_info.title = handleTitle(meta_info.title)
-          console.log(meta_info.title);
+          // console.log(meta_info.title);
           if(ctype !== 2){
             raiders.push(meta_info)
           }else if(ctype === 2){
@@ -143,23 +121,22 @@ const page = {
             }
           }
         }
-
-        console.log(raiders);
-        console.log(goods);
-
+        // console.log(raiders);
+        // console.log(goods);
         this.setData({
           loadingHidden: true,
           raiders: raiders,
           goods: goods
         })
-
       }, 200)
+
       // wx.request({
       //   url: 'http://s.diaox2.com/ddsearch_dev/q',
       //   header: {'Content-Type': 'application/json'},
-      //   data: queryParameter,
+      //   data: queryObject,
       //   success(res) {}
       // })
+
     }
   }
   // 查看全部 start

@@ -1,6 +1,6 @@
 import common from '../common/common'
 import res from '../common/sku'
-import API from '../../utils/API'
+import API, {HEADER as header} from '../../utils/API'
 const app = common.app
 
 wx.showToast({
@@ -17,8 +17,7 @@ const page = {
     const self = this
     wx.request({
       url: getfullsku,
-      data: {id: sid},
-      header: {'Content-Type': 'application/json'},
+      header: header,
       success: function(res) {
         const data = res.data.data
         const sku = data[0]
@@ -51,24 +50,24 @@ const page = {
             png = 'amazon.png'
             ratio = 3.194
           }
-          sale.url = URL_PREFIX + png
+          sale.url = `${URL_PREFIX}${png}`
           sale.ratio = ratio
           return sale
         })
-        self.setData({
-          sku: sku
-        })
+        self.setData({sku})
         wx.hideToast()
       }
     })
   }
   ,buy(event){
     const url = event.target.dataset.url
-    wx.showModal({
-      title: '长按复制下列链接，在浏览器下打开',
-      content: url,
-      showCancel: false
-    })
+    if(url){
+      wx.showModal({
+        title: '长按复制下列链接，在浏览器下打开',
+        content: url,
+        showCancel: false
+      })
+    }
   }
 }
 Object.assign(page, common)

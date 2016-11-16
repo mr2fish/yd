@@ -1,7 +1,7 @@
 //index.js
 //获取应用实例
 import common from '../common/common'
-import API from '../../utils/API'
+import API, {HEADER as header} from '../../utils/API'
 const app = common.app
 wx.showToast({
   title: '玩命加载中',
@@ -14,14 +14,11 @@ const page = {
     const getArticle = `${API.getArticle.url}/${id}.html`
     wx.request({
       url: getArticle,
-      data: {id: id},
-      header: {'Content-Type': 'application/json'},
+      header: header,
       success: function(res) {
         console.log(res.data)
-        self.setData({
-          header: res.data.header,
-          contents: res.data.contents,
-        })
+        const {header, contents} = res.data
+        self.setData({header,contents})
       },
       fail: function(res){
         console.log(res)
