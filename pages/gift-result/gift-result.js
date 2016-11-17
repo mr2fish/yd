@@ -19,6 +19,9 @@ const page = {
     // 当前默认是综合排序
     currentPX: 0
   }
+  ,tapContentChange(){
+
+  }
   ,bindItemTap(e) {
     console.log('bindItemTap');
     const {item, group} = e.target.dataset
@@ -87,6 +90,7 @@ const page = {
           if( !/http:\/\/|https:\/\//i.test(cover_image_url) ){
             meta_info.cover_image_url = `http://a.diaox2.com/cms/sites/default/files${cover_image_url}`
           }
+
           meta_info.aid = aid
           meta_info.title = handleTitle(meta_info.title)
 

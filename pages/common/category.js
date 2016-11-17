@@ -6,7 +6,7 @@ const defaultItem = '不限'
 const categorys = {
   relation: {
     name: 'relation',
-    icon:'../../icon/object.png',
+    icon:'icon/object.png',
     title: '关系',
     allTitle: '送礼对象',
     items: ["爸爸","妈妈","老公男友","老婆女友","基友","闺蜜","朋友","同事","老板"],
@@ -16,13 +16,13 @@ const categorys = {
     name:'scene',
     title: '场景',
     allTitle: '送礼场景',
-    icon:'../../icon/scene.png',
+    icon:'icon/scene.png',
     items: ["圣诞节","新年","过年回家","情人节","生日","纪念日","告白","乔迁","新婚"],
     selectedIndex: -1
   },
   category: {
     name: 'category',
-    icon:'../../icon/gifts.png',
+    icon:'icon/gifts.png',
     title: '品类',
     allTitle: '送礼品类',
     items: ["家具家装","生活日用","家用电器","办公用品","时尚悦己","个护化妆","科技数码","运动健康","吃喝旅行","母婴玩具","汽车户外"],
@@ -30,7 +30,7 @@ const categorys = {
   },
   price: {
     name: 'price',
-    icon:'../../icon/price.png',
+    icon:'icon/price.png',
     title: '价格',
     allTitle: '礼物价格',
     items: ["0-200","200-500","500-800","800+"],
