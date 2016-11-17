@@ -1,4 +1,4 @@
-import common from '../../common/common'
+import common from '../../common/app'
 import { handleTitle, extractPriceFromPriceString } from '../../utils/utils'
 import API, {HEADER as header} from '../../utils/API'
 import result from '../../common/search_result'

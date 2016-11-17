@@ -1,4 +1,4 @@
-import common from '../../common/common'
+import common from '../../common/app'
 import {
   uniquePush,
   getLikesFromStorage,

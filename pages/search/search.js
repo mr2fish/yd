@@ -1,4 +1,4 @@
-import common from '../../common/common'
+import common from '../../common/app'
 const app = common.app
 
 // const historys = ['电动牙刷','中秋礼物','电脑','呵呵呵','给老婆的礼物']
