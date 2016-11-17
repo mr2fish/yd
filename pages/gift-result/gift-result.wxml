@@ -10,9 +10,9 @@
     </view>
 
     <view class="category-tabs">
-      <view class="tab" wx:for="{{categorys}}" wx:key="allTitle" wx:for-item="category">
+      <view class="tab" wx:for="{{categorys}}" wx:key="name" wx:for-item="category">
         <view class="tab-title {{currentIndex === index ? 'active':''}}">
-          <text wx:if="{{category.selectedIndex === -1}}" bindtap="switchSelectCond" data-item="{{category.name}}">{{category.title}}</text>
+          <text wx:if="{{category.selectedIndex === 0}}" bindtap="switchSelectCond" data-item="{{category.name}}">{{category.title}}</text>
           <text wx:else bindtap="switchSelectCond" data-item="{{category.name}}">{{category.items[category.selectedIndex]}}</text>
           <i class="arrow">▴</i>
           <view class="line"></view>

@@ -1,16 +1,7 @@
 import common from '../../common/app'
 import category, { defaultItem } from '../../common/category'
-import { copy } from '../../utils/utils'
 const app = common.app
-const category_copy = copy(category)
-const keys = Object.keys(category_copy)
-const categorys = keys.map((item) => {
-  const cat = category_copy[item]
-  // 默认选择第1个，即“不限”
-  cat.selectedIndex = 0
-  cat.items.unshift(defaultItem)
-  return cat
-})
+const categorys = Object.keys(category).map(item => category[item])
 
 /*
   TODO:
@@ -26,16 +17,7 @@ const page = {
       // console.log(app.gifts)
     },1000)
   }
-
-  ,reset(){
-    this.setData({
-      categorys: categorys.map(category => {
-        category.selectedIndex = 0
-        return category
-      })
-    })
-  }
-
+  ,reset(){this.setData({categorys: categorys.map( category => {category.selectedIndex = 0; return category})})}
   //事件处理函数
   ,select(e){
     const {item, group} = e.target.dataset

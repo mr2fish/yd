@@ -1,8 +1,8 @@
 import common from '../../common/app'
 import { handleTitle, extractPriceFromPriceString } from '../../utils/utils'
-import API, {HEADER as header} from '../../utils/API'
+import API, { HEADER as header } from '../../utils/API'
 import result from '../../common/search_result'
-import category, { defaultItem, PX } from '../../common/category'
+import category, { defaultItem, SORT_BY } from '../../common/category'
 const app = common.app
 const keys = Object.keys(category)
 const categorys = keys.map(item => category[item])
@@ -15,16 +15,19 @@ const page = {
     // 控制orderBy调出来的actionSheet显示隐藏
     orderByActionSheetHidden: true,
     // orderBy排序字段
-    orderByActionSheetItems:[PX.zonghe, PX.latest, PX.price_up_to_down, PX.price_down_to_up],
+    orderByActionSheetItems:[SORT_BY.zonghe, SORT_BY.latest, SORT_BY.price_up_to_down, SORT_BY.price_down_to_up],
     // 当前默认是综合排序
     currentPX: 0
   }
-  ,tapContentChange(){
 
-  }
-  ,bindItemTap(e) {
-    console.log('bindItemTap');
-    const {item, group} = e.target.dataset
+  ,tapContentChange(item, group,
+    callback = () => {
+    // this.setData({categorys, category, currentIndex: -1})
+    this.setData({categorys})
+    this.hideActiveSheet()
+    this.renderByQuery()
+  }){
+    if(!item && !group) return;
     outer:
     for(const category of categorys){
       let {items, name} = category
@@ -32,26 +35,36 @@ const page = {
         for(let i = 0, len = items.length; i < len; ++i){
           if(items[i] === item){
             category.selectedIndex = i
+            console.log();
             break outer;
           }
         }
       }
     }
-    // this.setData({categorys, category, currentIndex: -1})
-    this.setData({categorys, currentIndex: -1})
-    this.hideActiveSheet()
-    this.renderByQuery()
+    if(callback && typeof callback === 'function'){
+      callback.bind(this)()
+    }
+  }
+
+  ,bindItemTap(e) {
+    console.log('bindItemTap');
+    const {item, group} = e.target.dataset
+    this.tapContentChange(item, group)
   }
   ,search(){
     this.renderByQuery()
   }
   ,renderByQuery(){
+    wx.showToast({
+      title: '玩命搜索中',
+      icon: 'loading'
+    })
     // 组装参数 --start
     const {query, categorys} = this.data;
     const queryObject = {}
     categorys.forEach((category) => {
       const selectedItem = category.items[category.selectedIndex]
-      if(selectedItem){
+      if(selectedItem && selectedItem !== defaultItem){
         queryObject[category.name] = selectedItem
       }
     })
@@ -60,6 +73,76 @@ const page = {
     }
     console.log(queryObject);
     // 组装参数 --end
+    // 根据参数，发送请求
+
+    wx.request({
+      url: `${API.giftq.url}/`,
+      header: header,
+      data: queryObject,
+      success: function(res) {
+        self.renderByDataFromServer()
+      },
+      fail: function(res){
+      },
+      complete: function(){
+        // 隐藏掉加载状态
+        wx.hideToast()
+      }
+    })
+  }
+  ,renderByDataFromServer(data){
+    // console.log(result);
+    const meta_infos = result.meta_infos
+    // raiders 攻略
+    let raiders = []
+    // goods 单品
+    let goods = []
+    const aids = result.aids
+    for(let aid of aids){
+      let meta_info = meta_infos[aid]
+      const {ctype, cover_image_url} = meta_info
+      if( !/http:\/\/|https:\/\//i.test(cover_image_url) ){
+        meta_info.cover_image_url = `http://a.diaox2.com/cms/sites/default/files${cover_image_url}`
+      }
+
+      meta_info.aid = aid
+      meta_info.title = handleTitle(meta_info.title)
+
+      if(ctype !== 2){
+        raiders.push(meta_info)
+      }else if(ctype === 2){
+        meta_info.price_num = extractPriceFromPriceString(meta_info.price)
+        goods.push(meta_info)
+      }
+    }
+    // 攻略最多只有2篇
+    if( raiders.length > 2){
+      raiders = raiders.slice(0, 2)
+    }
+    /**
+     * 1. ctype不准  不是不准，是文章的ctype应该是2
+     * 2. remove_aids数据不全
+     * 3. 单品无price过滤掉
+     *    price: 'N/A'
+     */
+    // 单品至少有2篇
+    // 不足2篇，remove_aids来补
+    if( goods.length < 2 ){
+      const aids = result.remove_aids
+      // console.log(aids);
+      for(let aid of aids){
+        let meta_info = meta_infos[aid]
+        if(!meta_info) continue
+        if(meta_info.ctype === 2){
+          console.log('done');
+          meta_info.price_num = extractPriceFromPriceString(meta_info.price)
+          goods.push(meta_info)
+        }else{
+          console.log('done else');
+        }
+      }
+    }
+    this.setData({raiders, goods, goods_copy: goods})
   }
   ,onLoad(options) {
     // 取出上游页面传递过来的数据
@@ -75,60 +158,18 @@ const page = {
       if (query) {
         this.setData({query})
       }
+      if(queryObject){
+        console.log(Object.keys(queryObject));
+        Object.keys(queryObject).forEach(key => {
+          if( key !== 'query' ){
+            this.tapContentChange(queryObject[key], key, null)
+          }
+        })
+      }
 
       setTimeout(() => {
-        // console.log(result);
-        const meta_infos = result.meta_infos
-        // raiders 攻略
-        let raiders = []
-        // goods 单品
-        let goods = []
-        const aids = result.aids
-        for(let aid of aids){
-          let meta_info = meta_infos[aid]
-          const {ctype, cover_image_url} = meta_info
-          if( !/http:\/\/|https:\/\//i.test(cover_image_url) ){
-            meta_info.cover_image_url = `http://a.diaox2.com/cms/sites/default/files${cover_image_url}`
-          }
 
-          meta_info.aid = aid
-          meta_info.title = handleTitle(meta_info.title)
-
-          if(ctype !== 2){
-            raiders.push(meta_info)
-          }else if(ctype === 2){
-            meta_info.price_num = extractPriceFromPriceString(meta_info.price)
-            goods.push(meta_info)
-          }
-        }
-        // 攻略最多只有2篇
-        if( raiders.length > 2){
-          raiders = raiders.slice(0, 2)
-        }
-        /**
-         * 1. ctype不准  不是不准，是文章的ctype应该是2
-         * 2. remove_aids数据不全
-         * 3. 单品无price过滤掉
-         *    price: 'N/A'
-         */
-        // 单品至少有2篇
-        // 不足2篇，remove_aids来补
-        if( goods.length < 2 ){
-          const aids = result.remove_aids
-          // console.log(aids);
-          for(let aid of aids){
-            let meta_info = meta_infos[aid]
-            if(!meta_info) continue
-            if(meta_info.ctype === 2){
-              console.log('done');
-              meta_info.price_num = extractPriceFromPriceString(meta_info.price)
-              goods.push(meta_info)
-            }else{
-              console.log('done else');
-            }
-          }
-        }
-        this.setData({raiders, goods, goods_copy: goods})
+        this.renderByDataFromServer()
 
       }, 200)
 
@@ -201,16 +242,16 @@ const page = {
     // 如果本次排序规则和下次排序规则一致，则关掉ActiveSheet，直接返回
     if( currentPX === nextPX) return this.orderByHideActiveSheet();
     switch(value){
-      case PX.zonghe:
+      case SORT_BY.zonghe:
         this.orderByZonghe()
       break
-      case PX.latest:
+      case SORT_BY.latest:
         this.orderByLatest()
       break
-      case PX.price_up_to_down:
+      case SORT_BY.price_up_to_down:
         this.orderByPrice()
       break;
-      case PX.price_down_to_up:
+      case SORT_BY.price_down_to_up:
         this.orderByPrice('down_to_up')
       break;
     }

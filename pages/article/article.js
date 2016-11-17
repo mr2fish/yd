@@ -8,10 +8,8 @@ wx.showToast({
 const page = {
   onLoad(options){
     const self = this
-    const id = options.id || 1211
-    const getArticle = `${API.getArticle.url}/${id}.html`
     wx.request({
-      url: getArticle,
+      url: `${API.getArticle.url}/${options.id || 1211}.html`,
       header: header,
       success: function(res) {
         console.log(res.data)
