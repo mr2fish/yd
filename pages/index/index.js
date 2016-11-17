@@ -1,5 +1,5 @@
-import common from '../common/common'
-import gift_default from '../common/gift_default'
+import common from '../../common/common'
+import gift_default from '../../common/gift_default'
 import { handleTitle } from '../../utils/utils'
 const app = common.app
 /*

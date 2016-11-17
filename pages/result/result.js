@@ -1,5 +1,5 @@
-import common from '../common/common'
-import category,{defaultItem} from '../common/category'
+import common from '../../common/common'
+import category,{defaultItem} from '../../common/category'
 
 const app = common.app
 const category_copy = JSON.parse(JSON.stringify(category))

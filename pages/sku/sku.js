@@ -1,5 +1,5 @@
-import common from '../common/common'
-import res from '../common/sku'
+import common from '../../common/common'
+import res from '../../common/sku'
 import API, {HEADER as header} from '../../utils/API'
 const app = common.app
 

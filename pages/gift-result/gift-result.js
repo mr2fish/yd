@@ -1,8 +1,8 @@
-import common from '../common/common'
+import common from '../../common/common'
 import { handleTitle, extractPriceFromPriceString } from '../../utils/utils'
 import API, {HEADER as header} from '../../utils/API'
-import result from '../common/search_result'
-import category, { defaultItem, PX } from '../common/category'
+import result from '../../common/search_result'
+import category, { defaultItem, PX } from '../../common/category'
 const app = common.app
 const keys = Object.keys(category)
 const categorys = keys.map(item => category[item])

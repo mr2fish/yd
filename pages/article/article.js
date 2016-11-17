@@ -1,4 +1,4 @@
-import common from '../common/common'
+import common from '../../common/common'
 import API, {HEADER as header} from '../../utils/API'
 const app = common.app
 wx.showToast({

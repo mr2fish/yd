@@ -1,11 +1,11 @@
-import common from '../common/common'
+import common from '../../common/common'
 import {
   uniquePush,
   getLikesFromStorage,
   setLikesToStorage,
   removeLikesFromStorate
 } from '../../utils/utils'
-import gotogos from '../common/gotogo'
+import gotogos from '../../common/gotogo'
 const app = common.app
 // -- 公共代码start
 let currentIndex = 0

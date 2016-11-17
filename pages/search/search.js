@@ -1,11 +1,11 @@
-import common from '../common/common'
+import common from '../../common/common'
 const app = common.app
 
 // const historys = ['电动牙刷','中秋礼物','电脑','呵呵呵','给老婆的礼物']
 const historys = ['电动牙刷','中秋礼物','电脑','呵呵呵','给老婆的礼物']
 const hots = ['电动牙刷','中秋礼物','数码相机','收纳整理']
 
-import articles from '../common/articles'
+import articles from '../../common/articles'
 
 
 const page = {
