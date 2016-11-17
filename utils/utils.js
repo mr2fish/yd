@@ -55,6 +55,93 @@ export function extractPriceFromPriceString(priceString){
   return Number(ret)
 }
 
+export function objectToQueryString(dataObject){
+  if(!dataObject || typeof dataObject !== 'object'){
+    return ''
+  }
+  const kvArr = []
+  Object.keys(dataObject).forEach(key => kvArr.push(`${key}=${dataObject[key]}`))
+  return kvArr.join('&')
+}
+
+export function isNullObject(obj){
+  if(obj == null){
+    return true
+  }
+  if(typeof obj !== 'object'){
+    return false
+  }
+  return Object.keys(obj).length === 0
+}
+
+/*
+  判断一个对象是否是plain empty object
+*/
+export function isPlainEmptyObject(obj){
+	if(!isPlainObject(obj)){
+		return false;
+	}
+	return this.isEmptyObject(obj);
+}
+
+/*
+   判断一个数组和对象是否是empty
+   只要传入的obj对象没有emunerable=true的属性，就返回true
+*/
+export function isEmptyObject(obj){
+	var name;
+	for(name in obj){
+		return false;
+	}
+	return true;
+}
+
+/*
+   判断传入参数是否是plain object
+*/
+export function isPlainObject(obj){
+	if(type(obj) !== "object" || obj.nodeType || isWindow(obj)){
+		return false;
+	}
+	if(obj.constructor && Object.prototype.hasOwnProperty.call( obj.constructor.prototype,"isPrototypeOf")){
+		return false;
+	}
+	return true;
+}
+
+/*
+  判断传入参数是否是ArrayLike对象
+*/
+export function isArrayLike(obj){
+	var length = !!obj && "length" in obj && obj.length,
+	    type = type(obj);
+	if(type === "function" || isWindow(obj)){
+		return false;
+	}
+	return type === "array" || length === 0 || typeof +length === "number" && length > 0 && (length - 1) in obj;
+}
+
+export function isNumeric(obj){
+  var str = obj && obj.toString();
+  return type(obj)!=="array" && ( str - parseFloat( str ) + 1 ) >= 0;
+}
+
+/*
+  判断传入的参数的类型
+*/
+export function type(arg){
+    const t = typeof arg
+    if(t === 'object'){
+        if(arg === null){
+            return 'null'
+        }else{
+            return Object.prototype.toString.call(arg).slice(8,-1).toLowerCase()
+        }
+    }else{
+        return t
+    }
+}
+
 // export {copy,handleTitle,uniquePush,getLikesFromStorage,setLikesToStorage,removeLikesFromStorate}
 
 // function a(){

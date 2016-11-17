@@ -1,12 +1,14 @@
 import common from '../../common/app'
 import API, {HEADER as header} from '../../utils/API'
 const app = common.app
-wx.showToast({
-  title: '玩命加载中',
-  icon: 'loading'
-})
+
 const page = {
   onLoad(options){
+    wx.showToast({
+      title: '玩命加载中',
+      icon: 'loading',
+      duration: 2000
+    })
     const self = this
     wx.request({
       url: `${API.getArticle.url}/${options.id || 1211}.html`,
@@ -39,7 +41,9 @@ const page = {
       },
       complete: function(){
         // 隐藏掉加载状态
-        wx.hideToast()
+        setTimeout(() => {
+          wx.hideToast()
+        })
       }
     })
   }

@@ -39,7 +39,7 @@
              mode="aspectFill"
              style="width:702rpx;height:{{content.height / content.width * 702 }}rpx;"></image>
       <!-- type: ul -->
-      <view wx:elif="{{content.type === 'ul'}}" class="ul">
+      <view wx:elif="{{content.type === 'ul'}}" class="ul" wx:key="index">
         <text wx:for="{{content.items}}" class="li">{{item}}</text>
       </view>
       <!-- type: sku -->

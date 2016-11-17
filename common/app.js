@@ -15,24 +15,22 @@ const common = {
       info: ''
     })
   }
-
-
   // 执行时机 onLod -> onShow -> onReady
   // ,onLoad() {
   //   console.log('onLoad')
   // }
-  ,onReady(){
-    // console.log('onReady')
-  }
-  ,onShow(){
-    // console.log('onShow')
-  }
-  ,onHide(){
-    // console.log('onHide')
-  }
-  ,onUnload(){
-    // console.log('onUnload');
-  }
+  // ,onReady(){
+  //   console.log('onReady')
+  // }
+  // ,onShow(){
+  //   console.log('onShow')
+  // }
+  // ,onHide(){
+  //   console.log('onHide')
+  // }
+  // ,onUnload(){
+  //   console.log('onUnload');
+  // }
 }
 export default common
 

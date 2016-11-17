@@ -3,13 +3,14 @@ import res from '../../common/sku'
 import API, {HEADER as header} from '../../utils/API'
 const app = common.app
 
-wx.showToast({
-  title: '加载中',
-  icon: 'loading'
-})
+
 
 const page = {
   onLoad(options) {
+    wx.showToast({
+      title: '玩命加载中',
+      icon: 'loading'
+    })
     const sid = options.sid || 1124
     const getfullsku = `${API.getFullSku.url}/${sid}.html`
     // SKU售卖链接各个常见电商的log
@@ -55,6 +56,11 @@ const page = {
           return sale
         })
         self.setData({sku})
+      },
+      fail(res){
+        console.log(`${getfullsku}出错啦`);
+      },
+      complete(){
         wx.hideToast()
       }
     })

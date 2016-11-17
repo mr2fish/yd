@@ -1,6 +1,6 @@
 // https://github.com/liaoruoxue/pm2rd/issues/73
 const API = new function(){
-  const fetchURL = "https://c.diaox2.com/"
+  const fetchURL = "https://c.diaox2.com"
   // 下列接口都是GET请求
   return {
     // 礼物搜索接口
@@ -19,7 +19,7 @@ const API = new function(){
     ,getArticle: {
       // https://c.diaox2.com/view/app/?m=wechat&id=2345
       // https://c.diaox2.com/view/app/wechat/1234.html
-      url: `${fetchURL}view/app/wechat`
+      url: `${fetchURL}/view/app/wechat`
     }
     // SKU接口
     ,getFullSku: {
