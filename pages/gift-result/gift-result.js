@@ -4,8 +4,7 @@ import {
   extractPriceFromPriceString,
   objectToQueryString,
   isNullObject,
-  type,
-  copy
+  type
 } from '../../utils/utils'
 import API, { HEADER as header } from '../../utils/API'
 import result from '../../common/search_result'
@@ -96,7 +95,7 @@ const page = {
         }
 
         // 在本地记录下所有攻略，以供查看“全部”
-        wx.setStorage({key: "allRaiders",data: copy(raiders)})
+        wx.setStorage({key: "allRaiders",data: [...raiders]})
         // 攻略最多只有2篇
         if( raiders.length > 2){
           raiders = raiders.slice(0, 2)

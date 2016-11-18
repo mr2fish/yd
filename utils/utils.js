@@ -1,3 +1,58 @@
+
+// 对象拷贝（复制）工具方法。类似于jQuery的extend方法
+  export function extend( ...args ){
+        let options , name, src, copy , copyIsArray , clone,
+            target = args[ 0 ] || {},
+            i = 1,
+            length = args.length,
+            deep = false;
+        // console.log( args );
+        // 第一个参数作为是否是深拷贝的flag
+        if( typeof target === 'boolean'){
+              deep = target;
+              target = args[ i ] || {};
+              // 跳过第一个参数
+              i++;
+        }
+       // 只有对象和函数可extend
+       // 保证target一定为对象
+       if( typeof target !== 'object' && !Utils.isFunction( target ) ){
+             target = {};
+       }
+       if( i === length ){
+             // 如果除了deep之外只有一个参数，那么就把target指向this （this是Utils对象）
+             // target = {};
+             i--;
+       }
+       // 处理deep和target之后的参数
+       for( ; i < length; i++){
+           if( ( options = args[ i ] ) != null ){
+                 for( name in options ){
+                       src = target[ name ];
+                       copy = options[ name ];
+                       // 在copy中有引用target，导致死循环
+                       if( target === copy )continue
+                       // 对象和数组分开处理。加快拷贝速度
+                       if( deep && copy && ( Utils.isPlainObject( copy  ) || ( copyIsArray = Array.isArray( copy ) ) ) ){
+                           if( copyIsArray ){
+                                 copyIsArray = false;
+                                 clone = src && Array.isArray( src ) ? src : [];
+                           }else{
+                                 clone = src && Utils.isPlainObject( src ) ? src : {};
+                           }
+                           // 递归
+                           target[ name ] = Utils.extend( deep, clone, copy );
+                       } else if( copy !== void 0) { // 不是深拷
+                           target[ name ] = copy;
+                       }
+                 }
+           }
+       }
+       // return出去改变过后的对象
+       return target;
+ }
+
+
 /*
   判断传入的参数的类型
 */

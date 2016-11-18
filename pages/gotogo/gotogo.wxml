@@ -1,9 +1,11 @@
 <view class="container">
   <view class="article-list">
-    <block wx:for="{{gotogos}}" wx:key="cid">
-      <navigator url="../article/article?id={{item.cid}}">
-        <view class="article-box" animation="{{item.cid == currentCid ? animationData : null}}">
-          <image src="{{item.url}}"></image>
+    <block wx:for="{{gotogos}}" wx:key="nid">
+      <navigator url="../article/article?id={{item.nid}}">
+        <!-- 不用反转数组了，根据索引倒序指定z-index即可保证gotogos数组中的第一个在最上面，最后一个在最下面 -->
+        <view class="article-box" style="z-index:{{gotogos.length - index}};"
+          animation="{{item.cid == currentCid ? animationData : null}}">
+          <image src="{{item.cover_image_url}}"></image>
           <view class="article-info">
             <text class="article-title">{{item.title}}</text>
             <text class="price">{{item.price}}</text>
