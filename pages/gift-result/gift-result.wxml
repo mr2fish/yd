@@ -59,7 +59,7 @@
         <view class="down-list-item">
           <navigator url="../article/article?id={{good.aid}}">
           <view class="image-container">
-            <image src="{{good.cover_image_url}}"></image>
+            <image src="{{good.thumb_image_url}}"></image>
           </view>
           <view class="info-container">
             <text class="info">{{good.title}}</text>

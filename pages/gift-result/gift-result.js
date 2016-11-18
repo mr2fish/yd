@@ -4,7 +4,8 @@ import {
   extractPriceFromPriceString,
   objectToQueryString,
   isNullObject,
-  type
+  type,
+  copy
 } from '../../utils/utils'
 import API, { HEADER as header } from '../../utils/API'
 import result from '../../common/search_result'
@@ -64,19 +65,25 @@ const page = {
       header: header,
       success(result) {
         result = result.data
-        const meta_infos = result.meta_infos
+        const meta_infos = result.meta_infostest
         // raiders 攻略
         let raiders = []
         // goods 单品
         let goods = []
         const aids = result.aids
-        console.log(aids);
+        // 编译之后，变为下面这行代码！如果aids是undefined将会抛错！！！！
+        // var _iterator2 = aids[Symbol.iterator]()
+        // TypeError: Cannot read property 'Symbol(Symbol.iterator)' of undefined
+        const reg = /http:\/\/|https:\/\//i;
         for(let aid of aids){
           let meta_info = meta_infos[aid]
           if(!meta_info) continue;
-          const {ctype, cover_image_url} = meta_info
-          if( !/http:\/\/|https:\/\//i.test(cover_image_url) ){
-            meta_info.cover_image_url = `http://a.diaox2.com/cms/sites/default/files${cover_image_url}`
+          const {ctype, thumb_image_url, cover_image_url} = meta_info
+          if( !reg.test(thumb_image_url) ){
+            meta_info.thumb_image_url = `http://a.diaox2.com/cms/sites/default/files/${thumb_image_url}`
+          }
+          if( !reg.test(cover_image_url) ){
+            meta_info.cover_image_url = `http://a.diaox2.com/cms/sites/default/files/${cover_image_url}`
           }
           meta_info.aid = aid
           meta_info.title = handleTitle(meta_info.title)
@@ -87,6 +94,9 @@ const page = {
             goods.push(meta_info)
           }
         }
+
+        // 在本地记录下所有攻略，以供查看“全部”
+        wx.setStorage({key: "allRaiders",data: copy(raiders)})
         // 攻略最多只有2篇
         if( raiders.length > 2){
           raiders = raiders.slice(0, 2)
@@ -100,7 +110,9 @@ const page = {
         // 单品至少有2篇
         // 不足2篇，remove_aids来补
         if( goods.length < 2 ){
-          const aids = result.remove_aids
+          // 做一下非空判定
+          // 鹏哲说如果全部命中，则remove_aids这个字段就没有值
+          const aids = result.remove_aids || []
           // console.log(aids);
           for(let aid of aids){
             let meta_info = meta_infos[aid]
@@ -115,6 +127,7 @@ const page = {
           }
         }
         self.setData({raiders, goods, goods_copy: goods})
+        console.log(goods);
       },
       fail(res){
         console.log(`${API.giftq.url}接口失败`);
@@ -135,6 +148,7 @@ const page = {
    *   3. 根据参数发送请求，并调用 renderByDataFromServer 函数
    */
   ,packageQueryParam(queryParameter){
+    console.log(queryParameter);
     // 取出上游页面传递过来的数据
     // 从首页传过来的数据
     // or 从礼物筛选页传过来的数据
@@ -178,6 +192,7 @@ const page = {
   // 查看全部 start
   ,viewAll(){
     wx.navigateTo({url:'../all/all'})
+
   }
   // 查看全部 end
 
@@ -255,7 +270,7 @@ const page = {
     this.setData({goods: this.data.goods_copy})
   }
   ,orderByLatest(){
-    this.setData({goods: this.data.goods.sort((prev, next) => next.aid - prev.aid)})
+    this.setData({goods: this.data.goods.sort((prev, next) => next.latest_version - prev.latest_version)})
   }
   ,orderByPrice(dir='up_to_down'){
     dir === 'down_to_up'?

@@ -1,7 +1,5 @@
 <view class="container">
-
   <view class="article-list">
-
     <block wx:for="{{gotogos}}" wx:key="cid">
       <navigator url="../article/article?id={{item.cid}}">
         <view class="article-box" animation="{{item.cid == currentCid ? animationData : null}}">
@@ -14,10 +12,8 @@
       </navigator>
     </block>
   </view>
-
   <view class="operate-area">
     <view bindtap="like"></view>
     <view class="dislike" bindtap="dislike"></view>
   </view>
-
 </view>

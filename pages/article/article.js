@@ -7,7 +7,7 @@ const page = {
     wx.showToast({
       title: '玩命加载中',
       icon: 'loading',
-      duration: 2000
+      duration: 10000
     })
     const self = this
     wx.request({

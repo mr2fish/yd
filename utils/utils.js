@@ -1,3 +1,51 @@
+/*
+  判断传入的参数的类型
+*/
+export function type(arg){
+    const t = typeof arg
+    return t === 'object'?
+                 arg === null ?
+                  'null' :
+                  Object.prototype.toString.call(arg).slice(8,-1).toLowerCase():t
+}
+
+// 判断一个对象是否是函数
+export function isFunction( fn ){
+      return type( fn ) === 'function';
+};
+
+// 判断是否为普通对象
+// 即简单的字典
+// { id:xx, name:xx } return true
+export function isPlainObject( obj ){
+      let key;
+      // 过滤非对象和global对象
+      // 小程序中可以认为wx就是global
+      if( type( obj ) !== 'object'){
+            return false;
+      }
+      const hasOwn = Object.prototype.hasOwnProperty;
+      // 这个对象不能是自定义构造器new 出来的
+      // 且对象构造器的prototype属性必须有自己的 isPrototypeOf 属性（其实判断7个内置属性都行，不一定非要判断这个）...
+      if( obj.constructor &&
+             !hasOwn.call( obj , 'constructor' ) &&
+             !hasOwn.call( obj.constructor.prototype || {} , 'isPrototypeOf')  ) {
+            return false;
+      }
+      // key in 会先遍历自有属性，如果最后一个属性都是自有属性的话，说明整个
+      // 对象上所有属性都是自有属性，说明这个对象就是一个简单的字典
+      for( key in obj ) {}
+      return key === void 0 || hasOwn.call( obj , key );
+};
+
+// 短id转长id
+export function getLongCid( cid ){
+  if( cid == void 0 ) return void 0;
+  const C = Math.pow(2,32);
+     // 如果cid大于常数，我们认为就是长ID，直接返回即可，否则再进行处理
+  return cid > C ? cid : ( C + 1 ) * cid;
+}
+
 export function copy(obj){
   if(typeof obj === 'object'){
     return JSON.parse(JSON.stringify(obj))
@@ -65,13 +113,10 @@ export function objectToQueryString(dataObject){
 }
 
 export function isNullObject(obj){
-  if(obj == null){
-    return true
-  }
-  if(typeof obj !== 'object'){
-    return false
-  }
-  return Object.keys(obj).length === 0
+  return obj == null?
+              true :
+              isPlainEmptyObject(obj)?
+              true: false
 }
 
 /*
@@ -97,19 +142,6 @@ export function isEmptyObject(obj){
 }
 
 /*
-   判断传入参数是否是plain object
-*/
-export function isPlainObject(obj){
-	if(type(obj) !== "object" || obj.nodeType || isWindow(obj)){
-		return false;
-	}
-	if(obj.constructor && Object.prototype.hasOwnProperty.call( obj.constructor.prototype,"isPrototypeOf")){
-		return false;
-	}
-	return true;
-}
-
-/*
   判断传入参数是否是ArrayLike对象
 */
 export function isArrayLike(obj){
@@ -126,24 +158,8 @@ export function isNumeric(obj){
   return type(obj)!=="array" && ( str - parseFloat( str ) + 1 ) >= 0;
 }
 
-/*
-  判断传入的参数的类型
-*/
-export function type(arg){
-    const t = typeof arg
-    if(t === 'object'){
-        if(arg === null){
-            return 'null'
-        }else{
-            return Object.prototype.toString.call(arg).slice(8,-1).toLowerCase()
-        }
-    }else{
-        return t
-    }
-}
 
 // export {copy,handleTitle,uniquePush,getLikesFromStorage,setLikesToStorage,removeLikesFromStorate}
-
 // function a(){
 //   console.log('I am function a')
 // }
