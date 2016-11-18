@@ -63,7 +63,7 @@ const page = {
       header: header,
       success(result) {
         result = result.data
-        const meta_infos = result.meta_infostest
+        const meta_infos = result.meta_infos
         // raiders 攻略
         let raiders = []
         // goods 单品

@@ -78,7 +78,7 @@ export function isPlainEmptyObject(obj){
 	if(!isPlainObject(obj)){
 		return false;
 	}
-	return this.isEmptyObject(obj);
+	return isEmptyObject(obj);
 }
 
 /*

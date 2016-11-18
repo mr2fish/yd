@@ -9,13 +9,15 @@ import API, { HEADER as header } from '../../common/API'
 const app = common.app
 let currentIndex = 0
 const page = {
-  onLoad(){
-    wx.showToast({title: '玩命搜索中',icon: 'loading'})
+  data:{ animationData:{} }
+  ,onLoad(){
+    console.log('gotogo onLoad');
     // 为了防止页面缓存，每次刷新页面之后都会重置currentIndex
-    currentIndex = 0;
+    currentIndex = 0
     this.renderByDataFromServer()
   }
   ,renderByDataFromServer(){
+    wx.showToast({title: '玩命搜索中',icon: 'loading'})
     const self = this
     wx.request({
       url: API.giftBrowser.url,
@@ -33,6 +35,7 @@ const page = {
           meta_info.data.title = meta_info.title
           return meta_info.data
         })
+        console.log(gotogos);
         self.setData({gotogos, cids})
       },
       fail(res){
@@ -43,7 +46,7 @@ const page = {
       }
     })
   }
-  ,animate(ani={rotate:-20, translateX:-200}){
+  ,animate(ani={rotate:-20, translateX:-300}){
     const cids = this.data.cids
     // 如果到最后，提示用户并返回
     if(currentIndex === cids.length - 1){
@@ -57,20 +60,30 @@ const page = {
      * 导出动画数据传递给组件的animation属性
      * 注意；export方法每次调用后会清理掉之前的动画操作
      */
-    var animation = wx.createAnimation({duration: 410,timingFunction: 'ease'})
-    this.animation = animation
-    animation.scale(1.5,1.5).rotate(rotate).translateX(translateX).opacity(0).step()
     let currentCid = cids[currentIndex++]
-    this.setData({currentCid,animationData:animation.export()})
+    this.setData({
+      currentCid,
+      animationData: wx.createAnimation({
+        // duration: 410, // 默认是400ms
+        timingFunction:'ease'
+      }).scale3d(1.5,1.5,1)
+        .rotate(rotate)
+        .translate3d(translateX,0,0)
+        .opacity(0)
+        .step()
+        .export()
+      })
     return currentCid
   }
 
   ,dislike(){
+    console.log(this.data.cids);
     this.animate()
   }
 
   ,like(){
-    const cid = this.animate({rotate:20,translateX:200})
+    console.log(this.data.cids);
+    const cid = this.animate({rotate:20,translateX:300})
     // 在客户端维护一个喜欢列表
     // -- test start
       // removeLikesFromStorate()
