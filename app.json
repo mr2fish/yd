@@ -6,9 +6,7 @@
     "pages/filter/filter",
     "pages/sku/sku",
     "pages/article/article",
-    "pages/all/all",
-    "pages/result/result",
-    "pages/search/search"
+    "pages/all/all"
   ],
   "window": {
     "navigationBarTextStyle": "black",
