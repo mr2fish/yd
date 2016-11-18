@@ -54,17 +54,14 @@
 }
 .operate-area view{
   display: inline-block;
+}
+.operate-area image{
   margin-right: 130rpx;
   width: 140rpx;
   height: 140rpx;
   border-radius: 50%;
-  background-color:#fff;
   border: 1px rgb(199,199,205) solid;
-  background: url(./icon/like.png) left top no-repeat;
-  background-size: 100%;
 }
 .operate-area .dislike{
   margin-right: 0;
-  background: url(./icon/dislike.png) left top no-repeat;
-  background-size: 100%;
 }

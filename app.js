@@ -3,12 +3,12 @@
  * 调用MINA提供的丰富API
  */
 App({
-  onLaunch() {
+  // onLaunch() {
     // console.log('onLaunch')
     //调用API从本地缓存中获取数据
-    const self = this
+    // const self = this
     // console.log(self)
-    self.aaa = '这是挂到app上的数据' // 这个同步挂载的数据在其他文件中是可以访问的
+    // self.aaa = '这是挂到app上的数据' // 这个同步挂载的数据在其他文件中是可以访问的
     // wx.request({
     //   url: 'http://s.diaox2.com/view/app/gift_supply.php',
     //   header: {
@@ -26,10 +26,10 @@ App({
     //     // wx.setStorageSync('key','value')
     //   }
     // })
-  },
-  onShow(){
+  // },
+  // onShow(){
     // console.log('App Show')
-  },
+  // },
   // getUserInfo:function(cb){
   //   var that = this;
   //   if(this.globalData.userInfo){
@@ -52,7 +52,7 @@ App({
   //   userInfo:null
   // },
   // 声明一个全局变量。在其他组件中可通过var app = getApp();app.APP_NAME来引用
-  APP_NAME: '有调',
+  // APP_NAME: '有调',
   // 声明一个全局变量。在其他组件中可通过var app = getApp();app.version来引用
-  version:'0.0.1'
+  // version:'0.0.1'
 });

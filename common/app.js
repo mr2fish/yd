@@ -1,14 +1,11 @@
-const app = getApp()
 const common = {
-  app: app,
+  app: getApp(),
   showModal(info) {
     this.setData({
       modalHidden: false,
       info: info
     })
   }
-
-
   ,hideModal() {
     this.setData({
       modalHidden: true,
@@ -33,7 +30,3 @@ const common = {
   // }
 }
 export default common
-
-
-
-// module.exports = common

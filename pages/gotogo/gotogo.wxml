@@ -1,7 +1,7 @@
 <view class="container">
   <view class="article-list">
-    <block wx:for="{{gotogos}}" wx:key="nid">
-      <navigator url="../article/article?id={{item.nid}}">
+    <block wx:for="{{gotogos}}" wx:key="cid">
+      <navigator url="../article/article?id={{item.cid}}">
         <!-- 不用反转数组了，根据索引倒序指定z-index即可保证gotogos数组中的第一个在最上面，最后一个在最下面 -->
         <view class="article-box" style="z-index:{{gotogos.length - index}};"
           animation="{{item.cid == currentCid ? animationData : null}}">
@@ -15,7 +15,7 @@
     </block>
   </view>
   <view class="operate-area">
-    <view bindtap="like"></view>
-    <view class="dislike" bindtap="dislike"></view>
+    <view bindtap="like"><image src="icon/like.png"></image></view>
+    <view bindtap="dislike"><image class="dislike" src="icon/dislike.png"></image></view>
   </view>
 </view>
