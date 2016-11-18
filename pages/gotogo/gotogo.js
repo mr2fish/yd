@@ -5,7 +5,7 @@ import {
   setLikesToStorage,
   removeLikesFromStorate
 } from '../../utils/utils'
-import API, { HEADER as header } from '../../utils/API'
+import API, { HEADER as header } from '../../common/API'
 const app = common.app
 // 筛选符合条件的数据
 // const data = gotogos.filter(gotogo => likes.indexOf(gotogo.cid) === -1)

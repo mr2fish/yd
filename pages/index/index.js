@@ -1,6 +1,6 @@
 import common from '../../common/app'
 // import gift_default from '../../common/gift_default'
-import API, { HEADER as header } from '../../utils/API'
+import API, { HEADER as header } from '../../common/API'
 import { handleTitle } from '../../utils/utils'
 const app = common.app
 /*
