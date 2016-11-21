@@ -1,5 +1,3 @@
-//index.js
-//获取应用实例
 import common from '../../common/app'
 import category from '../../common/category'
 const { app } = common

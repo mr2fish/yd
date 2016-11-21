@@ -1,11 +1,5 @@
 import common from '../../common/app'
-import {
-  handleTitle,
-  extractPriceFromPriceString,
-  objectToQueryString,
-  isNullObject,
-  type
-} from '../../utils/utils'
+import { handleTitle, extractPriceFromPriceString, objectToQueryString, isNullObject, type } from '../../utils/utils'
 import API, { HEADER as header } from '../../common/API'
 import category, { defaultItem, SORT_BY } from '../../common/category'
 const keys = Object.keys(category)
@@ -28,7 +22,6 @@ const page = {
     // 当前默认是综合排序
     currentPX: 0
   }
-
   ,tapContentChange(item, group){
     outer:
     for(const category of categorys){

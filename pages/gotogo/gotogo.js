@@ -1,10 +1,5 @@
 import common from '../../common/app'
-import {
-  uniquePush,
-  getLikesFromStorage,
-  setLikesToStorage,
-  removeLikesFromStorate
-} from '../../utils/utils'
+import { uniquePush, getLikesFromStorage, setLikesToStorage, removeLikesFromStorate } from '../../utils/utils'
 import API, { HEADER as header } from '../../common/API'
 const { app } = common
 let currentIndex = 0
