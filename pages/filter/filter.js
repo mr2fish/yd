@@ -1,8 +1,6 @@
 import common from '../../common/app'
 import category, { defaultItem } from '../../common/category'
 const categorys = Object.keys(category).map(item => category[item])
-const { app } = common
-
 const page = {
   data: { categorys }
   ,onLoad(){

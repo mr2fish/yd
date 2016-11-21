@@ -1,6 +1,5 @@
 import common from '../../common/app'
 import category from '../../common/category'
-const { app } = common
 const page = {
   onLoad(options) {
     const self = this
@@ -17,4 +16,5 @@ const page = {
   }
 }
 
+Object.assign(page, common)
 Page(page)

@@ -1,6 +1,5 @@
 import common from '../../common/app'
 import API, { HEADER as header } from '../../common/API'
-const { app } = common
 const page = {
   onLoad(options) {
     wx.showToast({

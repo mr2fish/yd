@@ -4,8 +4,6 @@ import API, { HEADER as header } from '../../common/API'
 import category, { defaultItem, SORT_BY } from '../../common/category'
 const keys = Object.keys(category)
 const categorys = keys.map(item => category[item])
-const { app } = common
-
 const page = {
   data: {
     categorys,

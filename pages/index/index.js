@@ -1,7 +1,6 @@
 import common from '../../common/app'
 import API, { HEADER as header } from '../../common/API'
 import { handleTitle } from '../../utils/utils'
-const { app } = common
 /*
   TODO:
   1. onLoad 为什么不执行？
