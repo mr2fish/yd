@@ -63,15 +63,13 @@ const page = {
     let currentCid = cids[currentIndex++]
     this.setData({
       currentCid,
-      animationData: wx.createAnimation({
-        // duration: 410, // 默认是400ms
-        timingFunction:'ease'
-      }).scale3d(1.5,1.5,1)
+      // duration: 410, // 默认是400ms
+      animationData: wx.createAnimation({ timingFunction:'ease' }).scale3d(1.5,1.5,1)
         .rotate(rotate)
-        .translate3d(translateX,0,0)
-        .opacity(0)
-        .step()
-        .export()
+          .translate3d(translateX,0,0)
+            .opacity(0)
+              .step()
+                .export()
       })
     return currentCid
   }
