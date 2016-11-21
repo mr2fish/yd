@@ -20,7 +20,7 @@ const page = {
       success(result) {
         const {errMsg, statusCode, data} = result
         if(errMsg === 'request:ok' && statusCode === 200){
-          console.log(`${API.giftBrowser.url}接口返回的数据：`,result);
+          console.log(`${API.giftBrowser.url}接口返回的数据：`, result);
           const cids = []
           // 处理数据。出于性能上的考虑，我们在一次循环中处理完毕。
           // 过滤掉已经存在于“喜欢”列表中的数据
@@ -32,14 +32,14 @@ const page = {
             meta_info.data.title = meta_info.title
             return meta_info.data
           })
-          console.log('经过处理后的逛一逛数据：',gotogos);
+          console.log('经过处理后的逛一逛数据：', gotogos);
           self.setData({gotogos, cids})
         }else{
-          console.log(`${API.giftBrowser.url}接口失败：`,result);
+          console.log(`${API.giftBrowser.url}接口失败：`, result);
         }
       },
       fail(result){
-        console.log(`${API.giftBrowser.url}接口错误：`,result);
+        console.log(`${API.giftBrowser.url}接口错误：`, result);
       },
       complete(){
         wx.hideToast()
@@ -50,7 +50,7 @@ const page = {
     const cids = this.data.cids
     // 如果到最后，提示用户并返回
     if(currentIndex === cids.length - 1){
-      wx.showToast({title: '已经到最后啦亲~',duration: 1000})
+      wx.showToast({title: '已经到最后啦亲~', duration: 1000})
       return;
     }
 
@@ -64,12 +64,8 @@ const page = {
     this.setData({
       currentCid,
       // duration: 410, // 默认是400ms
-      animationData: wx.createAnimation({ timingFunction:'ease' }).scale3d(1.5,1.5,1)
-        .rotate(rotate)
-          .translate3d(translateX,0,0)
-            .opacity(0)
-              .step()
-                .export()
+      animationData: wx.createAnimation({ timingFunction:'ease' })
+                        .scale3d(1.5,1.5,1).rotate(rotate).translate3d(translateX,0,0).opacity(0).step().export()
       })
     return currentCid
   }
