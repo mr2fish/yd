@@ -1,3 +1,26 @@
+// 根据传入的价格字符串提取价格 '约￥180.23元' -> 180.23
+export function extractPriceFromPriceString(priceString){
+  let ret = 0
+  if(priceString){
+    const priceReg = /\d+(\.\d+)?/
+    const match = priceReg.exec(priceString)
+    if(match){
+      ret = match[0]
+    }
+  }
+  return Number(ret)
+}
+
+// {name:'李彦峰',age:26} -> name=李彦峰&age=26
+export function objectToQueryString(dataObject){
+  if(!dataObject || typeof dataObject !== 'object'){
+    return ''
+  }
+  const kvArr = []
+  Object.keys(dataObject).forEach(key => kvArr.push(`${key}=${dataObject[key]}`))
+  return kvArr.join('&')
+}
+
 // 对象拷贝（复制）工具方法。类似于jQuery的extend方法
 export function extend( ...args ){
       let options , name, src, copy , copyIsArray , clone,
@@ -207,26 +230,3 @@ export function removeLikesFromStorate(){
   return wx.removeStorageSync(LIKES_KEY)
 }
 // 逛一逛页面工具方法与常数 -- start
-
-// 根据传入的价格字符串提取价格 '约￥180.23元' -> 180.23
-export function extractPriceFromPriceString(priceString){
-  let ret = 0
-  if(priceString){
-    const priceReg = /\d+(\.\d+)?/
-    const match = priceReg.exec(priceString)
-    if(match){
-      ret = match[0]
-    }
-  }
-  return Number(ret)
-}
-
-// {name:'李彦峰',age:26} -> name=李彦峰&age=26
-export function objectToQueryString(dataObject){
-  if(!dataObject || typeof dataObject !== 'object'){
-    return ''
-  }
-  const kvArr = []
-  Object.keys(dataObject).forEach(key => kvArr.push(`${key}=${dataObject[key]}`))
-  return kvArr.join('&')
-}
