@@ -1,9 +1,6 @@
 import common from '../../common/app'
 import API, {HEADER as header} from '../../common/API'
-const app = common.app
-
-
-
+const { app } = common
 const page = {
   onLoad(options) {
     wx.showToast({
@@ -11,53 +8,56 @@ const page = {
       icon: 'loading'
     })
     const sid = options.sid || 1124
-    const getfullsku = `${API.getFullSku.url}/${sid}.html`
     // SKU售卖链接各个常见电商的log
-    const URL_PREFIX = 'http://c.diaox2.com/cms/diaodiao/mart2/'
+    const URL_PREFIX = 'http://c.diaox2.com/cms/diaodiao/mart2'
     const self = this
     wx.request({
-      url: getfullsku,
+      url: `${API.getFullSku.url}/${sid}.html`,
       header: header,
-      success: function(res) {
-        const data = res.data.data
-        const sku = data[0]
-        const sales = sku.sales
-        let png = 'default.png'
-        let ratio = 2.416
-        sku.sales = sku.sales.map(sale => {
-          const link = sale.link_m_cps || sale.link_pc_cps || sale.link_m_raw || sale.link_pc_raw
-          if(/tmall|天猫/.test(sale.mart) || link.indexOf('tmall.com') !== -1 ){
-            png = 'tmall.png'
-            ratio = 7.138
-          }else if (link.indexOf('taobao.com') !== -1 ) {
-            png = 'tb.png'
-          }else if (link.indexOf('jd.com') !== -1 ) {
-            png = 'jd.png'
-            ratio = 2.722
-          }else if(link.indexOf('amazon.cn') !== -1 ){
-            png = 'amazoncn.png'
-            ratio = 2.25
-          }else if (link.indexOf('amazon.jp') !== -1 ) {
-            png = 'amazonjp.png'
-            ratio = 4
-          }else if (link.indexOf('shopbop.com') !== -1 ) {
-            png = 'shopbop.png'
-            ratio = 6.25
-          }else if (link.indexOf('rakuten.com') !== -1 ) {
-            png = 'rakuten.png'
-            ratio = 2
-          }else if (link.indexOf('amazon.') !== -1 ) {
-            png = 'amazon.png'
-            ratio = 3.194
-          }
-          sale.url = `${URL_PREFIX}${png}`
-          sale.ratio = ratio
-          return sale
-        })
-        self.setData({sku})
+      success: function(result) {
+        const {errMsg, statusCode, data} = result
+        if(errMsg === 'request:ok' && statusCode === 200){
+          console.log(`${API.getFullSku.url}/${sid}.html接口错误：`, result);
+          const sku = data.data[0]
+          let png = 'default.png'
+          let ratio = 2.416
+          sku.sales = sku.sales.map(sale => {
+            const link = sale.link_m_cps || sale.link_pc_cps || sale.link_m_raw || sale.link_pc_raw
+            if(/tmall|天猫/.test(sale.mart) || link.indexOf('tmall.com') !== -1 ){
+              png = 'tmall.png'
+              ratio = 7.138
+            }else if (link.indexOf('taobao.com') !== -1 ) {
+              png = 'tb.png'
+            }else if (link.indexOf('jd.com') !== -1 ) {
+              png = 'jd.png'
+              ratio = 2.722
+            }else if(link.indexOf('amazon.cn') !== -1 ){
+              png = 'amazoncn.png'
+              ratio = 2.25
+            }else if (link.indexOf('amazon.jp') !== -1 ) {
+              png = 'amazonjp.png'
+              ratio = 4
+            }else if (link.indexOf('shopbop.com') !== -1 ) {
+              png = 'shopbop.png'
+              ratio = 6.25
+            }else if (link.indexOf('rakuten.com') !== -1 ) {
+              png = 'rakuten.png'
+              ratio = 2
+            }else if (link.indexOf('amazon.') !== -1 ) {
+              png = 'amazon.png'
+              ratio = 3.194
+            }
+            sale.url = `${URL_PREFIX}/${png}`
+            sale.ratio = ratio
+            return sale
+          })
+          self.setData({sku})
+        }else{
+          console.log(`${API.getFullSku.url}/${sid}.html接口失败：`, result);
+        }
       },
-      fail(res){
-        console.log(`${getfullsku}出错啦`);
+      fail(result){
+        console.log(`${API.getFullSku.url}/${sid}.html接口错误：`, result);
       },
       complete(){
         wx.hideToast()

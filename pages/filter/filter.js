@@ -1,8 +1,7 @@
 import common from '../../common/app'
 import category, { defaultItem } from '../../common/category'
-const app = common.app
 const categorys = Object.keys(category).map(item => category[item])
-
+const { app } = common
 /*
   TODO:
   1. onLoad 为什么不执行？

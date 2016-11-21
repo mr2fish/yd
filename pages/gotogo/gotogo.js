@@ -6,7 +6,7 @@ import {
   removeLikesFromStorate
 } from '../../utils/utils'
 import API, { HEADER as header } from '../../common/API'
-const app = common.app
+const { app } = common
 let currentIndex = 0
 const page = {
   data:{ animationData:{} }
@@ -23,23 +23,28 @@ const page = {
       url: API.giftBrowser.url,
       header: header,
       success(result) {
-        console.log(result);
-        const cids = []
-        // 处理数据。出于性能上的考虑，我们在一次循环中处理完毕。
-        // 过滤掉已经存在于“喜欢”列表中的数据
-        const likes = getLikesFromStorage()
-        const gotogos = result.data.meta_infos.map(meta_info => {
-          const cid = Number(meta_info.data.nid )
-          cids.push( cid )
-          meta_info.data.cid = cid
-          meta_info.data.title = meta_info.title
-          return meta_info.data
-        })
-        console.log(gotogos);
-        self.setData({gotogos, cids})
+        const {errMsg, statusCode, data} = result
+        if(errMsg === 'request:ok' && statusCode === 200){
+          console.log(`${API.giftBrowser.url}接口返回的数据：`,result);
+          const cids = []
+          // 处理数据。出于性能上的考虑，我们在一次循环中处理完毕。
+          // 过滤掉已经存在于“喜欢”列表中的数据
+          const likes = getLikesFromStorage()
+          const gotogos = data.meta_infos.map(meta_info => {
+            const cid = Number(meta_info.data.nid )
+            cids.push( cid )
+            meta_info.data.cid = cid
+            meta_info.data.title = meta_info.title
+            return meta_info.data
+          })
+          console.log('经过处理后的逛一逛数据：',gotogos);
+          self.setData({gotogos, cids})
+        }else{
+          console.log(`${API.giftBrowser.url}接口失败：`,result);
+        }
       },
-      fail(res){
-        console.log(`${API.giftBrowser.url}接口失败`);
+      fail(result){
+        console.log(`${API.giftBrowser.url}接口错误：`,result);
       },
       complete(){
         wx.hideToast()

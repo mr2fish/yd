@@ -8,10 +8,9 @@ import {
 } from '../../utils/utils'
 import API, { HEADER as header } from '../../common/API'
 import category, { defaultItem, SORT_BY } from '../../common/category'
-const app = common.app
 const keys = Object.keys(category)
 const categorys = keys.map(item => category[item])
-
+const { app } = common
 const page = {
   data: {
     categorys,
@@ -62,6 +61,7 @@ const page = {
       url: `${API.giftq.url}/${objectToQueryString(queryObject)}`,
       header: header,
       success(result) {
+        console.log(`${API.giftq.url}返回的数据：`,result);
         result = result.data
         const meta_infos = result.meta_infos
         // raiders 攻略
@@ -127,8 +127,8 @@ const page = {
         self.setData({raiders, goods, goods_copy: goods})
         console.log(goods);
       },
-      fail(res){
-        console.log(`${API.giftq.url}接口失败`);
+      fail(result){
+        console.log(`${API.giftq.url}接口错误：`,result);
       },
       complete(){
         wx.hideToast()

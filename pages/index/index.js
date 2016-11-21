@@ -1,7 +1,7 @@
 import common from '../../common/app'
 import API, { HEADER as header } from '../../common/API'
 import { handleTitle } from '../../utils/utils'
-const app = common.app
+const { app } = common
 /*
   TODO:
   1. onLoad 为什么不执行？
@@ -18,8 +18,9 @@ const page = {
     wx.request({
       url: API.giftDefault.url,
       header: header,
-      success(res) {
-        const {aids, meta_infos} = res.data
+      success(result) {
+        console.log(`${API.giftDefault.url}返回的数据：`,result);
+        const {aids, meta_infos} = result.data
         const mis = []
         aids.forEach(id => {
           const each = meta_infos[id]
@@ -31,8 +32,8 @@ const page = {
         })
         self.setData({meta_infos: mis})
       },
-      fail(res){
-        console.log(`${API.giftDefault.url}接口失败`);
+      fail(result){
+        console.log(`${API.giftDefault.url}接口失败：`,result);
       },
       complete(){
         wx.hideToast()
