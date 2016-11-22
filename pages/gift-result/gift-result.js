@@ -1,7 +1,7 @@
 import common from '../../common/app'
 import { handleTitle, extractPriceFromPriceString, objectToQueryString, isNullObject, type } from '../../utils/utils'
 import API, { HEADER as header } from '../../common/API'
-import category, { defaultItem, SORT_BY } from '../../common/category'
+import category, { defaultItem, ORDER_BY } from '../../common/category'
 const keys = Object.keys(category)
 const categorys = keys.map(item => category[item])
 const page = {
@@ -12,11 +12,11 @@ const page = {
     // 控制orderBy调出来的actionSheet显示隐藏
     orderByActionSheetHidden: true,
     // orderBy排序字段
-    orderByActionSheetItems:[
-      SORT_BY.zonghe,
-      SORT_BY.latest,
-      SORT_BY.price_up_to_down,
-      SORT_BY.price_down_to_up
+    orderByActionSheetItems: [
+      ORDER_BY.zonghe,
+      ORDER_BY.latest,
+      ORDER_BY.price_up_to_down,
+      ORDER_BY.price_down_to_up
     ],
     // 当前默认是综合排序
     currentPX: 0
@@ -36,7 +36,6 @@ const page = {
     }
     return categorys
   }
-
   ,bindItemTap(e) {
     const {item, group} = e.target.dataset
     const categorys = this.tapContentChange(item, group)
@@ -56,6 +55,7 @@ const page = {
         console.log(`${API.giftq.url}返回的数据：`,result);
         result = result.data
         const meta_infos = result.meta_infos
+        console.log(meta_infos);
         // raiders 攻略
         let raiders = []
         // goods 单品
@@ -64,7 +64,7 @@ const page = {
         // 编译之后，变为下面这行代码！如果aids是undefined将会抛错！！！！
         // var _iterator2 = aids[Symbol.iterator]()
         // TypeError: Cannot read property 'Symbol(Symbol.iterator)' of undefined
-        const reg = /http:\/\/|https:\/\//i;
+        const reg = /http:\/\/|https:\/\//i
         for(let aid of aids){
           let meta_info = meta_infos[aid]
           if(!meta_info) continue;
@@ -239,16 +239,16 @@ const page = {
     // 如果本次排序规则和下次排序规则一致，则关掉ActiveSheet，直接返回
     if( currentPX === nextPX) return this.orderByHideActiveSheet();
     switch(value){
-      case SORT_BY.zonghe:
+      case ORDER_BY.zonghe:
         this.orderByZonghe()
       break
-      case SORT_BY.latest:
+      case ORDER_BY.latest:
         this.orderByLatest()
       break
-      case SORT_BY.price_up_to_down:
+      case ORDER_BY.price_up_to_down:
         this.orderByPrice()
       break;
-      case SORT_BY.price_down_to_up:
+      case ORDER_BY.price_down_to_up:
         this.orderByPrice('down_to_up')
       break;
     }

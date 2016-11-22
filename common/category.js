@@ -42,7 +42,7 @@ const categorys = {
 }
 
 // gift-result 礼物搜索页需要用到的排序字段
-const SORT_BY = {
+const ORDER_BY = {
   zonghe:'综合排序',
   latest:'最新商品',
   price_up_to_down:'价格从高到底',
@@ -50,4 +50,4 @@ const SORT_BY = {
 }
 
 export default categorys
-export { defaultItem, SORT_BY }
+export { defaultItem, ORDER_BY }

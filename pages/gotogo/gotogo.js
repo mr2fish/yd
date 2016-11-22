@@ -31,8 +31,8 @@ const page = {
             meta_info.data.cid = cid
             meta_info.data.title = meta_info.title
             return meta_info.data
-          })
-          console.log('经过处理后的逛一逛数据：', gotogos);
+          }).slice(0,2)
+          // console.log('经过处理后的逛一逛数据：', gotogos);
           self.setData({gotogos, cids})
         }else{
           console.log(`${API.giftBrowser.url}接口失败：`, result);
@@ -85,12 +85,12 @@ const page = {
    * 防止用户点击过快
    */
   ,dislike(){
-    console.log(this.data.cids);
+    // console.log(this.data.cids);
     this.animate()
   }
 
   ,like(){
-    console.log(this.data.cids);
+    // console.log(this.data.cids);
     const cid = this.animate({rotate:20,translateX:300})
     // 在客户端维护一个喜欢列表
     // -- test start
