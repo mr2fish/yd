@@ -1,11 +1,10 @@
 import common from '../../common/app'
 import { uniquePush, getLikesFromStorage, setLikesToStorage, removeLikesFromStorate } from '../../utils/utils'
 import API, { HEADER as header } from '../../common/API'
-
 let currentIndex = 0
-
 const page = {
-  onLoad(){
+  data:{ animationData:{} }
+  ,onLoad(){
     console.log('gotogo onLoad');
     // 为了防止页面缓存，每次刷新页面之后都会重置currentIndex
     currentIndex = 0

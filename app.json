@@ -1,8 +1,8 @@
 {
   "pages": [
+    "pages/gotogo/gotogo",
     "pages/index/index",
     "pages/sku/sku",
-    "pages/gotogo/gotogo",
     "pages/gift-result/gift-result",
     "pages/filter/filter",
     "pages/article/article",
