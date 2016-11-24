@@ -37,12 +37,6 @@ const page = {
        const {name, selectedIndex} = category
        if(selectedIndex === 0) continue;
        queryParameter[name] =  category.items[selectedIndex]
-      //  if(name == 'price' && item.indexOf('+') !== -1){
-      //   //  800+ 单独处理
-      //    queryParameter[name] = item.replace('+','')
-      //  }else{
-      //    queryParameter[name] = item
-      //  }
     }
     wx.navigateTo({url:`../gift-result/gift-result?queryParameter=${JSON.stringify(queryParameter)}`})
   }

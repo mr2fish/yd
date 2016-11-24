@@ -1,8 +1,7 @@
 import common from '../../common/app'
 import { uniquePush, getLikesFromStorage, setLikesToStorage, removeLikesFromStorate, fetch } from '../../utils/utils'
-import API, { HEADER as header } from '../../common/API'
+import API from '../../common/API'
 let currentIndex = 0
-
 /**
  * [page description]
  * @type {Object}
@@ -34,7 +33,6 @@ const page = {
     // 为了防止页面缓存，每次刷新页面之后都会重置currentIndex
     currentIndex = 0
     // this.renderByDataFromServer()
-    const likes = getLikesFromStorage()
     // 拿到原始数据，然后过滤，然后生成队列，然后渲染
     this.getDataFromServer()
         .then(this.filter)
@@ -42,6 +40,7 @@ const page = {
         .then(this.render).catch(e => console.log(e))
     // 处理原始数据
     // const dataPool = this.handleOriginDataPool(originDataPool)
+
   }
   ,render(gotogos){
     console.log('render...');
@@ -55,9 +54,10 @@ const page = {
     console.log('filter...');
     // throw 'filter error'
     const likes = getLikesFromStorage()
+    // TODO
+
     return gotogos
   }
-
   // 补充队列数据
   ,queueRecruit(){
     const vendor = this.data.vendor
@@ -66,7 +66,6 @@ const page = {
       const dataPool = vendor.dataPool
     }
   }
-
   ,getDataFromServer(){
     console.log('getDataFromServer...');
     wx.showToast( { title: '玩命搜索中',icon: 'loading' } )
@@ -96,37 +95,6 @@ const page = {
     }).catch(result => {
       console.log(`${API.giftBrowser.url}接口错误：`, result);
     })
-    // wx.request({
-    //   url: API.giftBrowser.url,
-    //   header: header,
-    //   success( result ) {
-    //     const { errMsg, statusCode, data } = result
-    //     if(errMsg === 'request:ok' && statusCode === 200){
-    //       console.log(`${API.giftBrowser.url}接口返回的数据：`, result);
-    //       const cids = []
-    //       // 处理数据。出于性能上的考虑，我们在一次循环中处理完毕。
-    //       // 过滤掉已经存在于“喜欢”列表中的数据
-    //       const likes = getLikesFromStorage()
-    //       const gotogos = data.meta_infos.map(meta_info => {
-    //         const cid = Number(meta_info.data.nid )
-    //         cids.push( cid )
-    //         meta_info.data.cid = cid
-    //         meta_info.data.title = meta_info.title
-    //         return meta_info.data
-    //       }).slice(0,2)
-    //       // console.log('经过处理后的逛一逛数据：', gotogos);
-    //       self.setData({gotogos, cids})
-    //     }else{
-    //       console.log(`${API.giftBrowser.url}接口失败：`, result);
-    //     }
-    //   },
-    //   fail(result){
-    //     console.log(`${API.giftBrowser.url}接口错误：`, result);
-    //   },
-    //   complete(){
-    //     wx.hideToast()
-    //   }
-    // })
   }
   ,animate(ani={rotate:-20, translateX:-300}){
     const cids = this.data.cids
@@ -169,6 +137,10 @@ const page = {
   ,dislike(){
     // console.log(this.data.cids);
     this.animate()
+    const dontLikes = wx.getStorageSync('dontLikes')
+    if(!dontLikes){
+      wx.setStorageSync('dontLikes')
+    }
   }
 
   ,like(){

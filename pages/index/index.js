@@ -25,32 +25,6 @@ const page = {
       })
       this.setData({meta_infos: mis})
     }).catch(result => console.log(`${API.giftDefault.url}接口失败：`,result))
-
-    // wx.request({
-    //   url: API.giftDefault.url,
-    //   header: header,
-    //   success(result) {
-    //     console.log(`${API.giftDefault.url}返回的数据：`,result);
-    //     const {aids, meta_infos} = result.data
-    //     const mis = []
-    //     aids.forEach(id => {
-    //       const each = meta_infos[id]
-    //       const meta_info = each.data
-    //       meta_info.title = handleTitle(meta_info.format_title)
-    //       meta_info.read_count = each.read_count
-    //       meta_info.author.pic = `http://c.diaox2.com/cms/diaodiao/${meta_info.author.pic}`
-    //       mis.push(meta_info)
-    //     })
-    //     self.setData({meta_infos: mis})
-    //   },
-    //   fail(result){
-    //     console.log(`${API.giftDefault.url}接口失败：`,result);
-    //   },
-    //   complete(){
-    //     wx.hideToast()
-    //   }
-    // })
-
   }
   ,confirm(){
     const query = this.data.query

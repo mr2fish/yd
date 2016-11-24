@@ -15,6 +15,5 @@ const page = {
     })
   }
 }
-
 Object.assign(page, common)
 Page(page)
