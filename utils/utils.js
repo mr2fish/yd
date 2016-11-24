@@ -240,8 +240,11 @@ export function copy(obj){
   }
 }
 
-// 处理title
-// ['这是标题1', '这是标题2'] -> '这是标题1这是标题2'
+/**
+ *  handleTitle 处理title ['这是标题1', '这是标题2'] -> '这是标题1这是标题2'
+ * @param  {Array}  [title=[]] [title数组]
+ * @return {[String]}          [处理之后的title字符串]
+ */
 export function handleTitle(title = []){
   if(Array.isArray(title)){
     return title.join('')
@@ -249,12 +252,28 @@ export function handleTitle(title = []){
   return ''
 }
 
-// 数组唯一推入方法，如果数组中不含该元素则push之，否则忽略
-export function uniquePush(arr, ele){
-  let ret = false;
-  if(arr && Array.isArray(arr) && arr.indexOf(ele) === -1){
-       arr.push(ele)
-       ret = true
+/**
+ * [uniquePush 数组唯一推入方法，若将要推入数据的元素已经存在于数组中，则忽略之，否则推入之]
+ * @param  {[Array]}   arr
+ * @param  {[All]}     ele
+ * @param  {[String]}  attr [如果有值，则用它作为判断是否唯一的标志]
+ * @return {[Boolean]}      [元素是否被推入数组]
+ */
+export function uniquePush(arr, ele, attr){
+  let ret = false
+  if(arr && Array.isArray(arr) && ele !== void 0){
+    if(type(attr) === 'string' && type(ele) === 'object'){
+      const hasEle = arr.some( item => item[attr] === ele[attr] )
+      if(!hasEle){
+        arr.push(ele)
+        ret = true
+      }
+    }else{
+      if(arr.indexOf(ele) === -1){
+           arr.push(ele)
+           ret = true
+      }
+    }
   }
   return ret
 }

@@ -40,7 +40,9 @@ const page = {
         .then(this.render).catch(e => console.log(e))
     // 处理原始数据
     // const dataPool = this.handleOriginDataPool(originDataPool)
-
+    fetch('http://t.diaox2.com/view/test/lyf/gift_default.json').then(res => {
+      console.log(res);
+    })
   }
   ,render(gotogos){
     console.log('render...');
@@ -78,7 +80,7 @@ const page = {
         // 过滤掉已经存在于“喜欢”列表中的数据
         const likes = getLikesFromStorage()
         const gotogos = data.meta_infos.map(meta_info => {
-          const cid = Number(meta_info.data.nid )
+          const cid = Number( meta_info.data.nid )
           cids.push( cid )
           meta_info.data.cid = cid
           meta_info.data.title = meta_info.title
@@ -126,8 +128,7 @@ const page = {
       //                       .scale3d(1,1,1).rotate(0).translate3d(0,0,0).step().export()
       //   })
       // }, 410)
-
-    return currentCid
+    return this.data.gotogos.filter( gotogo => gotogo.cid === currentCid )[0]
   }
 
   /**
@@ -136,22 +137,28 @@ const page = {
    */
   ,dislike(){
     // console.log(this.data.cids);
-    this.animate()
-    const dontLikes = wx.getStorageSync('dontLikes')
+    const cid = this.animate().cid
+    let dontLikes = wx.getStorageSync('dontLikes')
     if(!dontLikes){
-      wx.setStorageSync('dontLikes')
+      dontLikes = [ cid ]
+    }else{
+      uniquePush(dontLikes, cid)
     }
+    wx.setStorageSync( 'dontLikes', dontLikes )
   }
 
   ,like(){
     // console.log(this.data.cids);
-    const cid = this.animate({rotate:20,translateX:300})
-    // 在客户端维护一个喜欢列表
-    // -- test start
-      // removeLikesFromStorate()
-    // -- test end
-    // let likes = getLikesFromStorage()
-    // setLikesToStorage(likes, cid)
+    const {cid, title, cover_image_url, price} = this.animate({rotate:20,translateX:300})
+    // 精简要存入本地的对象。只存需要的字段。
+    const gotogo = {cid, title, cover_image_url, price}
+    let likes = wx.getStorageSync('likes')
+    if(!likes){
+      likes = [ gotogo ]
+    }else{
+      uniquePush(likes, gotogo, 'cid')
+    }
+    wx.setStorageSync( 'likes', likes )
   }
 }
 

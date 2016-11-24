@@ -5,19 +5,7 @@
 import {  getGotogosFromStorage } from 'utils/utils'
 import API, { HEADER as header } from 'common/API'
 App({
-  onLaunch(){
-    // 首先拿到逛一逛的默认的前100条数据
-    const gotogos = getGotogosFromStorage()
-    if(!gotogos){
-      wx.request({
-        header: header,
-        url: API.gotogo.url,
-        success(){
-
-        }
-      })
-    }
-  }
+  onLaunch(){ }
   // onLaunch() {
     // console.log('onLaunch')
     //调用API从本地缓存中获取数据
