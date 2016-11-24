@@ -28,6 +28,7 @@
 */
 !function(e) {
   // if ("object" == typeof exports && "undefined" != typeof module)
+  // 适配微信小程序，强制导出！
     module.exports = e();
   // else if ("function" == typeof define && define.amd)
   //   define([], e);
