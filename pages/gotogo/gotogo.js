@@ -1,24 +1,65 @@
 import common from '../../common/app'
 import { uniquePush, getLikesFromStorage, setLikesToStorage, removeLikesFromStorate } from '../../utils/utils'
 import API, { HEADER as header } from '../../common/API'
-
 let currentIndex = 0
 
+/**
+ * [page description]
+ * @type {Object}
+ *  逛一逛整体逻辑
+ *   0. 创建一个队列，放置要进行动画的数据
+ *   1. 从服务端拿到的数据放置到全局
+ *     1.1 从本地取出历史上的“喜欢”数据
+ *     1.2 从服务端拿到的数据若已经存在于上面的“喜欢”数据中，则过滤掉
+ *   2. 从已经经过过滤操作的全局数据中拿2条数据
+ *   3. 点击“喜欢” or “不喜欢”（若点击“喜欢”则放置到本地中的“喜欢列表中”）
+ *     3.1 第一条数据卡片飞走
+ *     3.2 飞走之后，偷偷地原路飞回，并把其zindex从1置为0
+ *     3.3 飞回的卡片进行数据填充
+ */
+// 全局变量 --start
+// const queueLength = 2
+// const getDataLength = 10
+// const vendor = {
+//   originDataPool: null,
+//   // 把需要做动画的数据放入队列中。以右边作为队头，左边作为队尾
+//   queue: null,
+//   dataPool: null,
+//   startID: 0,
+//   endID: 0
+// }
+// // 全局变量 --end
 const page = {
   onLoad(){
     console.log('gotogo onLoad');
     // 为了防止页面缓存，每次刷新页面之后都会重置currentIndex
     currentIndex = 0
     this.renderByDataFromServer()
+    // 拿到原始数据
+    // const originDataPool = this.getDataFromServer()
+    // 处理原始数据
+    // const dataPool = this.handleOriginDataPool(originDataPool)
+
   }
+
+  // 补充队列数据
+  ,queueRecruit(){
+    const vendor = this.data.vendor
+    const queue = vendor.queue
+    if( queue.length < queueLength ){
+      const dataPool = vendor.dataPool
+
+    }
+  }
+
   ,renderByDataFromServer(){
-    wx.showToast({title: '玩命搜索中',icon: 'loading'})
+    wx.showToast( { title: '玩命搜索中',icon: 'loading' } )
     const self = this
     wx.request({
       url: API.giftBrowser.url,
       header: header,
-      success(result) {
-        const {errMsg, statusCode, data} = result
+      success( result ) {
+        const { errMsg, statusCode, data } = result
         if(errMsg === 'request:ok' && statusCode === 200){
           console.log(`${API.giftBrowser.url}接口返回的数据：`, result);
           const cids = []

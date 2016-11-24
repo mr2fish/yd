@@ -1,3 +1,55 @@
+import Promise from 'bluebird'
+import { HEADER } from '../common/API'
+/**
+ * fetch wx.request的promisify封装
+ * @param  {[object]} options [req配置]
+ * @return {[object]}         [Promise对象]
+ */
+export function fetch(options){
+  return new Promise((resolve, reject) => {
+    if(type(options) === 'string'){
+      options = {url : options}
+    }
+    const {success, fail, complete, header} = options
+    // 如果传入的原始配置没有header，则用默认的替代
+    if(!header || !isPlainObject(header)){
+      options.header = HEADER
+    }
+    try{
+      wx.request(extend(options, {
+          success(res){
+            const {errMsg, statusCode} = res
+            if(errMsg && statusCode){
+              if(errMsg === 'request:ok' && statusCode === 200) {
+                resolve(res)
+              } else {
+                reject(res)
+              }
+            } else {
+              resolve(res)
+            }
+            if(isFunction(success)){
+              success(res)
+            }
+          },
+          fail(res){
+            reject(res)
+            if( isFunction( fail ) ){xw
+              fail(res)
+            }
+          },
+          complete(res){
+            if(isFunction(complete)){
+              complete(res)
+            }
+          }
+      }))
+    }catch(e){
+        reject(e)
+    }
+  })
+}
+
 // 根据传入的价格字符串提取价格 '约￥180.23元' -> 180.23
 export function extractPriceFromPriceString(priceString){
   let ret = 0
@@ -53,15 +105,15 @@ export function extend( ...args ){
                    // 在copy中有引用target，导致死循环
                    if( target === copy )continue
                    // 对象和数组分开处理。加快拷贝速度
-                   if( deep && copy && ( Utils.isPlainObject( copy  ) || ( copyIsArray = Array.isArray( copy ) ) ) ){
+                   if( deep && copy && ( isPlainObject( copy  ) || ( copyIsArray = Array.isArray( copy ) ) ) ){
                        if( copyIsArray ){
                              copyIsArray = false;
                              clone = src && Array.isArray( src ) ? src : [];
                        }else{
-                             clone = src && Utils.isPlainObject( src ) ? src : {};
+                             clone = src && isPlainObject( src ) ? src : {};
                        }
                        // 递归
-                       target[ name ] = Utils.extend( deep, clone, copy );
+                       target[ name ] = extend( deep, clone, copy );
                    } else if( copy !== void 0) { // 不是深拷
                        target[ name ] = copy;
                    }
@@ -226,5 +278,25 @@ export function setLikesToStorage(likes, cid){
 
 export function removeLikesFromStorate(){
   return wx.removeStorageSync(LIKES_KEY)
+}
+// 逛一逛页面工具方法与常数 -- start
+
+
+// 逛一逛页面工具方法与常数 -- start
+const GOTOGOS_KEY = 'gotogos'
+export function getGotogosFromStorage(){
+  return wx.getStorageSync(GOTOGOS_KEY)
+}
+
+export function setGotogosToStorage(gotogos, cid){
+  let ls = getLikesFromStorage()
+  uniquePush(ls, cid)
+  console.log(ls);
+  console.log( ls.indexOf(cid) );
+  wx.setStorageSync(GOTOGOS_KEY, ls)
+}
+
+export function removeGotogosFromStorate(){
+  return wx.removeStorageSync(GOTOGOS_KEY)
 }
 // 逛一逛页面工具方法与常数 -- start

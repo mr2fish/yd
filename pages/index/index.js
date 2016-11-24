@@ -1,6 +1,6 @@
 import common from '../../common/app'
-import API, { HEADER as header } from '../../common/API'
-import { handleTitle } from '../../utils/utils'
+import API from '../../common/API'
+import { handleTitle, fetch } from '../../utils/utils'
 /*
   TODO:
   1. onLoad 为什么不执行？
@@ -9,35 +9,51 @@ import { handleTitle } from '../../utils/utils'
 */
 const page = {
   onLoad(){
-    wx.showToast({
-      title: '玩命加载中',
-      icon: 'loading'
-    })
-    const self = this
-    wx.request({
+    // fetch(API.giftDefault.url).then(res => console.log(res)).catch(res => console.log(res))
+    wx.showToast({  title: '玩命加载中',icon: 'loading' })
+    fetch({
       url: API.giftDefault.url,
-      header: header,
-      success(result) {
-        console.log(`${API.giftDefault.url}返回的数据：`,result);
-        const {aids, meta_infos} = result.data
-        const mis = []
-        aids.forEach(id => {
-          const each = meta_infos[id]
-          const meta_info = each.data
-          meta_info.title = handleTitle(meta_info.format_title)
-          meta_info.read_count = each.read_count
-          meta_info.author.pic = `http://c.diaox2.com/cms/diaodiao/${meta_info.author.pic}`
-          mis.push(meta_info)
-        })
-        self.setData({meta_infos: mis})
-      },
-      fail(result){
-        console.log(`${API.giftDefault.url}接口失败：`,result);
-      },
-      complete(){
-        wx.hideToast()
-      }
-    })
+      complete(){wx.hideToast()}
+    }).then(result => {
+      console.log(`${API.giftDefault.url}返回的数据：`,result);
+      const {aids, meta_infos} = result.data
+      const mis = []
+      aids.forEach(id => {
+        const each = meta_infos[id]
+        const meta_info = each.data
+        meta_info.title = handleTitle(meta_info.format_title)
+        meta_info.read_count = each.read_count
+        meta_info.author.pic = `http://c.diaox2.com/cms/diaodiao/${meta_info.author.pic}`
+        mis.push(meta_info)
+      })
+      this.setData({meta_infos: mis})
+    }).catch(result => console.log(`${API.giftDefault.url}接口失败：`,result))
+
+    // wx.request({
+    //   url: API.giftDefault.url,
+    //   header: header,
+    //   success(result) {
+    //     console.log(`${API.giftDefault.url}返回的数据：`,result);
+    //     const {aids, meta_infos} = result.data
+    //     const mis = []
+    //     aids.forEach(id => {
+    //       const each = meta_infos[id]
+    //       const meta_info = each.data
+    //       meta_info.title = handleTitle(meta_info.format_title)
+    //       meta_info.read_count = each.read_count
+    //       meta_info.author.pic = `http://c.diaox2.com/cms/diaodiao/${meta_info.author.pic}`
+    //       mis.push(meta_info)
+    //     })
+    //     self.setData({meta_infos: mis})
+    //   },
+    //   fail(result){
+    //     console.log(`${API.giftDefault.url}接口失败：`,result);
+    //   },
+    //   complete(){
+    //     wx.hideToast()
+    //   }
+    // })
+
   }
   ,confirm(){
     const query = this.data.query

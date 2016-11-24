@@ -56,7 +56,7 @@
 }
 
 .author{
-  display: block
+  display: block;
 
   -webkit-flex: 1;
   flex: 1;

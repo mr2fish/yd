@@ -15,6 +15,9 @@ const API = new function(){
     ,giftBrowser: {
       url: `${fetchURL}/gift_browser`
     }
+    ,gotogo: {
+      url: `...`
+    }
     // 获取文章信息接口
     ,getArticle: {
       // https://c.diaox2.com/view/app/?m=wechat&id=2345
