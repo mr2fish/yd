@@ -18,7 +18,7 @@ let currentIndex = 0
  *     3.3 飞回的卡片进行数据填充
  */
 // 全局变量 --start
-// const queueLength = 2
+const queueLength = 2
 // const getDataLength = 10
 // const vendor = {
 //   originDataPool: null,
@@ -31,31 +31,46 @@ let currentIndex = 0
 // // 全局变量 --end
 const page = {
   onLoad(){
-    console.log('gotogo onLoad');
     // 为了防止页面缓存，每次刷新页面之后都会重置currentIndex
     currentIndex = 0
-    this.renderByDataFromServer()
-    // 拿到原始数据
-    // const originDataPool = this.getDataFromServer()
+    // this.renderByDataFromServer()
+    const likes = getLikesFromStorage()
+    // 拿到原始数据，然后过滤，然后生成队列，然后渲染
+    this.getDataFromServer()
+        .then(this.filter)
+        .then(this.createQueue)
+        .then(this.render).catch(e => console.log(e))
     // 处理原始数据
     // const dataPool = this.handleOriginDataPool(originDataPool)
-
   }
+  ,render(gotogos){
+    console.log('render...');
+    this.setData({gotogos})
+  }
+  ,createQueue(gotogos){
+    console.log('createQueue...');
+    return gotogos.slice(0, queueLength)
+  }
+  ,filter(gotogos){
+    console.log('filter...');
+    // throw 'filter error'
+    const likes = getLikesFromStorage()
+    return gotogos
+  }
+
   // 补充队列数据
   ,queueRecruit(){
     const vendor = this.data.vendor
     const queue = vendor.queue
     if( queue.length < queueLength ){
       const dataPool = vendor.dataPool
-
     }
   }
 
-  ,renderByDataFromServer(){
+  ,getDataFromServer(){
+    console.log('getDataFromServer...');
     wx.showToast( { title: '玩命搜索中',icon: 'loading' } )
-    fetch({
-      url: API.giftBrowser.url
-    }).then(result => {
+    return fetch({ url: API.giftBrowser.url }).then(result => {
       const { errMsg, statusCode, data } = result
       if(errMsg === 'request:ok' && statusCode === 200){
         console.log(`${API.giftBrowser.url}接口返回的数据：`, result);
@@ -69,9 +84,12 @@ const page = {
           meta_info.data.cid = cid
           meta_info.data.title = meta_info.title
           return meta_info.data
-        }).slice(0,2)
-        // console.log('经过处理后的逛一逛数据：', gotogos);
-        this.setData({gotogos, cids})
+        })
+        this.setData({ cids })
+        return gotogos
+        // .slice(0,2)
+        // // console.log('经过处理后的逛一逛数据：', gotogos);
+        // this.setData({gotogos, cids})
       }else{
         console.log(`${API.giftBrowser.url}接口失败：`, result);
       }
