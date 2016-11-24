@@ -223,6 +223,14 @@ export function getLongCid( cid ){
   return cid > C ? cid : ( C + 1 ) * cid;
 }
 
+// 长id短id
+export function getShortCid( cid ){
+  if( cid == void 0 ) return void 0;
+  const C = Math.pow(2,32);
+  // 如果cid大于常数，我们认为就是长ID，直接返回即可，否则再进行处理
+  return cid > C ? cid & 0xffffff : cid;
+}
+
 // ArrayLike转Arr
 export function toArray(arr){
   const ret = []

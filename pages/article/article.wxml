@@ -44,7 +44,7 @@
       </view>
       <!-- type: sku -->
       <view wx:elif="{{content.type === 'sku'}}" class="sku">
-        <image src="{{content.value.url}}" style="width:150rpx;height:150rpx;"></image>
+        <image src="{{content.value.images[0].url}}" style="width:150rpx;height:150rpx;"></image>
         <view class="sku-info">
           <text class="sku-title">{{content.value.title}}</text>
           <view class="sku-footer">

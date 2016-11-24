@@ -39,7 +39,7 @@ const page = {
   ,bindItemTap(e) {
     const {item, group} = e.target.dataset
     const categorys = this.tapContentChange(item, group)
-    this.setData({categorys})
+    this.setData({ categorys })
     this.hideActiveSheet()
     this.renderByDataFromServer(this.packageQueryParam())
   }
@@ -61,15 +61,16 @@ const page = {
       // var _iterator2 = aids[Symbol.iterator]()
       // TypeError: Cannot read property 'Symbol(Symbol.iterator)' of undefined
       const reg = /http:\/\/|https:\/\//i
+      const prefix = 'http://a.diaox2.com/cms/sites/default/files'
       for(let aid of aids){
         let meta_info = meta_infos[aid]
         if(!meta_info) continue;
         const {ctype, thumb_image_url, cover_image_url} = meta_info
         if( !reg.test(thumb_image_url) ){
-          meta_info.thumb_image_url = `http://a.diaox2.com/cms/sites/default/files/${thumb_image_url}`
+          meta_info.thumb_image_url = `${prefix}/${thumb_image_url}`
         }
         if( !reg.test(cover_image_url) ){
-          meta_info.cover_image_url = `http://a.diaox2.com/cms/sites/default/files/${cover_image_url}`
+          meta_info.cover_image_url = `${prefix}/${cover_image_url}`
         }
         meta_info.aid = aid
         meta_info.title = handleTitle(meta_info.title)

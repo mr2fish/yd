@@ -11,12 +11,12 @@ const API = new function(){
     ,giftDefault: {
       url: `${fetchURL}/gift_default`
     }
+    ,_giftBrowser: {
+      url: 'http://s.diaox2.com/ddsearch_dev/gift_browser'
+    }
     // 逛一逛接口 目前无需提供数据
     ,giftBrowser: {
       url: `${fetchURL}/gift_browser`
-    }
-    ,gotogo: {
-      url: `...`
     }
     // 获取文章信息接口
     ,getArticle: {

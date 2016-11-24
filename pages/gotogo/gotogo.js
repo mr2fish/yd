@@ -1,5 +1,5 @@
 import common from '../../common/app'
-import { uniquePush, getLikesFromStorage, setLikesToStorage, removeLikesFromStorate, fetch } from '../../utils/utils'
+import { uniquePush, getLikesFromStorage, setLikesToStorage, removeLikesFromStorate, fetch, getShortCid } from '../../utils/utils'
 import API from '../../common/API'
 let currentIndex = 0
 /**
@@ -40,26 +40,30 @@ const page = {
         .then(this.render).catch(e => console.log(e))
     // 处理原始数据
     // const dataPool = this.handleOriginDataPool(originDataPool)
-    fetch('http://t.diaox2.com/view/test/lyf/gift_default.json').then(res => {
-      console.log(res);
-    })
+    // fetch(API.giftBrowser.url).then(res => {
+    //   console.log(res);
+    // })
   }
+
   ,render(gotogos){
     console.log('render...');
-    this.setData({gotogos})
+    this.setData({ gotogos })
   }
+
   ,createQueue(gotogos){
     console.log('createQueue...');
-    return gotogos.slice(0, queueLength)
+    return gotogos.slice(0, 10)
   }
+
   ,filter(gotogos){
     console.log('filter...');
     // throw 'filter error'
     const likes = getLikesFromStorage()
     // TODO
-
+    console.log(likes);
     return gotogos
   }
+
   // 补充队列数据
   ,queueRecruit(){
     const vendor = this.data.vendor
@@ -68,36 +72,39 @@ const page = {
       const dataPool = vendor.dataPool
     }
   }
+
   ,getDataFromServer(){
     console.log('getDataFromServer...');
     wx.showToast( { title: '玩命搜索中',icon: 'loading' } )
-    return fetch({ url: API.giftBrowser.url }).then(result => {
+    return fetch({
+      url: API._giftBrowser.url,
+      // 左小右大
+      data:{"read_interval": [0,0]},
+      method:'post'
+    }).then(result => {
       const { errMsg, statusCode, data } = result
-      if(errMsg === 'request:ok' && statusCode === 200){
+      console.log(data);
+      if( errMsg === 'request:ok' && statusCode === 200 ) {
         console.log(`${API.giftBrowser.url}接口返回的数据：`, result);
         const cids = []
-        // 处理数据。出于性能上的考虑，我们在一次循环中处理完毕。
-        // 过滤掉已经存在于“喜欢”列表中的数据
         const likes = getLikesFromStorage()
         const gotogos = data.meta_infos.map(meta_info => {
-          const cid = Number( meta_info.data.nid )
-          cids.push( cid )
-          meta_info.data.cid = cid
-          meta_info.data.title = meta_info.title
-          return meta_info.data
+          const shortId = getShortCid(meta_info.cid);
+          meta_info.cid = shortId
+          cids.push(shortId)
+          return meta_info
         })
+        console.log(cids);
         this.setData({ cids })
         return gotogos
-        // .slice(0,2)
-        // // console.log('经过处理后的逛一逛数据：', gotogos);
-        // this.setData({gotogos, cids})
-      }else{
+      } else {
         console.log(`${API.giftBrowser.url}接口失败：`, result);
       }
     }).catch(result => {
       console.log(`${API.giftBrowser.url}接口错误：`, result);
     })
   }
+
   ,animate(ani={rotate:-20, translateX:-300}){
     const cids = this.data.cids
     // 如果到最后，提示用户并返回
@@ -119,7 +126,6 @@ const page = {
       animationData: wx.createAnimation({ timingFunction:'ease' })
                         .scale3d(1.5,1.5,1).rotate(rotate).translate3d(translateX,0,0).opacity(0).step().export()
       })
-
       // setTimeout(() => {
       //   this.setData({
       //     currentCid,
