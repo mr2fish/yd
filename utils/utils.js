@@ -42,6 +42,8 @@ export function fetch(options){
             if(isFunction(complete)){
               complete(res)
             }
+            // 统一关闭加载提示
+            wx.hideToast()
           }
       }))
     }catch(e){

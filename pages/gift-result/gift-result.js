@@ -47,85 +47,153 @@ const page = {
     this.renderByDataFromServer(this.packageQueryParam())
   }
   ,renderByDataFromServer(queryObject){
-    const self = this
-    wx.request({
-      url: `${API.giftq.url}/${objectToQueryString(queryObject)}`,
-      header: header,
-      success(result) {
-        console.log(`${API.giftq.url}返回的数据：`,result);
-        result = result.data
-        const meta_infos = result.meta_infos
-        console.log(meta_infos);
-        // raiders 攻略
-        let raiders = []
-        // goods 单品
-        let goods = []
-        const aids = result.aids
-        // 编译之后，变为下面这行代码！如果aids是undefined将会抛错！！！！
-        // var _iterator2 = aids[Symbol.iterator]()
-        // TypeError: Cannot read property 'Symbol(Symbol.iterator)' of undefined
-        const reg = /http:\/\/|https:\/\//i
+    fetch(`${API.giftq.url}/${objectToQueryString(queryObject)}`).then(result => {
+      console.log(`${API.giftq.url}返回的数据：`,result);
+      result = result.data
+      const meta_infos = result.meta_infos
+      console.log(meta_infos);
+      // raiders 攻略
+      let raiders = []
+      // goods 单品
+      let goods = []
+      const aids = result.aids
+      // 编译之后，变为下面这行代码！如果aids是undefined将会抛错！！！！
+      // var _iterator2 = aids[Symbol.iterator]()
+      // TypeError: Cannot read property 'Symbol(Symbol.iterator)' of undefined
+      const reg = /http:\/\/|https:\/\//i
+      for(let aid of aids){
+        let meta_info = meta_infos[aid]
+        if(!meta_info) continue;
+        const {ctype, thumb_image_url, cover_image_url} = meta_info
+        if( !reg.test(thumb_image_url) ){
+          meta_info.thumb_image_url = `http://a.diaox2.com/cms/sites/default/files/${thumb_image_url}`
+        }
+        if( !reg.test(cover_image_url) ){
+          meta_info.cover_image_url = `http://a.diaox2.com/cms/sites/default/files/${cover_image_url}`
+        }
+        meta_info.aid = aid
+        meta_info.title = handleTitle(meta_info.title)
+        if(ctype !== 2){
+          raiders.push(meta_info)
+        }else if(ctype === 2){
+          meta_info.price_num = extractPriceFromPriceString(meta_info.price)
+          goods.push(meta_info)
+        }
+      }
+
+      // 在本地记录下所有攻略，以供查看“全部”
+      wx.setStorage({key: "allRaiders",data: [...raiders]})
+      // 攻略最多只有2篇
+      if( raiders.length > 2){
+        raiders = raiders.slice(0, 2)
+      }
+      /**
+       * 1. ctype不准  不是不准，是文章的ctype应该是2
+       * 2. remove_aids数据不全
+       * 3. 单品无price过滤掉
+       *    price: 'N/A'
+       */
+      // 单品至少有2篇
+      // 不足2篇，remove_aids来补
+      if( goods.length < 2 ){
+        // 做一下非空判定
+        // 鹏哲说如果全部命中，则remove_aids这个字段就没有值
+        const aids = result.remove_aids || []
+        // console.log(aids);
         for(let aid of aids){
           let meta_info = meta_infos[aid]
-          if(!meta_info) continue;
-          const {ctype, thumb_image_url, cover_image_url} = meta_info
-          if( !reg.test(thumb_image_url) ){
-            meta_info.thumb_image_url = `http://a.diaox2.com/cms/sites/default/files/${thumb_image_url}`
-          }
-          if( !reg.test(cover_image_url) ){
-            meta_info.cover_image_url = `http://a.diaox2.com/cms/sites/default/files/${cover_image_url}`
-          }
-          meta_info.aid = aid
-          meta_info.title = handleTitle(meta_info.title)
-          if(ctype !== 2){
-            raiders.push(meta_info)
-          }else if(ctype === 2){
+          if(!meta_info) continue
+          if(meta_info.ctype === 2){
+            console.log('done');
             meta_info.price_num = extractPriceFromPriceString(meta_info.price)
             goods.push(meta_info)
+          }else{
+            console.log('done else');
           }
         }
-
-        // 在本地记录下所有攻略，以供查看“全部”
-        wx.setStorage({key: "allRaiders",data: [...raiders]})
-        // 攻略最多只有2篇
-        if( raiders.length > 2){
-          raiders = raiders.slice(0, 2)
-        }
-        /**
-         * 1. ctype不准  不是不准，是文章的ctype应该是2
-         * 2. remove_aids数据不全
-         * 3. 单品无price过滤掉
-         *    price: 'N/A'
-         */
-        // 单品至少有2篇
-        // 不足2篇，remove_aids来补
-        if( goods.length < 2 ){
-          // 做一下非空判定
-          // 鹏哲说如果全部命中，则remove_aids这个字段就没有值
-          const aids = result.remove_aids || []
-          // console.log(aids);
-          for(let aid of aids){
-            let meta_info = meta_infos[aid]
-            if(!meta_info) continue
-            if(meta_info.ctype === 2){
-              console.log('done');
-              meta_info.price_num = extractPriceFromPriceString(meta_info.price)
-              goods.push(meta_info)
-            }else{
-              console.log('done else');
-            }
-          }
-        }
-        self.setData({raiders, goods, goods_copy: goods})
-        console.log(goods);
-      },
-      fail(result){
-        console.log(`${API.giftq.url}接口错误：`,result);
-      },
-      complete(){
-        wx.hideToast()
       }
-    })
+      this.setData({raiders, goods, goods_copy: goods})
+      console.log(goods);
+    }).catch(result => console.log(`${API.giftq.url}接口错误：`,result))
+
+    // wx.request({
+    //   url: `${API.giftq.url}/${objectToQueryString(queryObject)}`,
+    //   header: header,
+    //   success(result) {
+    //     console.log(`${API.giftq.url}返回的数据：`,result);
+    //     result = result.data
+    //     const meta_infos = result.meta_infos
+    //     console.log(meta_infos);
+    //     // raiders 攻略
+    //     let raiders = []
+    //     // goods 单品
+    //     let goods = []
+    //     const aids = result.aids
+    //     // 编译之后，变为下面这行代码！如果aids是undefined将会抛错！！！！
+    //     // var _iterator2 = aids[Symbol.iterator]()
+    //     // TypeError: Cannot read property 'Symbol(Symbol.iterator)' of undefined
+    //     const reg = /http:\/\/|https:\/\//i
+    //     for(let aid of aids){
+    //       let meta_info = meta_infos[aid]
+    //       if(!meta_info) continue;
+    //       const {ctype, thumb_image_url, cover_image_url} = meta_info
+    //       if( !reg.test(thumb_image_url) ){
+    //         meta_info.thumb_image_url = `http://a.diaox2.com/cms/sites/default/files/${thumb_image_url}`
+    //       }
+    //       if( !reg.test(cover_image_url) ){
+    //         meta_info.cover_image_url = `http://a.diaox2.com/cms/sites/default/files/${cover_image_url}`
+    //       }
+    //       meta_info.aid = aid
+    //       meta_info.title = handleTitle(meta_info.title)
+    //       if(ctype !== 2){
+    //         raiders.push(meta_info)
+    //       }else if(ctype === 2){
+    //         meta_info.price_num = extractPriceFromPriceString(meta_info.price)
+    //         goods.push(meta_info)
+    //       }
+    //     }
+    //
+    //     // 在本地记录下所有攻略，以供查看“全部”
+    //     wx.setStorage({key: "allRaiders",data: [...raiders]})
+    //     // 攻略最多只有2篇
+    //     if( raiders.length > 2){
+    //       raiders = raiders.slice(0, 2)
+    //     }
+    //     /**
+    //      * 1. ctype不准  不是不准，是文章的ctype应该是2
+    //      * 2. remove_aids数据不全
+    //      * 3. 单品无price过滤掉
+    //      *    price: 'N/A'
+    //      */
+    //     // 单品至少有2篇
+    //     // 不足2篇，remove_aids来补
+    //     if( goods.length < 2 ){
+    //       // 做一下非空判定
+    //       // 鹏哲说如果全部命中，则remove_aids这个字段就没有值
+    //       const aids = result.remove_aids || []
+    //       // console.log(aids);
+    //       for(let aid of aids){
+    //         let meta_info = meta_infos[aid]
+    //         if(!meta_info) continue
+    //         if(meta_info.ctype === 2){
+    //           console.log('done');
+    //           meta_info.price_num = extractPriceFromPriceString(meta_info.price)
+    //           goods.push(meta_info)
+    //         }else{
+    //           console.log('done else');
+    //         }
+    //       }
+    //     }
+    //     self.setData({raiders, goods, goods_copy: goods})
+    //     console.log(goods);
+    //   },
+    //   fail(result){
+    //     console.log(`${API.giftq.url}接口错误：`,result);
+    //   },
+    //   complete(){
+    //     wx.hideToast()
+    //   }
+    // })
   }
   /**
    * 组装查询参数，共有3个地方调用

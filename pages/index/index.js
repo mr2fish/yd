@@ -11,10 +11,7 @@ const page = {
   onLoad(){
     // fetch(API.giftDefault.url).then(res => console.log(res)).catch(res => console.log(res))
     wx.showToast({  title: '玩命加载中',icon: 'loading' })
-    fetch({
-      url: API.giftDefault.url,
-      complete(){wx.hideToast()}
-    }).then(result => {
+    fetch(API.giftDefault.url).then(result => {
       console.log(`${API.giftDefault.url}返回的数据：`,result);
       const {aids, meta_infos} = result.data
       const mis = []
