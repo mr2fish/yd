@@ -57,7 +57,8 @@ const page = {
     console.log('getDataFromServer...');
     wx.showToast( { title: '玩命搜索中',icon: 'loading' } )
     return fetch({
-      url: API._giftBrowser.url,
+      // url: API._giftBrowser.url,
+      url: 'https://c.diaox2.com/view/app/gift_browser/latestversion=1234&xxx=yyy',
       // 左小右大
       data:{"read_interval": this.getReadInterval()},
       method:'post'
@@ -102,20 +103,17 @@ const page = {
                       // .opacity(0)
                       .step().export()
     })
-
     const {queue, gotogos} = this.data
     const ret = queue.shift()
     const gotogo = gotogos[++pointer]
     if(!gotogo){
-
-
-
+      //  发送请求
+      
     }else{
       queue.push(gotogo)
       setTimeout(() => {
         this.setData({ queue })
       }, duration)
-
       return ret
     }
   }
