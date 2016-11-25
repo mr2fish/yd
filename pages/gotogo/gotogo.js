@@ -17,7 +17,6 @@ let currentIndex = 0
  *     3.3 飞回的卡片进行数据填充
  */
 // 全局变量 --start
-const queueLength = 2
 // const getDataLength = 10
 // const vendor = {
 //   originDataPool: null,
@@ -27,6 +26,7 @@ const queueLength = 2
 //   startID: 0,
 //   endID: 0
 // }
+const queueLength = 2
 // // 全局变量 --end
 const page = {
   onLoad(){
@@ -38,11 +38,6 @@ const page = {
         .then(this.filter)
         .then(this.createQueue)
         .then(this.render).catch(e => console.log(e))
-    // 处理原始数据
-    // const dataPool = this.handleOriginDataPool(originDataPool)
-    // fetch(API.giftBrowser.url).then(res => {
-    //   console.log(res);
-    // })
   }
 
   ,render(gotogos){
@@ -62,15 +57,6 @@ const page = {
     // TODO
     console.log(likes);
     return gotogos
-  }
-
-  // 补充队列数据
-  ,queueRecruit(){
-    const vendor = this.data.vendor
-    const queue = vendor.queue
-    if( queue.length < queueLength ){
-      const dataPool = vendor.dataPool
-    }
   }
 
   ,getDataFromServer(){
@@ -105,7 +91,7 @@ const page = {
     })
   }
 
-  ,animate(ani={rotate:-20, translateX:-300}){
+  ,animate(ani={rotate:-30, translateX:-400}){
     const cids = this.data.cids
     // 如果到最后，提示用户并返回
     if(currentIndex === cids.length - 1){
@@ -122,18 +108,19 @@ const page = {
     let currentCid = cids[currentIndex++]
     this.setData({
       currentCid,
-      // duration: 410, // 默认是400ms
-      animationData: wx.createAnimation({ timingFunction:'ease' })
-                        .scale3d(1.5,1.5,1).rotate(rotate).translate3d(translateX,0,0).opacity(0).step().export()
+      // 取消 scale 和 opaticy 增加动画流畅性
+      animationData: wx.createAnimation({
+                        timingFunction:'ease',
+                        duration: 380
+                    })
+                        // .scale(1.5, 1.5)
+                        .rotate(rotate)
+                        // .translate3d(translateX,0,0)
+                        .translate(translateX, 50)
+                        // .opacity(0)
+                        .step().export()
       })
-      // setTimeout(() => {
-      //   this.setData({
-      //     currentCid,
-      //     // duration: 410, // 默认是400ms
-      //     animationData: wx.createAnimation({ timingFunction:'ease', duration:16.7 }).opacity(1)
-      //                       .scale3d(1,1,1).rotate(0).translate3d(0,0,0).step().export()
-      //   })
-      // }, 410)
+    
     return this.data.gotogos.filter( gotogo => gotogo.cid === currentCid )[0]
   }
 
@@ -155,7 +142,7 @@ const page = {
 
   ,like(){
     // console.log(this.data.cids);
-    const {cid, title, cover_image_url, price} = this.animate({rotate:20,translateX:300})
+    const {cid, title, cover_image_url, price} = this.animate({rotate:30,translateX:400})
     // 精简要存入本地的对象。只存需要的字段。
     const gotogo = {cid, title, cover_image_url, price}
     let likes = wx.getStorageSync('likes')

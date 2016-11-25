@@ -13,10 +13,10 @@ const page = {
     orderByActionSheetHidden: true,
     // orderBy排序字段
     orderByActionSheetItems: [
-      ORDER_BY.zonghe,
-      ORDER_BY.latest,
-      ORDER_BY.price_up_to_down,
-      ORDER_BY.price_down_to_up
+      ORDER_BY.zonghe, // 综合排序
+      ORDER_BY.latest, // 最新
+      ORDER_BY.price_up_to_down, // 价格从高到低
+      ORDER_BY.price_down_to_up // 价格从低到高
     ],
     // 当前默认是综合排序
     currentPX: 0
