@@ -1,7 +1,6 @@
 import common from '../../common/app'
-import { uniquePush, getLikesFromStorage, setLikesToStorage, removeLikesFromStorate, fetch, getShortCid } from '../../utils/utils'
+import { uniquePush, getLikesFromStorage, setLikesToStorage, removeLikesFromStorate, fetch, getShortCid, extend } from '../../utils/utils'
 import API from '../../common/API'
-let currentIndex = 0
 /**
  * [page description]
  * @type {Object}
@@ -16,22 +15,16 @@ let currentIndex = 0
  *     3.2 飞走之后，偷偷地原路飞回，并把其zindex从1置为0
  *     3.3 飞回的卡片进行数据填充
  */
-// 全局变量 --start
-// const getDataLength = 10
-// const vendor = {
-//   originDataPool: null,
-//   // 把需要做动画的数据放入队列中。以右边作为队头，左边作为队尾
-//   queue: null,
-//   dataPool: null,
-//   startID: 0,
-//   endID: 0
-// }
 const queueLength = 2
+const duration = 380
+// 处理后的数据池指针。每次pointer都指向当前数据。
+let pointer = 1
+let restLength = 50
 // // 全局变量 --end
 const page = {
   onLoad(){
     // 为了防止页面缓存，每次刷新页面之后都会重置currentIndex
-    currentIndex = 0
+    pointer = 1
     // this.renderByDataFromServer()
     // 拿到原始数据，然后过滤，然后生成队列，然后渲染
     this.getDataFromServer()
@@ -39,49 +32,45 @@ const page = {
         .then(this.createQueue)
         .then(this.render).catch(e => console.log(e))
   }
-
-  ,render(gotogos){
+  ,render(queue){
     console.log('render...');
-    this.setData({ gotogos })
+    this.setData({ queue })
   }
-
+  ,getReadInterval(){
+    const read_interval = wx.getStorageSync('read_interval')
+    return read_interval || [0, 0]
+  }
   ,createQueue(gotogos){
     console.log('createQueue...');
-    return gotogos.slice(0, 10)
+    this.setData({ gotogos })
+    const queue = gotogos.slice(0, queueLength)
+    console.log(queue)
+    return queue
   }
-
   ,filter(gotogos){
     console.log('filter...');
-    // throw 'filter error'
     const likes = getLikesFromStorage()
     // TODO
-    console.log(likes);
     return gotogos
   }
-
   ,getDataFromServer(){
     console.log('getDataFromServer...');
     wx.showToast( { title: '玩命搜索中',icon: 'loading' } )
     return fetch({
       url: API._giftBrowser.url,
       // 左小右大
-      data:{"read_interval": [0,0]},
+      data:{"read_interval": this.getReadInterval()},
       method:'post'
     }).then(result => {
       const { errMsg, statusCode, data } = result
       console.log(data);
       if( errMsg === 'request:ok' && statusCode === 200 ) {
         console.log(`${API.giftBrowser.url}接口返回的数据：`, result);
-        const cids = []
-        const likes = getLikesFromStorage()
         const gotogos = data.meta_infos.map(meta_info => {
           const shortId = getShortCid(meta_info.cid);
           meta_info.cid = shortId
-          cids.push(shortId)
           return meta_info
         })
-        console.log(cids);
-        this.setData({ cids })
         return gotogos
       } else {
         console.log(`${API.giftBrowser.url}接口失败：`, result);
@@ -92,36 +81,43 @@ const page = {
   }
 
   ,animate(ani={rotate:-30, translateX:-400}){
-    const cids = this.data.cids
+    // const cids = this.data.cids
     // 如果到最后，提示用户并返回
-    if(currentIndex === cids.length - 1){
-      wx.showToast({title: '已经到最后啦亲~', duration: 1000})
-      return;
-    }
-
+    // if(pointer === cids.length - 1){
+    //   wx.showToast({title: '已经到最后啦亲~', duration: 1000})
+    //   return;
+    // }
     const {rotate, translateX} = ani
-    /**
-     * 创建一个动画实例animation。调用实例的方法来描述动画。最后通过动画实例的export方法
-     * 导出动画数据传递给组件的animation属性
-     * 注意；export方法每次调用后会清理掉之前的动画操作
-     */
-    let currentCid = cids[currentIndex++]
     this.setData({
-      currentCid,
+      // currentCid,
       // 取消 scale 和 opaticy 增加动画流畅性
       animationData: wx.createAnimation({
                         timingFunction:'ease',
-                        duration: 380
+                        duration: duration
                     })
-                        // .scale(1.5, 1.5)
-                        .rotate(rotate)
-                        // .translate3d(translateX,0,0)
-                        .translate(translateX, 50)
-                        // .opacity(0)
-                        .step().export()
-      })
-    
-    return this.data.gotogos.filter( gotogo => gotogo.cid === currentCid )[0]
+                      // .scale(1.5, 1.5)
+                      .rotate(rotate)
+                      // .translate3d(translateX,0,0)
+                      .translate(translateX, 50)
+                      // .opacity(0)
+                      .step().export()
+    })
+
+    const {queue, gotogos} = this.data
+    const ret = queue.shift()
+    const gotogo = gotogos[++pointer]
+    if(!gotogo){
+
+
+
+    }else{
+      queue.push(gotogo)
+      setTimeout(() => {
+        this.setData({ queue })
+      }, duration)
+
+      return ret
+    }
   }
 
   /**
@@ -130,14 +126,14 @@ const page = {
    */
   ,dislike(){
     // console.log(this.data.cids);
-    const cid = this.animate().cid
-    let dontLikes = wx.getStorageSync('dontLikes')
-    if(!dontLikes){
-      dontLikes = [ cid ]
-    }else{
-      uniquePush(dontLikes, cid)
-    }
-    wx.setStorageSync( 'dontLikes', dontLikes )
+    this.animate()
+    // let dontLikes = wx.getStorageSync('dontLikes')
+    // if(!dontLikes){
+    //   dontLikes = [ cid ]
+    // }else{
+    //   uniquePush(dontLikes, cid)
+    // }
+    // wx.setStorageSync( 'dontLikes', dontLikes )
   }
 
   ,like(){
