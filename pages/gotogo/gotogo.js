@@ -1,5 +1,5 @@
 import common from '../../common/app'
-import { uniquePush, getLikesFromStorage, setLikesToStorage, removeLikesFromStorate, fetch, getShortCid, extend } from '../../utils/utils'
+import { uniquePush, getLikesFromStorage, setLikesToStorage, removeLikesFromStorate, fetch, getShortCid, extend, throttle } from '../../utils/utils'
 import API from '../../common/API'
 /**
  * [page description]
@@ -37,8 +37,7 @@ const page = {
     this.setData({ queue })
   }
   ,getReadInterval(){
-    const read_interval = wx.getStorageSync('read_interval')
-    return read_interval || [0, 0]
+    return wx.getStorageSync('read_interval') || [0, 0]
   }
   ,createQueue(gotogos){
     console.log('createQueue...');
@@ -56,28 +55,19 @@ const page = {
   ,getDataFromServer(){
     console.log('getDataFromServer...');
     wx.showToast( { title: '玩命搜索中',icon: 'loading' } )
-    return fetch({
-      // url: API._giftBrowser.url,
-      url: 'https://c.diaox2.com/view/app/gift_browser/latestversion=1234&xxx=yyy',
-      // 左小右大
-      data:{"read_interval": this.getReadInterval()},
-      method:'post'
-    }).then(result => {
+    const [start, end] = this.getReadInterval()
+    const url = `${API.giftBrowser.url}/read_interval[0]=${start}&read_interval[1]=${end}`
+    return fetch(url).then(result => {
       const { errMsg, statusCode, data } = result
-      console.log(data);
-      if( errMsg === 'request:ok' && statusCode === 200 ) {
-        console.log(`${API.giftBrowser.url}接口返回的数据：`, result);
-        const gotogos = data.meta_infos.map(meta_info => {
-          const shortId = getShortCid(meta_info.cid);
-          meta_info.cid = shortId
-          return meta_info
-        })
-        return gotogos
-      } else {
-        console.log(`${API.giftBrowser.url}接口失败：`, result);
-      }
+      // console.log(data);
+      console.log(`${url}接口返回的数据：`, result);
+      const gotogos = data.meta_infos.map(meta_info => {
+        meta_info.cid = getShortCid(meta_info.cid)
+        return meta_info
+      })
+      return gotogos
     }).catch(result => {
-      console.log(`${API.giftBrowser.url}接口错误：`, result);
+      console.log(`${url}接口错误：`, result);
     })
   }
 
@@ -108,7 +98,7 @@ const page = {
     const gotogo = gotogos[++pointer]
     if(!gotogo){
       //  发送请求
-      
+
     }else{
       queue.push(gotogo)
       setTimeout(() => {
@@ -124,7 +114,12 @@ const page = {
    */
   ,dislike(){
     // console.log(this.data.cids);
-    this.animate()
+    // this.animate()
+    throttle({
+      method: this.animate,
+      context: this,
+      interval: duration
+    })
     // let dontLikes = wx.getStorageSync('dontLikes')
     // if(!dontLikes){
     //   dontLikes = [ cid ]
@@ -140,9 +135,9 @@ const page = {
     // 精简要存入本地的对象。只存需要的字段。
     const gotogo = {cid, title, cover_image_url, price}
     let likes = wx.getStorageSync('likes')
-    if(!likes){
+    if( !likes ) {
       likes = [ gotogo ]
-    }else{
+    } else {
       uniquePush(likes, gotogo, 'cid')
     }
     wx.setStorageSync( 'likes', likes )

@@ -7,6 +7,10 @@ const API = new function(){
     giftq: {
       url: `${fetchURL}/giftq`
     }
+    // 礼物搜索接口
+    ,_giftq: {
+      url: `http://s.diaox2.com/ddsearch_dev/giftq`
+    }
     // 获取首页默认（攻略）数据接口 目前无需提供数据
     ,giftDefault: {
       url: `${fetchURL}/gift_default`

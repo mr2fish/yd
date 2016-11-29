@@ -47,8 +47,15 @@ const page = {
     this.renderByDataFromServer(this.packageQueryParam())
   }
   ,renderByDataFromServer(queryObject){
-    fetch(`${API.giftq.url}/${objectToQueryString(queryObject)}`).then(result => {
-      console.log(`${API.giftq.url}返回的数据：`,result);
+    // fetch( {url: 'https://c.diaox2.com/view/app/giftq/query=电脑'} ).then(result => {
+    //   console.log(result);
+    // }).catch(result => console.log(result))
+    const giftq = `${API.giftq.url}/${objectToQueryString(queryObject)}`
+    console.log(giftq);
+    console.log(queryObject);
+    fetch( giftq ).then(result => {
+      // console.log(`${API.giftq.url}返回的数据：`, result);
+      console.log(result);
       result = result.data
       const meta_infos = result.meta_infos
       console.log(meta_infos);
@@ -167,12 +174,14 @@ const page = {
   }
 
   ,onLoad(options) {
-    this.renderByDataFromServer(this.packageQueryParam(options.queryParameter))
+    console.log('giftResult onLoad...');
+    const queryObject = this.packageQueryParam(options.queryParameter)
+    console.log(queryObject);
+    this.renderByDataFromServer(queryObject)
   }
   // 查看全部 start
   ,viewAll(){
     wx.navigateTo({url:'../all/all'})
-
   }
   // 查看全部 end
 
