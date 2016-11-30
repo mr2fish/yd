@@ -19,7 +19,7 @@
     </block>
   </view>
   <view class="operate-area">
-    <view bindtap="like"><image src="icon/like.png"></image></view>
-    <view bindtap="dislike"><image class="dislike" src="icon/dislike.png"></image></view>
+    <view bindtap="dislike"><image src="icon/dislike.png"></image></view>
+    <view bindtap="like"><image  class="dislike" src="icon/like.png"></image></view>
   </view>
 </view>

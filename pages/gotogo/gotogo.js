@@ -1,5 +1,5 @@
 import common from '../../common/app'
-import { uniquePush, getLikesFromStorage, setLikesToStorage, removeLikesFromStorate, fetch, getShortCid, extend, throttle } from '../../utils/utils'
+import { uniquePush, getLikesFromStorage, setLikesToStorage, removeLikesFromStorate, fetch, getShortCid, extend, throttle, isEmptyObject } from '../../utils/utils'
 import API from '../../common/API'
 /**
  * [page description]
@@ -15,59 +15,99 @@ import API from '../../common/API'
  *     3.2 飞走之后，偷偷地原路飞回，并把其zindex从1置为0
  *     3.3 飞回的卡片进行数据填充
  */
-const queueLength = 2
-const duration = 380
+
+// 这个数字需要找到一个平衡点
+// 如果太大的话，切换时会变卡，但是图片是提前加载出来的
+// 如果太小的话，切换时不卡，但是图片可能正在下载...
+const queueLength = 5
+// 动画运动时间
+const duration = 320
 // 处理后的数据池指针。每次pointer都指向当前数据。
-let pointer = 1
-let restLength = 50
+let pointer = queueLength - 1
+let restLength = 10
 // // 全局变量 --end
 const page = {
   onLoad(){
-    // 为了防止页面缓存，每次刷新页面之后都会重置currentIndex
-    pointer = 1
-    // this.renderByDataFromServer()
-    // 拿到原始数据，然后过滤，然后生成队列，然后渲染
-    this.getDataFromServer()
-        .then(this.filter)
-        .then(this.createQueue)
-        .then(this.render).catch(e => console.log(e))
+    this.load()
   }
+
   ,render(queue){
     console.log('render...');
     this.setData({ queue })
   }
-  ,getReadInterval(){
-    return wx.getStorageSync('read_interval') || [0, 0]
+
+  /**
+   * [flag 是否需要处理返回参数]
+   * @type {[Boolean]} 是否需要处理返回的参数
+   */
+  ,getReadInterval(flag = false){
+    // debugger
+    let read_interval = wx.getStorageSync('read_interval')
+    const [start, end]  = read_interval
+    const default_read_interval = [0, 0]
+    if(!read_interval || isEmptyObject(read_interval) ){
+      return default_read_interval
+    }
+    if(flag && (start === 0 || end === 0)){
+      return default_read_interval
+    }
+    return read_interval.sort()
   }
+
+  ,setReadInterval(read_interval = [0, 0]){
+    // const [start, end] = read_interval
+    wx.setStorage({ key: 'read_interval', data: read_interval.sort() })
+  }
+
   ,createQueue(gotogos){
-    console.log('createQueue...');
+
+    const gs = this.data.gotogos
+    if( gs && gs.length > 0 ){
+
+    }
+
     this.setData({ gotogos })
     const queue = gotogos.slice(0, queueLength)
+    console.log('createQueue...');
     console.log(queue)
     return queue
   }
-  ,filter(gotogos){
-    console.log('filter...');
-    const likes = getLikesFromStorage()
-    // TODO
-    return gotogos
-  }
+
+  // ,filter(gotogos){
+  //   console.log('filter...');
+  //   const likes = getLikesFromStorage()
+  //   // TODO
+  //   return gotogos
+  // }
+
   ,getDataFromServer(){
     console.log('getDataFromServer...');
     wx.showToast( { title: '玩命搜索中',icon: 'loading' } )
-    const [start, end] = this.getReadInterval()
+    const [start, end] = this.getReadInterval(true)
     const url = `${API.giftBrowser.url}/read_interval[0]=${start}&read_interval[1]=${end}`
+    const self = this
+    this.setData({loading: true})
     return fetch(url).then(result => {
       const { errMsg, statusCode, data } = result
+      const { meta_infos } = data
       // console.log(data);
       console.log(`${url}接口返回的数据：`, result);
-      const gotogos = data.meta_infos.map(meta_info => {
+      if(!meta_infos || meta_infos.length === 0){
+        return wx.showToast({ title: '暂无数据~'})
+      }
+      const gotogos = meta_infos.map(meta_info => {
         meta_info.cid = getShortCid(meta_info.cid)
         return meta_info
       })
+      this.setData({loading: false})
+      // const [ newStart, newEnd ] = gotogos
+      // console.log(newEnd.gift_id);
+      // // 取数据列表第一个元素为终点
+      // this.setReadInterval([0, newEnd.gift_id])
       return gotogos
     }).catch(result => {
       console.log(`${url}接口错误：`, result);
+      this.setData({loading: false})
     })
   }
 
@@ -89,23 +129,29 @@ const page = {
                       // .scale(1.5, 1.5)
                       .rotate(rotate)
                       // .translate3d(translateX,0,0)
-                      .translate(translateX, 50)
+                      .translateX(translateX)
                       // .opacity(0)
                       .step().export()
     })
     const {queue, gotogos} = this.data
     const ret = queue.shift()
     const gotogo = gotogos[++pointer]
-    if(!gotogo){
-      //  发送请求
+    queue.push(gotogo)
+    setTimeout(() => {
+      this.setData({ queue })
+    }, duration)
+    return ret
+  }
 
-    }else{
-      queue.push(gotogo)
-      setTimeout(() => {
-        this.setData({ queue })
-      }, duration)
-      return ret
-    }
+  ,load(){
+    // 为了防止页面缓存，每次刷新页面之后都会重置currentIndex
+    pointer = queueLength - 1
+    // this.renderByDataFromServer()
+    // 拿到原始数据，然后过滤，然后生成队列，然后渲染
+    this.getDataFromServer()
+        // .then(this.filter)
+        .then(this.createQueue)
+        .then(this.render).catch(e => console.log(e))
   }
 
   /**
@@ -113,34 +159,55 @@ const page = {
    * 防止用户点击过快
    */
   ,dislike(){
+    const loading = this.data.loading
+    if(loading){
+      return console.log('dislike loading是true啦....');
+    }
+
     // console.log(this.data.cids);
-    // this.animate()
-    throttle({
-      method: this.animate,
-      context: this,
-      interval: duration
-    })
-    // let dontLikes = wx.getStorageSync('dontLikes')
-    // if(!dontLikes){
-    //   dontLikes = [ cid ]
-    // }else{
-    //   uniquePush(dontLikes, cid)
-    // }
-    // wx.setStorageSync( 'dontLikes', dontLikes )
+    const gotogo = this.animate()
+    // throttle({
+    //   method: this.animate,
+    //   context: this,
+    //   interval: duration
+    // })
+    const [, end] = this.getReadInterval()
+    this.setReadInterval([gotogo.gift_id, end])
+
+    const len = this.data.gotogos.length
+    if( len - pointer < restLength){
+      this.load()
+    }
+    console.log(len);
+    console.log(pointer);
   }
 
   ,like(){
-    // console.log(this.data.cids);
-    const {cid, title, cover_image_url, price} = this.animate({rotate:30,translateX:400})
+    const loading = this.data.loading
+    if(loading){
+        return console.log('like loading是true啦....');
+    }
+
+    const {cid, title, cover_image_url, price, gift_id} = this.animate({rotate:30,translateX:400})
     // 精简要存入本地的对象。只存需要的字段。
-    const gotogo = {cid, title, cover_image_url, price}
+    const gotogo = {cid, title, cover_image_url, price, gift_id}
     let likes = wx.getStorageSync('likes')
     if( !likes ) {
       likes = [ gotogo ]
     } else {
-      uniquePush(likes, gotogo, 'cid')
+      uniquePush( likes, gotogo, 'cid' )
     }
-    wx.setStorageSync( 'likes', likes )
+    wx.setStorage({ key: 'likes', data: likes })
+    const [, end] = this.getReadInterval()
+    this.setReadInterval([gotogo.gift_id, end])
+
+    const len = this.data.gotogos.length
+    if( len - pointer === restLength){
+      this.load()
+    }
+
+    console.log(len);
+    console.log(pointer);
   }
 }
 

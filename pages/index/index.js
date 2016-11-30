@@ -11,8 +11,9 @@ const page = {
   onLoad(){
     // fetch(API.giftDefault.url).then(res => console.log(res)).catch(res => console.log(res))
     wx.showToast({  title: '玩命加载中',icon: 'loading' })
-    fetch(API.giftDefault.url).then(result => {
-      console.log(`${API.giftDefault.url}返回的数据：`,result);
+    const url = API.giftDefault.url
+    fetch(url).then(result => {
+      console.log(`${url}返回的数据：`,result);
       const {aids, meta_infos} = result.data
       const mis = []
       aids.forEach(id => {
@@ -24,7 +25,7 @@ const page = {
         mis.push(meta_info)
       })
       this.setData({meta_infos: mis})
-    }).catch(result => console.log(`${API.giftDefault.url}接口失败：`,result))
+    }).catch(result => console.log(`${url}接口失败：`,result))
   }
   ,confirm(){
     const query = this.data.query

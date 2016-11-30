@@ -28,14 +28,17 @@
 .article-info {
   /*box-sizing: border-box;
  min-height: 92rpx;*/
+ box-sizing: border-box;
  background-color: #fff;
- padding: 24rpx;
  border-top: 1px rgb(199,199,205) solid;
  font-size: 28rpx;
  color: #333;
+ padding: 24rpx 0;
 }
 
 .article-title {
+  box-sizing: border-box;
+  padding: 0 24rpx;
   max-width: 530rpx;
   display: block;
   overflow: hidden; /*自动隐藏文字*/
@@ -46,6 +49,7 @@
   display: block;
   color:#e60012;
   margin-top: 16rpx;
+  padding-left: 24rpx;
 }
 .operate-area {
   margin:0 auto;
