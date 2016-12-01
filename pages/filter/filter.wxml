@@ -1,9 +1,9 @@
 <view class="container">
   <view class="category-panel">
-      <view class="category-section" wx:for="{{categorys}}" wx:for-item="category" wx:key="allTitle">
+      <view class="category-section" wx:for="{{categorys}}" wx:for-item="category" wx:key="title">
         <view class="icon-left">
           <image src="{{category.icon}}"></image>
-          <view class="vertical-line" wx:if="{{category.allTitle !== '礼物价格'}}"></view>
+          <view class="vertical-line" wx:if="{{category.title !== '价格'}}"></view>
         </view>
         <view class="title-and-list">
           <view class="category-title">

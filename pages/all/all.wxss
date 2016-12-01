@@ -3,7 +3,7 @@
 }
 
 /* 上部横条结构卡片 */
-.up-list{
+.up-list {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -14,11 +14,11 @@
   background-color: #fff;
 }
 
-.up-list-item navigator{
+.up-list-item navigator {
   padding: 15px 15px 0 15px;
 }
 
-.item-desc-container{
+.item-desc-container {
   -webkit-box-flex: 1;
       -ms-flex: 1;
           flex: 1;
@@ -29,12 +29,12 @@
   padding-bottom: 15px;
 }
 
-.item-img{
-  width: 120px;
-  height: 80px;
+.item-img {
+  width: 160rpx;
+  height: 160rpx;
 }
 
-.info-view{
+.info-view {
   -webkit-box-flex: 1;
       -ms-flex: 1;
           flex: 1;
@@ -43,12 +43,12 @@
   color:#999;
 }
 
-.title{
-  font-size:14px;
-  line-height: 1.45;
-  max-height: 41px;
+.title {
+  font-size:28rpx;
+  /*line-height: 1.45;*/
+  height: 126rpx;
   color:#080808;
-  margin-bottom: 10px;
+  /*margin-bottom: 10px;*/
   word-break: break-all;
   overflow: hidden;
   display: -webkit-box;
@@ -57,7 +57,7 @@
   -webkit-line-clamp: 2;
 }
 
-.title, .price{
+.title, .price {
     -webkit-box-flex:1;
         -ms-flex:1;
             flex:1;
@@ -67,11 +67,13 @@
 }
 
 .target-word{
-  margin-top: 10px;
+  margin-top: 6rpx;
 }
+
 .keyword{
   color: #ff685c;
 }
+
 .other-word{
   margin-left: 6px;
   color:#999;

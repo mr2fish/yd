@@ -24,7 +24,7 @@ const queueLength = 5
 const duration = 320
 // 处理后的数据池指针。每次pointer都指向当前数据。
 let pointer = queueLength - 1
-let restLength = 10
+let restLength = queueLength
 // // 全局变量 --end
 const page = {
   onLoad(){
@@ -60,12 +60,6 @@ const page = {
   }
 
   ,createQueue(gotogos){
-
-    const gs = this.data.gotogos
-    if( gs && gs.length > 0 ){
-
-    }
-
     this.setData({ gotogos })
     const queue = gotogos.slice(0, queueLength)
     console.log('createQueue...');
@@ -82,10 +76,9 @@ const page = {
 
   ,getDataFromServer(){
     console.log('getDataFromServer...');
-    wx.showToast( { title: '玩命搜索中',icon: 'loading' } )
+    wx.showToast( { title: '玩命加载中',icon: 'loading' } )
     const [start, end] = this.getReadInterval(true)
     const url = `${API.giftBrowser.url}/read_interval[0]=${start}&read_interval[1]=${end}`
-    const self = this
     this.setData({loading: true})
     return fetch(url).then(result => {
       const { errMsg, statusCode, data } = result
@@ -100,10 +93,6 @@ const page = {
         return meta_info
       })
       this.setData({loading: false})
-      // const [ newStart, newEnd ] = gotogos
-      // console.log(newEnd.gift_id);
-      // // 取数据列表第一个元素为终点
-      // this.setReadInterval([0, newEnd.gift_id])
       return gotogos
     }).catch(result => {
       console.log(`${url}接口错误：`, result);
@@ -120,6 +109,7 @@ const page = {
     // }
     const {rotate, translateX} = ani
     this.setData({
+      loading: true,
       // currentCid,
       // 取消 scale 和 opaticy 增加动画流畅性
       animationData: wx.createAnimation({
@@ -138,7 +128,7 @@ const page = {
     const gotogo = gotogos[++pointer]
     queue.push(gotogo)
     setTimeout(() => {
-      this.setData({ queue })
+      this.setData({ queue, loading: false })
     }, duration)
     return ret
   }
@@ -154,38 +144,40 @@ const page = {
         .then(this.render).catch(e => console.log(e))
   }
 
+  ,shouldLoad(){
+    console.log(this.data.gotogos.length);
+    console.log(pointer);
+    return this.data.gotogos.length - pointer <= restLength
+  }
+
   /**
    * 喜欢和不喜欢需要做一下函数节流。
    * 防止用户点击过快
    */
   ,dislike(){
+
     const loading = this.data.loading
     if(loading){
       return console.log('dislike loading是true啦....');
     }
 
-    // console.log(this.data.cids);
-    const gotogo = this.animate()
-    // throttle({
-    //   method: this.animate,
-    //   context: this,
-    //   interval: duration
-    // })
-    const [, end] = this.getReadInterval()
-    this.setReadInterval([gotogo.gift_id, end])
-
-    const len = this.data.gotogos.length
-    if( len - pointer < restLength){
+    if( this.shouldLoad() ){
       this.load()
     }
-    console.log(len);
-    console.log(pointer);
+
+    const gotogo = this.animate()
+    const [, end] = this.getReadInterval()
+    this.setReadInterval([gotogo.gift_id, end])
   }
 
   ,like(){
     const loading = this.data.loading
     if(loading){
         return console.log('like loading是true啦....');
+    }
+
+    if( this.shouldLoad() ){
+      this.load()
     }
 
     const {cid, title, cover_image_url, price, gift_id} = this.animate({rotate:30,translateX:400})
@@ -201,13 +193,8 @@ const page = {
     const [, end] = this.getReadInterval()
     this.setReadInterval([gotogo.gift_id, end])
 
-    const len = this.data.gotogos.length
-    if( len - pointer === restLength){
-      this.load()
-    }
 
-    console.log(len);
-    console.log(pointer);
+
   }
 }
 

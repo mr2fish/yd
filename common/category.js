@@ -28,7 +28,7 @@ const categorys = {
     icon:`${iconPath}/gifts.png`,
     title: '品类',
     // allTitle: '送礼品类',
-    items: [defaultItem, "家具家装","生活日用","家用电器","办公用品","时尚悦己","个护化妆","科技数码","运动健康","吃喝旅行","母婴玩具","汽车户外"],
+    items: [defaultItem, "家具家装","生活日用","家用电器","办公用品","时尚悦己","个护化妆","科技数码","运动健康","母婴玩具","汽车户外"],
     selectedIndex: 0 // 默认选中defaultItem即“不限”
   },
   price: {

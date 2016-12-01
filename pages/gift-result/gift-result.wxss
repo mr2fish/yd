@@ -4,12 +4,9 @@
  2. 不认属性选择符
  3. 不认相邻兄弟选择符
 */
-
 .search-box{
   padding-top: 38.647rpx;
 }
-
-
 /* 顶部tab */
 .category-tabs {
   padding-top: 10rpx;
@@ -154,7 +151,7 @@
 }
 
 .item-img{
-  width: 240rpx;
+  width: 160rpx;
   height: 160rpx;
 }
 
@@ -237,38 +234,50 @@
 }
 
 .image-container{
+  /*box-sizing: border-box;*/
   background-color: #eee;
   border:1px rgb(221,221,221) solid;
-  width: 330rpx;
-  height: 330rpx;
+  width: 312rpx;
+  height: 312rpx;
+  /*设计图给的边距很奇怪，一点儿也不协调，也不好看，没有强迫症的人看到都受不了*/
+  /*padding: 32rpx 4rpx 36rpx 14rpx;*/
+  padding: 14rpx;
+  background-color: #fff;
 }
 
 .image-container image{
   /* 注意这个。终于解决了在小程序中图片尺寸的问题了*/
-  width: 330rpx;
-  height: 330rpx;
+  width: 312rpx;
+  height: 312rpx;
 }
 
 .info-container{
-  padding:16rpx;
+  padding:0 0 16rpx 0;
   color:#080808;
   background-color: #fff;
   font-size: 28rpx;
 
   overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+  /*white-space: nowrap;
+  text-overflow: ellipsis;*/
 }
 
 .info-container .price{
   color:#f14538;
-  margin-top: 16rpx;
+  margin-top: 14rpx;
   line-height: 1;
 }
 
 .info-container .info{
-  margin-top: 16rpx;
-  line-height: 1;
+  margin-top: 14rpx;
+  /*line-height: 1;*/
+  height: 76rpx;
+  word-break: break-all;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-box-pack: start;
+  -webkit-line-clamp: 2;
 }
 
 .selected {
@@ -281,4 +290,14 @@
   position: absolute;
   right: 18rpx;
   content:'√';
+}
+
+.show{
+  /*display: block;*/
+  height: auto;
+}
+
+.hide{
+  /*display: none;*/
+  height: 0;
 }

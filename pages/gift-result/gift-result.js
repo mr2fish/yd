@@ -1,9 +1,14 @@
 import common from '../../common/app'
-import { handleTitle, extractPriceFromPriceString, objectToQueryString, isNullObject, type } from '../../utils/utils'
+import { handleTitle, extractPriceFromPriceString, objectToQueryString, isNullObject, type, fetch } from '../../utils/utils'
 import API from '../../common/API'
 import category, { defaultItem, ORDER_BY } from '../../common/category'
 const keys = Object.keys(category)
 const categorys = keys.map(item => category[item])
+
+console.log("category:", category);
+console.log("keys:", keys);
+console.log("categorys:", categorys);
+
 const page = {
   data: {
     categorys,
@@ -50,20 +55,18 @@ const page = {
     // fetch( {url: 'https://c.diaox2.com/view/app/giftq/query=电脑'} ).then(result => {
     //   console.log(result);
     // }).catch(result => console.log(result))
-    const giftq = `${API.giftq.url}/${objectToQueryString(queryObject)}`
-    console.log(giftq);
-    console.log(queryObject);
-    fetch( giftq ).then(result => {
-      // console.log(`${API.giftq.url}返回的数据：`, result);
-      console.log(result);
+    const url = `${API.giftq.url}/${objectToQueryString(queryObject)}`
+    fetch( url ).then(result => {
+      console.log(`${url}返回的数据：`, result);
+      // console.log(result);
       result = result.data
-      const meta_infos = result.meta_infos
-      console.log(meta_infos);
+      const {meta_infos, aids} = result
+      // console.log(meta_infos);
+      // console.log(aids);
       // raiders 攻略
       let raiders = []
       // goods 单品
       let goods = []
-      const aids = result.aids
       // 编译之后，变为下面这行代码！如果aids是undefined将会抛错！！！！
       // var _iterator2 = aids[Symbol.iterator]()
       // TypeError: Cannot read property 'Symbol(Symbol.iterator)' of undefined
@@ -72,21 +75,34 @@ const page = {
       for(let aid of aids){
         let meta_info = meta_infos[aid]
         if(!meta_info) continue;
-        const {ctype, thumb_image_url, cover_image_url} = meta_info
-        if( !reg.test(thumb_image_url) ){
+        const {ctype, thumb_image_url} = meta_info
+
+        if( thumb_image_url && !reg.test(thumb_image_url) ){
           meta_info.thumb_image_url = `${prefix}/${thumb_image_url}`
         }
-        if( !reg.test(cover_image_url) ){
-          meta_info.cover_image_url = `${prefix}/${cover_image_url}`
-        }
+
         meta_info.aid = aid
-        meta_info.title = handleTitle(meta_info.title)
-        if(ctype !== 2){
-          raiders.push(meta_info)
-        }else if(ctype === 2){
+        meta_info.title = handleTitle(meta_info.title || meta_info.format_title)
+
+        if( ctype == void 0 ){
+          // console.log('SKU数据：', meta_info);
+          meta_info.price_num = extractPriceFromPriceString(meta_info.price)
+          const [pic] = meta_info.pics
+          meta_info.thumb_image_url = pic.url
+          goods.push(meta_info)
+        }else if(  ctype === 2 ){
           meta_info.price_num = extractPriceFromPriceString(meta_info.price)
           goods.push(meta_info)
         }
+         else if(ctype !== 2 && ctype !== 3) // 过滤掉专刊数据（ctype === 3）
+        {
+          const rendered_keywords = meta_info.rendered_keywords
+          if(rendered_keywords){
+            meta_info.rendered_keywords  = rendered_keywords.map(keywords => keywords[0])
+          }
+          raiders.push(meta_info)
+        }
+
       }
 
       // 在本地记录下所有攻略，以供查看“全部”
@@ -95,6 +111,7 @@ const page = {
       if( raiders.length > 2){
         raiders = raiders.slice(0, 2)
       }
+      // console.log('攻略数据：', raiders);
       /**
        * 1. ctype不准  不是不准，是文章的ctype应该是2
        * 2. remove_aids数据不全
@@ -120,8 +137,9 @@ const page = {
           }
         }
       }
+      // console.log('单品数据：', goods);
       this.setData({raiders, goods, goods_copy: goods})
-      console.log(goods);
+      // console.log(goods);
     }).catch(result => console.log(`${API.giftq.url}接口错误：`,result))
   }
   /**
@@ -135,7 +153,7 @@ const page = {
    *   3. 根据参数发送请求，并调用 renderByDataFromServer 函数
    */
   ,packageQueryParam(queryParameter){
-    console.log(queryParameter);
+    // console.log(queryParameter);
     // 取出上游页面传递过来的数据
     // 从首页传过来的数据
     // or 从礼物筛选页传过来的数据
@@ -174,9 +192,10 @@ const page = {
   }
 
   ,onLoad(options) {
-    console.log('giftResult onLoad...');
+
+    wx.showToast({ title: '玩命搜索中',icon: 'loading',duration: 10000 })
     const queryObject = this.packageQueryParam(options.queryParameter)
-    console.log(queryObject);
+    // console.log(queryObject);
     this.renderByDataFromServer(queryObject)
   }
   // 查看全部 start
@@ -202,24 +221,43 @@ const page = {
     this.orderByHideActiveSheet()
   }
   // 排序相关 end
+
   // 顶部tap操作 start
   ,switchSelectCond(e) {
     const item = e.target.dataset.item
     const index = keys.indexOf(item)
+    console.log(item, index);
     if (item) {
-      this.showActionSheet(category[item])
+      const cat = category[item];
+      console.log(cat);
+      // debugger
+      this.showActionSheet(cat)
       this.setData({currentIndex:index})
     }
   }
-  ,showActionSheet(category = {}) {
-    this.setData({category, actionSheetHidden: false})
+
+  ,showActionSheet(cat = {}) {
+    this.setData({category: cat, actionSheetHidden: false})
+    // this.setData({
+    //   animationData: wx.createAnimation({
+    //       timingFunction:'ease'
+    //   }).height(100).step().export()
+    // })
   }
+
   ,hideActiveSheet() {
     this.setData({actionSheetHidden: true,currentIndex: -1})
+    // this.setData({
+    //   animationData: wx.createAnimation({
+    //       timingFunction:'ease'
+    //   }).height(0).step().export()
+    // })
   }
+
   ,actionSheetChange() {
     this.hideActiveSheet()
   }
+
   // 顶部tap操作 end
   ,bindChange(e) {
     const query = e.detail.value
@@ -235,8 +273,8 @@ const page = {
     let currentPX = this.data.currentPX
     // 根据选取的item确定下次的排序规则
     let nextPX = this.data.orderByActionSheetItems.indexOf(value)
-    // 如果本次排序规则和下次排序规则一致，则关掉ActiveSheet，直接返回
-    if( currentPX === nextPX) return this.orderByHideActiveSheet();
+    // 如果本次排序规则和下次排序规则一致，则关掉ActiveSheet，直接返回即可
+    if( currentPX === nextPX ) return this.orderByHideActiveSheet();
     switch(value){
       case ORDER_BY.zonghe:
         this.orderByZonghe()
@@ -261,10 +299,10 @@ const page = {
   ,orderByLatest(){
     this.setData({goods: this.data.goods.sort((prev, next) => next.latest_version - prev.latest_version)})
   }
-  ,orderByPrice(dir='up_to_down'){
-    dir === 'down_to_up'?
-     this.setData({goods: this.data.goods.sort((prev, next) => prev.price_num - next.price_num)}):
-     this.setData({goods: this.data.goods.sort((prev, next) => next.price_num - prev.price_num)})
+  ,orderByPrice(seq = 'up_to_down'){
+    seq === 'up_to_down'?
+     this.setData({goods: this.data.goods.sort((prev, next) => next.price_num - prev.price_num)}):
+     this.setData({goods: this.data.goods.sort((prev, next) => prev.price_num - next.price_num)})
   }
 }
 Object.assign(page, common)

@@ -153,14 +153,19 @@
 }
 
 .title{
+  overflow:hidden;
   font-size:28rpx;
-  line-height: 1;
-  max-height: 82rpx;
+  /*line-height: 1;*/
+  height: 76rpx;
   color:#080808;
   margin-bottom: 12rpx;
-  overflow:hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-box-pack: start;
+  -webkit-line-clamp: 2;
+  /*overflow:hidden;
   text-overflow:ellipsis;
-  white-space:nowrap;
+  white-space:nowrap;*/
 }
 
 .content{

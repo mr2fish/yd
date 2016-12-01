@@ -3,7 +3,7 @@ import API from '../../common/API'
 import { fetch } from '../../utils/utils'
 const page = {
   onLoad(options) {
-    wx.showToast({title: '玩命加载中',icon: 'loading'})
+    wx.showToast({ title: '玩命加载中',icon: 'loading',duration: 10000 })
     // SKU售卖链接各个常见电商的log
     fetch(`${API.getFullSku.url}/${options.sid || 1124}.html`).then(result => {
       const {errMsg, statusCode, data} = result

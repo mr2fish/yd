@@ -30,7 +30,7 @@ const page = {
   ,confirm(){
     const query = this.data.query
     // if(!query){return wx.showModal({content: '您还没有填写任何礼物～',showCancel: false})}
-    wx.navigateTo({url:`../giftResult/giftResult?queryParameter=${JSON.stringify({query})}`})
+    wx.navigateTo({url:`../gift-result/gift-result?queryParameter=${JSON.stringify({query})}`})
   }
 
   ,bindChange(e) {

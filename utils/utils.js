@@ -48,80 +48,53 @@ export function fetch(options) {
           wx.hideToast()
         }
       })
-      console.log(options);
+      // console.log(options);
       wx.request(options)
     } catch (e) {
       reject(e)
     }
   })
 }
-export function throttle(method, context, interval) {
-  // 参数的长度
-  const argLen = arguments.length;
-  // 第一次是否延迟（true:延迟ms毫秒再执行，false:马上执行），默认值false
-  let firstDelay = false,
-    // 参数数组中的第一个元素
-    arg,
-    // 本函数（throttle）执行的次数
-    count,
-    startTime,
-    endTime;
+export function throttle(func, wait, options) {
+  var timeout, context, args, result;
+  var previous = 0;
+  if (!options) options = {};
 
-  //开始组装参数
-  if (argLen === 0 || argLen > 3) {
-    return;
-  } else if (argLen === 1) {
-    arg = arguments[0];
-    method = arg.method;
-    context = arg.context || this;
-    interval = arg.interval;
-    if (typeof firstDelay === "boolean") {
-      firstDelay = arg.firstDelay;
-    }
-  } else if (argLen === 2) {
-    interval = context;
+  var later = function() {
+    previous = options.leading === false ? 0 : Date.now();
+    timeout = null;
+    result = func.apply(context, args);
+    if (!timeout) context = args = null;
+  };
+
+  var throttled = function() {
+    var now = Date.now();
+    if (!previous && options.leading === false) previous = now;
+    var remaining = wait - (now - previous);
     context = this;
-  }
-  // 参数组装完毕
-
-  if (firstDelay) {
-    // 如果第一次需要延迟的话，就不记录次数了，每次都延迟即可
-    clearTimeout(context.__throttle_timer__);
-    context.__throttle_timer__ = setTimeout(function() {
-      method.call(context);
-    }, interval);
-  } else {
-    // 如果第一次不需要延迟的话
-    // 取出回调执行的次数
-    count = context.__throttle_count__;
-    // 如果count为undefined或0，说明回调一次也没有执行过
-    if (!count) {
-      // 初始化 __throttle_count__ 初始值为0
-      count = context.__throttle_count__ = 0;
-      // 记录第一次执行回调的开始时间
-      context.startTime = +new Date();
-      // 马上执行回调
-      method.call(context);
-    }
-    // 如果count的次数大于或等于1的话，说明至少是第二次执行了
-    if (count >= 1) {
-      // 取出上一次执行的时间点
-      startTime = context.startTime;
-      // 记录本次执行的时间点
-      endTime = +new Date();
-      // 把本次执行的时间点记录到startEnd，为下一次执行时所用
-      context.startTime = endTime;
-      // 间隔时间大于指定的时间，才执行回调
-      if (endTime - startTime > interval) {
-        method.call(context);
+    args = arguments;
+    if (remaining <= 0 || remaining > wait) {
+      if (timeout) {
+        clearTimeout(timeout);
+        timeout = null;
       }
+      previous = now;
+      result = func.apply(context, args);
+      if (!timeout) context = args = null;
+    } else if (!timeout && options.trailing !== false) {
+      timeout = setTimeout(later, remaining);
     }
-    // 执行次数加1
-    context.__throttle_count__++;
+    return result;
+  };
 
-  }
+  throttled.cancel = function() {
+    clearTimeout(timeout);
+    previous = 0;
+    timeout = context = args = null;
+  };
 
-}
+  return throttled;
+};
 // 根据传入的价格字符串提取价格 '约￥180.23元' -> 180.23
 export function extractPriceFromPriceString(priceString) {
   let ret = 0
@@ -344,6 +317,8 @@ export function copy(obj) {
 export function handleTitle(title = []) {
   if (Array.isArray(title)) {
     return title.join('')
+  }else if(type(title) === 'string'){
+    return title.toString()
   }
   return ''
 }

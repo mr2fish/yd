@@ -6,11 +6,12 @@ const page = {
     wx.getStorage({
       key:'allRaiders',
       success(result){
-        console.log('获取本地存储allRaiders的数据：',result)
+        console.log('获取本地存储allRaiders的数据：', result)
+        console.log(result.data);
         self.setData({ articles:result.data })
       },
       fail(result){
-        console.log('获取本地存储allRaiders错误：',result)
+        console.log('获取本地存储allRaiders错误：', result)
       }
     })
   }
