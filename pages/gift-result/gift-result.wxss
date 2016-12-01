@@ -4,6 +4,10 @@
  2. 不认属性选择符
  3. 不认相邻兄弟选择符
 */
+.container{
+  /* container是scroll-view时，需要设置height否则事件是不触发的 */
+  height: 100%;
+}
 .search-box{
   padding-top: 38.647rpx;
 }

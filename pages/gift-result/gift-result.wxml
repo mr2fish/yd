@@ -10,19 +10,20 @@
 </view> -->
 
 
-<view class="container">
+<scroll-view
+  class="container"
+  scroll-y="true"
+  bindscrolltolower="scrolltolower"
+  lower-threshold="50" bindscroll="scroll">
 
     <view class="search-box">
      <input class="search-input" placeholder="搜索你想要的礼物" placeholder-class="placeholder-style" bindchange="bindChange" value="{{query}}"/>
-     <view class="search-btn">
-       <icon type="search" bindtap="search" size="18"/>
-     </view>
+     <view class="search-btn"><icon type="search" bindtap="search" size="18"/></view>
     </view>
 
     <view class="category-tabs">
       <view class="tab" wx:for="{{categorys}}" wx:key="name" wx:for-item="category">
         <view class="tab-title {{currentIndex === index ? 'active':''}}">
-          <!-- <text>{{category.title}}</text> -->
           <text wx:if="{{category.selectedIndex === 0}}" bindtap="switchSelectCond" data-item="{{category.name}}">{{category.title}}</text>
           <text wx:else bindtap="switchSelectCond" data-item="{{category.name}}">{{category.items[category.selectedIndex]}}</text>
           <i class="arrow">▴</i>
@@ -84,7 +85,7 @@
       </block>
     </view>
   </view>
-</view>
+</scroll-view>
 
 
 <!-- <action-sheet hidden="{{actionSheetHidden}}" bindchange="actionSheetChange">

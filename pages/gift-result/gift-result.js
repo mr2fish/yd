@@ -26,6 +26,13 @@ const page = {
     // 当前默认是综合排序
     currentPX: 0
   }
+
+  ,scrolltolower(e){
+    console.log('滚动到底部啦');
+    const goods = this.data.goods
+    console.log(goods);
+  }
+
   ,tapContentChange(item, group){
     outer:
     for(const category of categorys){
@@ -41,6 +48,7 @@ const page = {
     }
     return categorys
   }
+  
   ,bindItemTap(e) {
     const {item, group} = e.target.dataset
     const categorys = this.tapContentChange(item, group)
