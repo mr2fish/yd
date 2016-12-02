@@ -10,6 +10,7 @@ console.log("keys:", keys);
 console.log("categorys:", categorys);
 
 const page = {
+  
   data: {
     categorys,
     // 控制顶部调出来的actionSheet显示隐藏
@@ -48,7 +49,7 @@ const page = {
     }
     return categorys
   }
-  
+
   ,bindItemTap(e) {
     const {item, group} = e.target.dataset
     const categorys = this.tapContentChange(item, group)
