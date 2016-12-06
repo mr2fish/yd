@@ -2,21 +2,14 @@ import common from '../../common/app'
 import { handleTitle, extractPriceFromPriceString, objectToQueryString, isNullObject, type, fetch } from '../../utils/utils'
 import API from '../../common/API'
 import category, { defaultItem, ORDER_BY } from '../../common/category'
-const keys = Object.keys(category)
-const categorys = keys.map(item => category[item])
-
+// const keys = Object.keys(category)
+const categorys = Object.keys(category).map(item => category[item])
 console.log("category:", category);
-console.log("keys:", keys);
+console.log("keys:", Object.keys(category));
 console.log("categorys:", categorys);
-
 const page = {
-
   data: {
     categorys,
-    // 控制顶部调出来的actionSheet显示隐藏
-    actionSheetHidden: true,
-    // 控制orderBy调出来的actionSheet显示隐藏
-    orderByActionSheetHidden: true,
     // orderBy排序字段
     orderByActionSheetItems: [
       ORDER_BY.zonghe, // 综合排序
@@ -27,37 +20,24 @@ const page = {
     // 当前默认是综合排序
     currentPX: 0
   }
+   //搜索框输入事件监听 -start
+  ,bindChange(e) {
+    const query = e.detail.value
+    if(query && query.trim()){
+      this.setData({query})
+    }else{
+      this.setData({query:''})
+    }
+  }
+   //搜索框输入事件监听 -end
 
+   // 滚动到底部事件监听 -start
   ,scrolltolower(e){
     console.log('滚动到底部啦');
     const goods = this.data.goods
     console.log(goods);
   }
-
-  ,tapContentChange(item, group){
-    outer:
-    for(const category of categorys){
-      let {items, name} = category
-      if( name === group ){
-        for(let i = 0, len = items.length; i < len; ++i){
-          if(items[i] === item){
-            category.selectedIndex = i
-            break outer;
-          }
-        }
-      }
-    }
-    return categorys
-  }
-
-  ,bindItemTap(e) {
-    const {item, group} = e.target.dataset
-    const categorys = this.tapContentChange(item, group)
-    this.setData({ categorys })
-    this.hideActiveSheet()
-    this.renderByDataFromServer(this.packageQueryParam())
-  }
-
+  // 滚动到底部事件监听 -end
   ,search(){
     this.renderByDataFromServer(this.packageQueryParam())
   }
@@ -67,14 +47,16 @@ const page = {
     //   console.log(result);
     // }).catch(result => console.log(result))
     const url = `${API.giftq.url}/${objectToQueryString(queryObject)}`
-    fetch( url ).then(result => {
+    this.setData({loading: true})
+    fetch( {
+      url,
+      complete:() => {
+        this.setData({loading: false})
+      }}).then(result => {
       console.log(`${url}返回的数据：`, result);
       // console.log(result);
       result = result.data
       const aids = result.aids
-      // console.log(aids);
-      // console.log(meta_infos);
-      // console.log(aids);
       // raiders 攻略
       let raiders = []
       // goods 单品
@@ -88,8 +70,6 @@ const page = {
       for(let each of aids){
         const [ aid, type ] = each
         const meta_info = result[`meta_infos_${type}`][aid]
-        // let meta_info = meta_infos[aid]
-        // if(!meta_info) continue;
         const {ctype, thumb_image_url} = meta_info
 
         if( thumb_image_url && !reg.test(thumb_image_url) ){
@@ -206,11 +186,8 @@ const page = {
   }
 
   ,onLoad(options) {
-
     wx.showToast({ title: '玩命搜索中',icon: 'loading',duration: 10000 })
-    const queryObject = this.packageQueryParam(options.queryParameter)
-    // console.log(queryObject);
-    this.renderByDataFromServer(queryObject)
+    this.renderByDataFromServer(this.packageQueryParam(options.queryParameter))
   }
   // 查看全部 start
   ,viewAll(){
@@ -218,79 +195,64 @@ const page = {
   }
   // 查看全部 end
 
+  // 顶部tap操作 --start
+  ,switchSelectCond(e) {
+    const loading = this.data.loading
+    console.log(loading);
+    if(loading) return;
+    const group = e.target.dataset.group
+    const cat = category[group]
+    const itemList = cat.items
+    wx.showActionSheet({
+      itemList: itemList,
+      success: res => {
+        if (!res.cancel) {
+          cat.selectedIndex = res.tapIndex
+          this.setData({ categorys })
+          this.renderByDataFromServer(this.packageQueryParam())
+        }
+      }
+    })
+  }
+
+  ,tapContentChange(item, group){
+    outer:
+    for(const category of categorys){
+      let {items, name} = category
+      if( name === group ){
+        for(let i = 0, len = items.length; i < len; ++i){
+          if(items[i] === item){
+            category.selectedIndex = i
+            break outer;
+          }
+        }
+      }
+    }
+    return categorys
+  }
+  // 顶部tap操作 --end
+
   // 排序相关 start
   ,orderBy(){
-    this.orderByShowActionSheet()
+    const itemList = this.data.orderByActionSheetItems
+    wx.showActionSheet({
+        itemList: itemList,
+        success: res => {
+          if (!res.cancel) {
+            this.orderByBindItemTap(itemList[res.tapIndex])
+          }
+        }
+    })
   }
 
-  ,orderByShowActionSheet(){
-    this.setData({orderByActionSheetHidden: false})
-  }
-
-  ,orderByHideActiveSheet(){
-    this.setData({orderByActionSheetHidden: true})
-  }
-
-  ,orderByActionSheetChange() {
-    this.orderByHideActiveSheet()
-  }
-  // 排序相关 end
-
-  // 顶部tap操作 start
-  ,switchSelectCond(e) {
-    const item = e.target.dataset.item
-    const index = keys.indexOf(item)
-    console.log(item, index);
-    if (item) {
-      const cat = category[item];
-      console.log(cat);
-      // debugger
-      this.showActionSheet(cat)
-      this.setData({currentIndex:index})
-    }
-  }
-
-  ,showActionSheet(cat = {}) {
-    this.setData({category: cat, actionSheetHidden: false})
-    // this.setData({
-    //   animationData: wx.createAnimation({
-    //       timingFunction:'ease'
-    //   }).height(100).step().export()
-    // })
-  }
-
-  ,hideActiveSheet() {
-    this.setData({actionSheetHidden: true,currentIndex: -1})
-    // this.setData({
-    //   animationData: wx.createAnimation({
-    //       timingFunction:'ease'
-    //   }).height(0).step().export()
-    // })
-  }
-
-  ,actionSheetChange() {
-    this.hideActiveSheet()
-  }
-
-  // 顶部tap操作 end
-  ,bindChange(e) {
-    const query = e.detail.value
-    if(query && query.trim()){
-      this.setData({query})
-    }else{
-      this.setData({query:''})
-    }
-  }
-
-  ,orderByBindItemTap(e){
-    const value = e.target.dataset.item
+  ,orderByBindItemTap(item){
     // 取出当前的排序规则
     let currentPX = this.data.currentPX
     // 根据选取的item确定下次的排序规则
-    let nextPX = this.data.orderByActionSheetItems.indexOf(value)
+    let nextPX = this.data.orderByActionSheetItems.indexOf(item)
     // 如果本次排序规则和下次排序规则一致，则关掉ActiveSheet，直接返回即可
     if( currentPX === nextPX ) return this.orderByHideActiveSheet();
-    switch(value){
+    switch(item){
       case ORDER_BY.zonghe:
         this.orderByZonghe()
       break
@@ -305,20 +267,23 @@ const page = {
       break;
     }
     this.setData({currentPX: nextPX})
-    this.orderByHideActiveSheet()
   }
+
   ,orderByZonghe(){
     // 把最初的综合排序记住，直接恢复即可
     this.setData({goods: this.data.goods_copy})
   }
+
   ,orderByLatest(){
     this.setData({goods: this.data.goods.sort((prev, next) => next.latest_version - prev.latest_version)})
   }
+
   ,orderByPrice(seq = 'up_to_down'){
     seq === 'up_to_down'?
      this.setData({goods: this.data.goods.sort((prev, next) => next.price_num - prev.price_num)}):
      this.setData({goods: this.data.goods.sort((prev, next) => prev.price_num - next.price_num)})
   }
 }
+// 排序相关 end
 Object.assign(page, common)
 Page(page)
