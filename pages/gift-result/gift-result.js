@@ -10,7 +10,7 @@ console.log("keys:", keys);
 console.log("categorys:", categorys);
 
 const page = {
-  
+
   data: {
     categorys,
     // 控制顶部调出来的actionSheet显示隐藏
@@ -57,9 +57,11 @@ const page = {
     this.hideActiveSheet()
     this.renderByDataFromServer(this.packageQueryParam())
   }
+
   ,search(){
     this.renderByDataFromServer(this.packageQueryParam())
   }
+
   ,renderByDataFromServer(queryObject){
     // fetch( {url: 'https://c.diaox2.com/view/app/giftq/query=电脑'} ).then(result => {
     //   console.log(result);
@@ -69,7 +71,8 @@ const page = {
       console.log(`${url}返回的数据：`, result);
       // console.log(result);
       result = result.data
-      const {meta_infos, aids} = result
+      const aids = result.aids
+      // console.log(aids);
       // console.log(meta_infos);
       // console.log(aids);
       // raiders 攻略
@@ -81,9 +84,12 @@ const page = {
       // TypeError: Cannot read property 'Symbol(Symbol.iterator)' of undefined
       const reg = /http:\/\/|https:\/\//i
       const prefix = 'http://a.diaox2.com/cms/sites/default/files'
-      for(let aid of aids){
-        let meta_info = meta_infos[aid]
-        if(!meta_info) continue;
+
+      for(let each of aids){
+        const [ aid, type ] = each
+        const meta_info = result[`meta_infos_${type}`][aid]
+        // let meta_info = meta_infos[aid]
+        // if(!meta_info) continue;
         const {ctype, thumb_image_url} = meta_info
 
         if( thumb_image_url && !reg.test(thumb_image_url) ){
@@ -96,7 +102,7 @@ const page = {
         if( ctype == void 0 ){
           // console.log('SKU数据：', meta_info);
           meta_info.price_num = extractPriceFromPriceString(meta_info.price)
-          const [pic] = meta_info.pics
+          const [ pic ] = meta_info.pics
           meta_info.thumb_image_url = pic.url
           goods.push(meta_info)
         }else if(  ctype === 2 ){
@@ -134,9 +140,11 @@ const page = {
         // 鹏哲说如果全部命中，则remove_aids这个字段就没有值
         const aids = result.remove_aids || []
         // console.log(aids);
-        for(let aid of aids){
-          let meta_info = meta_infos[aid]
-          if(!meta_info) continue
+        for(let each of aids){
+          const [ aid, type ] = each
+          const meta_info = result[`meta_infos_${type}`][aid]
+          // let meta_info = meta_infos[aid]
+          // if(!meta_info) continue
           if(meta_info.ctype === 2){
             console.log('done');
             meta_info.price_num = extractPriceFromPriceString(meta_info.price)
@@ -167,10 +175,7 @@ const page = {
     // 从首页传过来的数据
     // or 从礼物筛选页传过来的数据
     // queryParameterString = '{"relation": "妈妈", "scene": "新年", "category": "生活日用", "price": [500, 800]}'
-    wx.showToast({
-      title: '玩命搜索中',
-      icon: 'loading'
-    })
+    wx.showToast({ title: '玩命搜索中', icon: 'loading',duration: 10000 })
     //  组装参数
     let queryObject = {}
     if(queryParameter){ // 从index和filter过来的请求走第一个
@@ -276,6 +281,7 @@ const page = {
       this.setData({query:''})
     }
   }
+
   ,orderByBindItemTap(e){
     const value = e.target.dataset.item
     // 取出当前的排序规则
