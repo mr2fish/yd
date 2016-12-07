@@ -80,7 +80,7 @@ const page = {
     const [start, end] = this.getReadInterval(true)
     const url = `${API.giftBrowser.url}/read_interval[0]=${start}&read_interval[1]=${end}`
     this.setData({loading: true})
-    return fetch(url).then(result => {
+    return fetch( url ).then(result => {
       const { errMsg, statusCode, data } = result
       const { meta_infos } = data
       // console.log(data);

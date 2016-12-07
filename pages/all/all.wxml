@@ -1,4 +1,8 @@
-<view class="container">
+<scroll-view
+  class="container"
+  scroll-y="true"
+  bindscrolltolower="scrolltolower"
+  lower-threshold="300">
   <view class="up-list">
       <view class="up-list-item" wx:for="{{articles}}" wx:for-item="article" wx:key="aid">
         <navigator url="../article/article?id={{article.aid}}">
@@ -9,12 +13,14 @@
                 <view class="target-word">
                   <block wx:for="{{article.rendered_keywords}}" wx:key="index">
                     <text wx:if="{{index === 0}}" class="keyword">{{ item }}  </text>
-                    <text wx:else>  {{ item }}</text>
+                    <text wx:else>  {{ item }} </text>
                   </block>
                 </view>
               </view>
            </view>
          </navigator>
      </view>
+     <view class="loading-container"><view class="loading  {{done ? 'hide' : ''}}"></view><text class="{{done ? '' : 'hide'}}">已经到底啦~</text>
+     </view>
   </view>
-</view>
+</scroll-view>
