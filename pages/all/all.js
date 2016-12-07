@@ -1,13 +1,16 @@
 import common from '../../common/app'
 import category from '../../common/category'
-let pageLength = 20
-let start = 0
+const loadingLength = 20
+const loadingStart = 0
+
+let pageLength = loadingLength
+let start = loadingStart
 const page = {
   onLoad(options) {
     // 那次重启页面都重置初始条件，否则在手机上会缓存这两个变量的值
     // 下次进来时，会以上次设置的值作为初始值
-    pageLength = 20
-    start = 0
+    pageLength = loadingLength
+    start = loadingStart
     wx.getStorage({
       key:'allRaiders',
       success: (result) => {
@@ -29,10 +32,14 @@ const page = {
    const alreadyDisplayArticles = this.data.articles || []
    const shouldLoadArticles = allArticles.slice(start, end)
    const articles = alreadyDisplayArticles.concat(shouldLoadArticles)
+   console.log("articles.length:",articles.length);
+   console.log("allArticles.length:",allArticles.length);
    if(articles.length === allArticles.length){
      setTimeout(() => {
        this.setData({ done: true })
      }, 120)
+   }else{
+     this.setData({ done: false })
    }
    this.setData({ articles })
    this.allArticles = allArticles

@@ -7,8 +7,12 @@ const categorys = Object.keys(category).map(item => category[item])
 console.log("category:", category);
 console.log("keys:", Object.keys(category));
 console.log("categorys:", categorys);
-let pageLength = 20
-let start = 0
+
+const loadingLength = 20
+const loadingStart = 0
+
+let pageLength = loadingLength
+let start = loadingStart
 const page = {
   data: {
     categorys,
@@ -23,8 +27,8 @@ const page = {
     currentPX: 0
   }
   ,onLoad(options) {
-    pageLength = 20
-    start = 0
+    pageLength = loadingLength
+    start = loadingStart
     wx.showToast({ title: '玩命搜索中',icon: 'loading',duration: 10000 })
     this.renderByDataFromServer(this.packageQueryParam(options.queryParameter))
   }
@@ -32,14 +36,26 @@ const page = {
    ,scrolltolower(){
      this.loadNewPage()
    }
-   ,loadNewPage(goods = this.goods){
+   ,loadNewPage(goods = this.goods, isOrderBy = false){
      if(!goods || goods.length === 0 ) return;
      const alreadyDisplay = this.data.goods || []
+     //  如果是在 orderBy* 方法中调用的
+     //  需要重置所有的条件
+     if(isOrderBy){
+       alreadyDisplay.length = 0 // 清空已渲染数据，从新build数据并渲染
+       this.setData({ goods: [] })
+       pageLength = loadingLength
+       start = loadingStart
+     }
      const metas = alreadyDisplay.concat(goods.slice(start, start + pageLength))
      if(metas.length === goods.length){
+      //  当数据已经ready，但是页面还没有渲染出来
+      //  就会马上出现“已经到底啦~”，为了防止这种情况，需要异步地设置 done 为 true
        setTimeout(() => {
          this.setData({ done: true })
        }, 120)
+     }else{
+       this.setData({ done: false })
      }
      this.setData({ goods: metas })
      this.goods = goods
@@ -134,7 +150,6 @@ const page = {
           // let meta_info = meta_infos[aid]
           // if(!meta_info) continue
           if(meta_info.ctype === 2){
-            console.log('done');
             meta_info.price_num = extractPriceFromPriceString(meta_info.price)
             goods.push(meta_info)
           }else{
@@ -277,17 +292,23 @@ const page = {
 
   ,orderByZonghe(){
     // 把最初的综合排序记住，直接恢复即可
-    this.setData({goods: this.data.goods_copy})
+    // this.setData({goods: this.data.goods_copy})
+    this.loadNewPage(this.data.goods_copy, true)
   }
 
   ,orderByLatest(){
-    this.setData({goods: this.data.goods.sort((prev, next) => next.latest_version - prev.latest_version)})
+    const goods = [...this.data.goods_copy]
+    this.loadNewPage(goods.sort((prev, next) => next.latest_version - prev.latest_version), true)
+    // this.setData({goods: this.data.goods.sort((prev, next) => next.latest_version - prev.latest_version)})
   }
 
   ,orderByPrice(seq = 'up_to_down'){
+    const goods = [...this.data.goods_copy]
     seq === 'up_to_down'?
-     this.setData({goods: this.data.goods.sort((prev, next) => next.price_num - prev.price_num)}):
-     this.setData({goods: this.data.goods.sort((prev, next) => prev.price_num - next.price_num)})
+     this.loadNewPage( goods.sort((prev, next) => next.price_num - prev.price_num), true):
+     this.loadNewPage( goods.sort((prev, next) => prev.price_num - next.price_num), true)
+    //  this.setData({goods: this.data.goods.sort((prev, next) => next.price_num - prev.price_num)}):
+    //  this.setData({goods: this.data.goods.sort((prev, next) => prev.price_num - next.price_num)})
   }
   //搜索框输入事件监听 -start
  ,bindChange(e) {
