@@ -1,5 +1,9 @@
 <!--index.wxml-->
-<view class="container">
+<scroll-view
+  class="container"
+  scroll-y="true"
+  bindscrolltolower="scrolltolower"
+  lower-threshold="300">
   <view class="search-box">
    <view class="bg-image"></view>
    <input class="search-input" placeholder="搜索你想要的礼物" placeholder-class="placeholder-style" bindchange="bindChange"/>
@@ -39,6 +43,7 @@
         <view class="up-list-item">
           <navigator url="../article/article?id={{meta_info.nid}}">
              <view class="item-desc-container">
+                <!-- <text>{{index}}</text> -->
                 <image class="item-img" src="{{meta_info.thumb_image_url}}"></image>
                 <view class="info-view">
                   <text class="title">{{meta_info.title}}</text>
@@ -58,6 +63,10 @@
            </navigator>
        </view>
       </block>
+      <view class="loading-container"><view class="loading  {{done ? 'hide' : ''}}"></view><text class="{{done ? '' : 'hide'}}">只有这些啦~</text></view>
     </view>
   </view>
-</view>
+  <view>
+    
+  </view>
+</scroll-view>

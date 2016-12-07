@@ -7,6 +7,7 @@
       <view class="up-list-item" wx:for="{{articles}}" wx:for-item="article" wx:key="aid">
         <navigator url="../article/article?id={{article.aid}}">
            <view class="item-desc-container">
+              <!-- <text>{{index}}</text> -->
               <image class="item-img" src="{{article.thumb_image_url}}"></image>
               <view class="info-view">
                 <text class="title">{{article.title}}</text>
@@ -20,7 +21,6 @@
            </view>
          </navigator>
      </view>
-     <view class="loading-container"><view class="loading  {{done ? 'hide' : ''}}"></view><text class="{{done ? '' : 'hide'}}">已经到底啦~</text>
-     </view>
+     <view class="loading-container"><view class="loading  {{done ? 'hide' : ''}}"></view><text class="{{done ? '' : 'hide'}}">只有这些啦~</text></view>
   </view>
 </scroll-view>

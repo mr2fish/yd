@@ -24,17 +24,19 @@ const page = {
   }
   // 滚动到底部事件监听 -start
  ,loadNewPage(allArticles = this.allArticles){
-   console.log("25,", allArticles);
+   console.log("27", allArticles);
    if(!allArticles || allArticles.length === 0 ) return;
    const end = start + pageLength
-   console.log('28', end);
+   console.log('30', end);
    const alreadyDisplayArticles = this.data.articles || []
-   console.log('30', alreadyDisplayArticles);
+   console.log('32', alreadyDisplayArticles);
    const shouldLoadArticles = allArticles.slice(start, end)
-   console.log('32', shouldLoadArticles);
-   if(!shouldLoadArticles || shouldLoadArticles.length === 0) this.setData({ done: true });
+   console.log('34', shouldLoadArticles);
    const articles = alreadyDisplayArticles.concat(shouldLoadArticles)
-   console.log('35', shouldLoadArticles);
+   console.log('37', articles);
+   if(articles.length === allArticles.length){
+     this.setData({ done: true })
+   }
    this.setData({ articles })
    this.allArticles = allArticles
    start += pageLength
