@@ -157,9 +157,9 @@ const page = {
           }
         }
       }
-      this.loadNewPage( goods )
+      this.loadNewPage( goods , true)
       // console.log('单品数据：', goods);
-      this.setData({raiders, goods_copy: goods})
+      this.setData({raiders, goods_copy: goods, currentPX: 0})
       // console.log(goods);
     }).catch(result => console.log(`${API.giftq.url}接口错误：`,result))
   }

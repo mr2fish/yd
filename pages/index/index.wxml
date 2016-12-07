@@ -22,12 +22,12 @@
             <text>礼物挑选器</text>
         </view>
       </navigator>
-      <navigator url="../filter/filter" hover-class="navigator-hover">
+      <!-- <navigator url="../filter/filter" hover-class="navigator-hover">
         <view class="function">
             <image src="icon/secretary.png"></image>
             <text>有调小秘书</text>
         </view>
-     </navigator>
+     </navigator> -->
      <navigator url="../gotogo/gotogo" hover-class="navigator-hover">
         <view class="function no-border">
             <image src="icon/gotogo.png" style="width:88rpx;height:60rpx;"></image>

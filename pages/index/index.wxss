@@ -64,7 +64,7 @@
 .function-list navigator{
   padding:50rpx 0;
   display: inline-block;
-  width: 33.333333%;
+  width: 50%;
 }
 
 .function{
