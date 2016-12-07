@@ -98,11 +98,6 @@ image{
 
 
 /* scoll 懒加载 */
-.container{
-  /* container是scroll-view时，需要设置height否则事件是不触发的 */
-  height: 100%;
-}
-
 .hide{
   display: none;
 }
@@ -131,6 +126,14 @@ image{
 }
 @-webkit-keyframes loading{from{-webkit-transform:rotate(0);} to{-webkit-transform:rotate(359deg);}}
 @keyframes loading{from{transform:rotate(0);} to{transform:rotate(359deg);}}
+
+.to-top{
+  position: fixed;
+  bottom: 10rpx;
+  right: 10rpx;
+  width: 60rpx;
+  height: 60rpx;
+}
 
 /*.container {
   display: flex;

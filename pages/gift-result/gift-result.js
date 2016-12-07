@@ -7,6 +7,8 @@ const categorys = Object.keys(category).map(item => category[item])
 console.log("category:", category);
 console.log("keys:", Object.keys(category));
 console.log("categorys:", categorys);
+let pageLength = 20
+let start = 0
 const page = {
   data: {
     categorys,
@@ -20,23 +22,29 @@ const page = {
     // 当前默认是综合排序
     currentPX: 0
   }
-   //搜索框输入事件监听 -start
-  ,bindChange(e) {
-    const query = e.detail.value
-    if(query && query.trim()){
-      this.setData({query})
-    }else{
-      this.setData({query:''})
-    }
+  ,onLoad(options) {
+    pageLength = 20
+    start = 0
+    wx.showToast({ title: '玩命搜索中',icon: 'loading',duration: 10000 })
+    this.renderByDataFromServer(this.packageQueryParam(options.queryParameter))
   }
-   //搜索框输入事件监听 -end
-
    // 滚动到底部事件监听 -start
-  ,scrolltolower(e){
-    console.log('滚动到底部啦');
-    const goods = this.data.goods
-    console.log(goods);
-  }
+   ,scrolltolower(){
+     this.loadNewPage()
+   }
+   ,loadNewPage(goods = this.goods){
+     if(!goods || goods.length === 0 ) return;
+     const alreadyDisplay = this.data.goods || []
+     const metas = alreadyDisplay.concat(goods.slice(start, start + pageLength))
+     if(metas.length === goods.length){
+       setTimeout(() => {
+         this.setData({ done: true })
+       }, 120)
+     }
+     this.setData({ goods: metas })
+     this.goods = goods
+     start += pageLength
+   }
   // 滚动到底部事件监听 -end
   ,search(){
     this.renderByDataFromServer(this.packageQueryParam())
@@ -134,8 +142,9 @@ const page = {
           }
         }
       }
+      this.loadNewPage( goods )
       // console.log('单品数据：', goods);
-      this.setData({raiders, goods, goods_copy: goods})
+      this.setData({raiders, goods_copy: goods})
       // console.log(goods);
     }).catch(result => console.log(`${API.giftq.url}接口错误：`,result))
   }
@@ -185,10 +194,7 @@ const page = {
     return queryObject
   }
 
-  ,onLoad(options) {
-    wx.showToast({ title: '玩命搜索中',icon: 'loading',duration: 10000 })
-    this.renderByDataFromServer(this.packageQueryParam(options.queryParameter))
-  }
+
   // 查看全部 start
   ,viewAll(){
     wx.navigateTo({url:'../all/all'})
@@ -283,6 +289,16 @@ const page = {
      this.setData({goods: this.data.goods.sort((prev, next) => next.price_num - prev.price_num)}):
      this.setData({goods: this.data.goods.sort((prev, next) => prev.price_num - next.price_num)})
   }
+  //搜索框输入事件监听 -start
+ ,bindChange(e) {
+   const query = e.detail.value
+   if(query && query.trim()){
+     this.setData({query})
+   }else{
+     this.setData({query:''})
+   }
+ }
+  //搜索框输入事件监听 -end
 }
 // 排序相关 end
 Object.assign(page, common)

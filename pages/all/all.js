@@ -24,23 +24,19 @@ const page = {
   }
   // 滚动到底部事件监听 -start
  ,loadNewPage(allArticles = this.allArticles){
-   console.log("27", allArticles);
    if(!allArticles || allArticles.length === 0 ) return;
    const end = start + pageLength
-   console.log('30', end);
    const alreadyDisplayArticles = this.data.articles || []
-   console.log('32', alreadyDisplayArticles);
    const shouldLoadArticles = allArticles.slice(start, end)
-   console.log('34', shouldLoadArticles);
    const articles = alreadyDisplayArticles.concat(shouldLoadArticles)
-   console.log('37', articles);
    if(articles.length === allArticles.length){
-     this.setData({ done: true })
+     setTimeout(() => {
+       this.setData({ done: true })
+     }, 120)
    }
    this.setData({ articles })
    this.allArticles = allArticles
    start += pageLength
-   console.log('39', start);
  }
  // 滚动到底部事件监听 -end
 }

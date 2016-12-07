@@ -2,7 +2,8 @@
   class="container"
   scroll-y="true"
   bindscrolltolower="scrolltolower"
-  lower-threshold="300">
+  lower-threshold="300"
+  style="height:100%;">
   <view class="up-list">
       <view class="up-list-item" wx:for="{{articles}}" wx:for-item="article" wx:key="aid">
         <navigator url="../article/article?id={{article.aid}}">
@@ -21,6 +22,7 @@
            </view>
          </navigator>
      </view>
-     <view class="loading-container"><view class="loading  {{done ? 'hide' : ''}}"></view><text class="{{done ? '' : 'hide'}}">只有这些啦~</text></view>
+     <import src="../../common/loading.wxml"/>
+     <template is="loading" data="{{done, text:'只有这些啦~'}}"/>
   </view>
 </scroll-view>

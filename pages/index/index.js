@@ -32,18 +32,19 @@ const page = {
     }).catch(result => console.log(`${url}接口失败：`,result))
   }
   ,scrolltolower(){
+    console.log('滚到底啦...');
     this.loadNewPage()
   }
   ,loadNewPage(meta_infos = this.meta_infos){
-    console.log('loadNewPage exec...');
-    // console.log(meta_infos);
     if(!meta_infos || meta_infos.length === 0 ) return;
     const end = start + pageLength
     const alreadyDisplay = this.data.meta_infos || []
     const shouldLoad = meta_infos.slice(start, end)
     const metas = alreadyDisplay.concat(shouldLoad)
     if(metas.length === meta_infos.length){
-      this.setData({ done: true })
+      setTimeout(() => {
+        this.setData({ done: true })
+      }, 120)
     }
     this.setData({ meta_infos: metas })
     this.meta_infos = meta_infos
@@ -51,7 +52,6 @@ const page = {
   }
   ,confirm(){
     const query = this.data.query
-    // if(!query){return wx.showModal({content: '您还没有填写任何礼物～',showCancel: false})}
     wx.navigateTo({url:`../gift-result/gift-result?queryParameter=${JSON.stringify({query})}`})
   }
 
@@ -59,6 +59,7 @@ const page = {
     const query = (e.detail.value || '').trim()
     if(query){this.setData({query})}
   }
+
 }
 
 Object.assign(page, common)

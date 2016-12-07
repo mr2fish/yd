@@ -1,8 +1,8 @@
 {
   "pages": [
+    "pages/gift-result/gift-result",
     "pages/index/index",
     "pages/all/all",
-    "pages/gift-result/gift-result",
     "pages/article/article",
     "pages/sku/sku",
     "pages/gotogo/gotogo",

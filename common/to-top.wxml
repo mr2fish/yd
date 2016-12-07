@@ -1,0 +1,3 @@
+<template name="to-top">
+  <image class="to-top" src="../../common/icon/to-top.jpg" bindtap="toTop"></image>
+</template>

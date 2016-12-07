@@ -12,7 +12,8 @@
   class="container"
   scroll-y="true"
   bindscrolltolower="scrolltolower"
-  lower-threshold="300">
+  lower-threshold="300"
+  style="height:100%;">
     <view class="search-box">
      <input class="search-input" placeholder="搜索你想要的礼物" placeholder-class="placeholder-style" bindchange="bindChange" value="{{query}}"/>
      <view class="search-btn"><icon type="search" bindtap="search" size="18"/></view>
@@ -90,8 +91,10 @@
           </navigator>
         </view>
       </block>
+      <!-- import写在顶部会出问题。不知道原因。。 -->
+      <import src="../../common/loading.wxml"/>
+      <template is="loading" data="{{done, text:'只有这些啦~'}}"/>
     </view>
-    
   </view>
 </scroll-view>
 
