@@ -27,6 +27,7 @@ const page = {
     currentPX: 0
   }
   ,onLoad(options) {
+    console.log('gift-result onload...');
     pageLength = loadingLength
     start = loadingStart
     wx.showToast({ title: '玩命搜索中',icon: 'loading',duration: 10000 })
@@ -62,9 +63,9 @@ const page = {
      start += pageLength
    }
   // 滚动到底部事件监听 -end
-  ,search(){
-    this.renderByDataFromServer(this.packageQueryParam())
-  }
+  // ,search(){
+  //   this.renderByDataFromServer(this.packageQueryParam())
+  // }
 
   ,renderByDataFromServer(queryObject){
     // fetch( {url: 'https://c.diaox2.com/view/app/giftq/query=电脑'} ).then(result => {
@@ -235,22 +236,22 @@ const page = {
       }
     })
   }
-
-  ,tapContentChange(item, group){
-    outer:
-    for(const category of categorys){
-      let {items, name} = category
-      if( name === group ){
-        for(let i = 0, len = items.length; i < len; ++i){
-          if(items[i] === item){
-            category.selectedIndex = i
-            break outer;
-          }
-        }
-      }
-    }
-    return categorys
-  }
+  
+  // ,tapContentChange(item, group){
+  //   outer:
+  //   for(const category of categorys){
+  //     let {items, name} = category
+  //     if( name === group ){
+  //       for(let i = 0, len = items.length; i < len; ++i){
+  //         if(items[i] === item){
+  //           category.selectedIndex = i
+  //           break outer;
+  //         }
+  //       }
+  //     }
+  //   }
+  //   return categorys
+  // }
   // 顶部tap操作 --end
 
   // 排序相关 start
@@ -311,14 +312,14 @@ const page = {
     //  this.setData({goods: this.data.goods.sort((prev, next) => prev.price_num - next.price_num)})
   }
   //搜索框输入事件监听 -start
- ,bindChange(e) {
-   const query = e.detail.value
-   if(query && query.trim()){
-     this.setData({query})
-   }else{
-     this.setData({query:''})
-   }
- }
+ // ,bindChange(e) {
+ //   const query = e.detail.value
+ //   if(query && query.trim()){
+ //     this.setData({query})
+ //   }else{
+ //     this.setData({query:''})
+ //   }
+ // }
   //搜索框输入事件监听 -end
 }
 // 排序相关 end

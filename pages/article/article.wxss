@@ -1,6 +1,19 @@
 .container{
   background-color: #fff;
 }
+.loading-placeholder{
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  z-index: -1;
+  /*background: url(./icon/loading_channel_pane@2x.png) left top no-repeat;*/
+  /*background-size: 100%;*/
+}
+
+.onload{
+  background-color: #fff;
+}
+
 /* 文章公共头部 */
 .header{
   width: 100%;

@@ -14,10 +14,11 @@
   bindscrolltolower="scrolltolower"
   lower-threshold="300"
   style="height:100%;">
-    <view class="search-box">
+    <!-- <view class="search-box">
      <input class="search-input" placeholder="搜索你想要的礼物" placeholder-class="placeholder-style" bindchange="bindChange" value="{{query}}"/>
      <view class="search-btn"><icon type="search" bindtap="search" size="18"/></view>
-    </view>
+    </view> -->
+    
     <!-- <view class="category-tabs">
       <view class="tab" wx:for="{{categorys}}" wx:key="name" wx:for-item="category">
         <view class="tab-title {{currentIndex === index ? 'active':''}}">

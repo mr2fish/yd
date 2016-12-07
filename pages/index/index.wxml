@@ -1,17 +1,17 @@
-<!--index.wxml-->
+<!-- import写在顶部会出问题。不知道原因。。 -->
 <scroll-view
   class="container"
   scroll-y="true"
   bindscrolltolower="scrolltolower"
   lower-threshold="300"
   style="height:100%;">
-  <view class="search-box">
+  <!-- <view class="search-box">
    <view class="bg-image"></view>
    <input class="search-input" placeholder="搜索你想要的礼物" placeholder-class="placeholder-style" bindchange="bindChange"/>
    <view class="search-btn">
      <icon type="search" bindtap="confirm"/>
    </view>
-  </view>
+  </view> -->
   <!-- 功能区 -->
   <view class="function-area">
     <!-- <view class="tag"><text>挑礼神器</text></view> -->
@@ -64,9 +64,12 @@
            </navigator>
        </view>
       </block>
-      <!-- import写在顶部会出问题。不知道原因。。 -->
-      <import src="../../common/loading.wxml"/>
-      <template is="loading" data="{{done, text:'只有这些啦~'}}"/>
+      <view class="loading-container">
+        <view class="loading  {{done ? 'hide' : ''}}"></view>
+        <text class="{{done ? '' : 'hide'}}">只有这些啦~</text>
+      </view>
+      <!-- <import src="../../common/loading.wxml"/>
+      <template is="loading" data="{{done, text:'只有这些啦~'}}"/> -->
     </view>
   </view>
   <!-- <template is="to-top"/> -->

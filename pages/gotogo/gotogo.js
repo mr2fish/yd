@@ -27,10 +27,23 @@ let pointer = queueLength - 1
 let restLength = queueLength
 // // 全局变量 --end
 const page = {
+
   onLoad(){
+    console.log('gotogo onload...');
     this.load()
   }
 
+  ,viewAll(){
+    const likes = wx.getStorageSync('likes')
+    if(!likes || likes.length === 0){
+      return wx.showModal({
+        content: '暂时还没有喜欢的东西哦~',
+        showCancel: false
+      })
+    }
+    wx.navigateTo({url:`../all/all?key=likes`})
+  }
+  
   ,render(queue){
     console.log('render...');
     this.setData({ queue })
@@ -180,14 +193,14 @@ const page = {
       this.load()
     }
 
-    const {cid, title, cover_image_url, price, gift_id} = this.animate({rotate:30,translateX:400})
+    const {cid, title, thumb_image_url, price, gift_id} = this.animate({rotate:30,translateX:400})
     // 精简要存入本地的对象。只存需要的字段。
-    const gotogo = {cid, title, cover_image_url, price, gift_id}
+    const gotogo = {aid: cid, title, thumb_image_url, price, gift_id}
     let likes = wx.getStorageSync('likes')
     if( !likes ) {
       likes = [ gotogo ]
     } else {
-      uniquePush( likes, gotogo, 'cid' )
+      uniquePush( likes, gotogo, 'aid' )
     }
     wx.setStorage({ key: 'likes', data: likes })
     const [, end] = this.getReadInterval()
