@@ -1,4 +1,4 @@
-<view class="container">
+<scroll-view style="height:100%;" class="container" scroll-y="{{scrollY}}">
     <view class="sku">
       <image src="{{sku.images[0].url}}" style="width:150rpx;height:150rpx;"></image>
       <view class="sku-info">
@@ -30,5 +30,12 @@
         </view>
       </block>
     </view>
+    <view class="copy-container" wx:if="{{show}}">
+      <view class="copy-box">
+        <text class="copy-box-title">点击链接并复制，在浏览器下打开</text>
+        <textarea auto-height maxlength="0" value="{{url || ''}}"/>
+        <view class="copy-box-confirm" bindtap="confirm">确定</view>
+      </view>
+    </view>
     <text class="buy-price-tips">价格仅供参考，实际价格以卖家为准</text>
-</view>
+</scroll-view>

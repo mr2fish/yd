@@ -22,6 +22,5 @@
     <view bindtap="dislike"><image src="icon/dislike.png"></image></view>
     <view bindtap="like"><image  class="dislike" src="icon/like.png"></image></view>
   </view>
-
-  <button type="primary" bindtap="viewAll">查看全部喜欢</button>
+  <text class="view-all" bindtap="viewAll" >查看全部喜欢 ></text>
 </view>

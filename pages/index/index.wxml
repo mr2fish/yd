@@ -64,12 +64,12 @@
            </navigator>
        </view>
       </block>
-      <view class="loading-container">
+      <!-- <view class="loading-container">
         <view class="loading  {{done ? 'hide' : ''}}"></view>
         <text class="{{done ? '' : 'hide'}}">只有这些啦~</text>
-      </view>
-      <!-- <import src="../../common/loading.wxml"/>
-      <template is="loading" data="{{done, text:'只有这些啦~'}}"/> -->
+      </view> -->
+      <import src="../../common/loading.wxml"/>
+      <template is="loading" data="{{done, text:'只有这些啦~'}}"/>
     </view>
   </view>
   <!-- <template is="to-top"/> -->

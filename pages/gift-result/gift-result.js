@@ -1,9 +1,9 @@
 import common from '../../common/app'
-import { handleTitle, extractPriceFromPriceString, objectToQueryString, isNullObject, type, fetch } from '../../utils/utils'
+import { handleTitle, extractPriceFromPriceString, objectToQueryString, convert, type, fetch } from '../../utils/utils'
 import API from '../../common/API'
 import category, { defaultItem, ORDER_BY } from '../../common/category'
-// const keys = Object.keys(category)
-const categorys = Object.keys(category).map(item => category[item])
+const keys = Object.keys(category)
+const categorys = keys.map(item => category[item])
 console.log("category:", category);
 console.log("keys:", Object.keys(category));
 console.log("categorys:", categorys);
@@ -13,6 +13,8 @@ const loadingStart = 0
 
 let pageLength = loadingLength
 let start = loadingStart
+const ACTION_SHEET_LENGTH = 6
+
 const page = {
   data: {
     categorys,
@@ -26,12 +28,70 @@ const page = {
     // 当前默认是综合排序
     currentPX: 0
   }
+  ,handleMoreTap(itemList, group){
+    // this.setData({currentIndex:index})
+    wx.showActionSheet({
+      itemList: itemList,
+      success: res => {
+        if (!res.cancel) {
+          category[group].selectedIndex = ACTION_SHEET_LENGTH - 1 + res.tapIndex
+          this.setData({ categorys })
+          this.renderByDataFromServer(this.packageQueryParam())
+        }
+        this.setData({currentIndex:-1})
+      }
+    })
+  }
+  // 顶部tap操作 --start
+  ,switchSelectCond(e) {
+    if(this.data.loading) return;
+    console.log('switchSelectCond exec...');
+    const group = e.currentTarget.dataset.group
+    const cat = category[group]
+    const index = keys.indexOf(group)
+    this.setData({currentIndex:index})
+    /**
+     * 数据处理，由于小程序action-sheet组件只允许最多有6个item，
+     * 但现在我们的筛选条件基本上都超过6个，所以，需要对数据进行处理
+     */
+    const len = ACTION_SHEET_LENGTH - 1
+    const items = cat.items
+    const categoryObject = convert(items)
+    const itemList = items.slice(0, len)
+    if(cat.name !== 'price'){
+      itemList.push('更多')
+    }
+    wx.showActionSheet({
+      itemList: itemList,
+      success: res => {
+        const tapIndex = res.tapIndex
+        if(tapIndex === len){
+          // 点击了跟多
+          this.handleMoreTap(items.slice(len), group)
+        }else{
+          if (!res.cancel) {
+            cat.selectedIndex = tapIndex
+            this.setData({ categorys })
+            this.renderByDataFromServer(this.packageQueryParam())
+          }
+          this.setData({currentIndex:-1})
+        }
+      }
+    })
+  }
+    // 顶部tap操作 --end
   ,onLoad(options) {
     console.log('gift-result onload...');
     pageLength = loadingLength
     start = loadingStart
     wx.showToast({ title: '玩命搜索中',icon: 'loading',duration: 10000 })
-    this.renderByDataFromServer(this.packageQueryParam(options.queryParameter))
+    try{
+      this.renderByDataFromServer(this.packageQueryParam(options.queryParameter))
+    }catch(e){
+      setTimeout(() => {
+        wx.navigateTo({url:'../error/error'})
+      }, 100)
+    }
   }
    // 滚动到底部事件监听 -start
    ,scrolltolower(){
@@ -68,9 +128,6 @@ const page = {
   // }
 
   ,renderByDataFromServer(queryObject){
-    // fetch( {url: 'https://c.diaox2.com/view/app/giftq/query=电脑'} ).then(result => {
-    //   console.log(result);
-    // }).catch(result => console.log(result))
     const url = `${API.giftq.url}/${objectToQueryString(queryObject)}`
     this.setData({loading: true})
     fetch( {
@@ -86,9 +143,6 @@ const page = {
       let raiders = []
       // goods 单品
       let goods = []
-      // 编译之后，变为下面这行代码！如果aids是undefined将会抛错！！！！
-      // var _iterator2 = aids[Symbol.iterator]()
-      // TypeError: Cannot read property 'Symbol(Symbol.iterator)' of undefined
       const reg = /http:\/\/|https:\/\//i
       const prefix = 'http://a.diaox2.com/cms/sites/default/files'
 
@@ -194,7 +248,7 @@ const page = {
     {
       this.data.categorys.forEach((category) => {
         const selectedItem = category.items[category.selectedIndex]
-        if(selectedItem && selectedItem !== defaultItem){
+        if( selectedItem !== defaultItem ){
           queryObject[category.name] = selectedItem
         }
       })
@@ -206,63 +260,27 @@ const page = {
     }else{
       this.setData({query:''})
     }
-    if(isNullObject(queryObject)) return;
+    // 无需判断是否是空对象
+    // if(isNullObject(queryObject)) return;
     return queryObject
   }
-
-
   // 查看全部 start
   ,viewAll(){
     wx.navigateTo({url:'../all/all'})
   }
   // 查看全部 end
 
-  // 顶部tap操作 --start
-  ,switchSelectCond(e) {
-    const loading = this.data.loading
-    console.log(loading);
-    if(loading) return;
-    const group = e.target.dataset.group
-    const cat = category[group]
-    const itemList = cat.items
-    wx.showActionSheet({
-      itemList: itemList,
-      success: res => {
-        if (!res.cancel) {
-          cat.selectedIndex = res.tapIndex
-          this.setData({ categorys })
-          this.renderByDataFromServer(this.packageQueryParam())
-        }
-      }
-    })
-  }
-  
-  // ,tapContentChange(item, group){
-  //   outer:
-  //   for(const category of categorys){
-  //     let {items, name} = category
-  //     if( name === group ){
-  //       for(let i = 0, len = items.length; i < len; ++i){
-  //         if(items[i] === item){
-  //           category.selectedIndex = i
-  //           break outer;
-  //         }
-  //       }
-  //     }
-  //   }
-  //   return categorys
-  // }
-  // 顶部tap操作 --end
-
   // 排序相关 start
   ,orderBy(){
     const itemList = this.data.orderByActionSheetItems
+    this.setData({order:true})
     wx.showActionSheet({
         itemList: itemList,
         success: res => {
           if (!res.cancel) {
             this.orderByBindItemTap(itemList[res.tapIndex])
           }
+          this.setData({order:false})
         }
     })
   }
@@ -293,14 +311,12 @@ const page = {
 
   ,orderByZonghe(){
     // 把最初的综合排序记住，直接恢复即可
-    // this.setData({goods: this.data.goods_copy})
     this.loadNewPage(this.data.goods_copy, true)
   }
 
   ,orderByLatest(){
     const goods = [...this.data.goods_copy]
     this.loadNewPage(goods.sort((prev, next) => next.latest_version - prev.latest_version), true)
-    // this.setData({goods: this.data.goods.sort((prev, next) => next.latest_version - prev.latest_version)})
   }
 
   ,orderByPrice(seq = 'up_to_down'){
@@ -308,19 +324,7 @@ const page = {
     seq === 'up_to_down'?
      this.loadNewPage( goods.sort((prev, next) => next.price_num - prev.price_num), true):
      this.loadNewPage( goods.sort((prev, next) => prev.price_num - next.price_num), true)
-    //  this.setData({goods: this.data.goods.sort((prev, next) => next.price_num - prev.price_num)}):
-    //  this.setData({goods: this.data.goods.sort((prev, next) => prev.price_num - next.price_num)})
   }
-  //搜索框输入事件监听 -start
- // ,bindChange(e) {
- //   const query = e.detail.value
- //   if(query && query.trim()){
- //     this.setData({query})
- //   }else{
- //     this.setData({query:''})
- //   }
- // }
-  //搜索框输入事件监听 -end
 }
 // 排序相关 end
 Object.assign(page, common)

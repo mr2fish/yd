@@ -18,7 +18,7 @@
      <input class="search-input" placeholder="搜索你想要的礼物" placeholder-class="placeholder-style" bindchange="bindChange" value="{{query}}"/>
      <view class="search-btn"><icon type="search" bindtap="search" size="18"/></view>
     </view> -->
-    
+
     <!-- <view class="category-tabs">
       <view class="tab" wx:for="{{categorys}}" wx:key="name" wx:for-item="category">
         <view class="tab-title {{currentIndex === index ? 'active':''}}">
@@ -32,12 +32,12 @@
     <!-- 相比上面，少了选中红色状态  -->
     <view class="category-tabs">
       <view class="tab" wx:for="{{categorys}}" wx:key="name" wx:for-item="category">
-        <view class="tab-title">
-          <text wx:if="{{category.selectedIndex <= 0}}" bindtap="switchSelectCond" data-group="{{category.name}}">{{category.title}}</text>
-          <text wx:else bindtap="switchSelectCond" data-group="{{category.name}}">{{category.items[category.selectedIndex]}}</text>
-          <i class="arrow">▴</i>
-          <view class="line"></view>
+        <view class="tab-title {{currentIndex === index ? 'active':''}}"  bindtap="switchSelectCond" data-group="{{category.name}}">
+          <text wx:if="{{category.selectedIndex <= 0}}">{{category.title}}</text>
+          <text wx:else>{{category.items[category.selectedIndex]}}</text>
+          <image class="arrow" src="./icon/arrow.png"></image>
         </view>
+        <view class="line"></view>
       </view>
     </view>
 
@@ -46,7 +46,10 @@
       <view class="section-sep first-section-sep clearfix" wx:if="{{raiders.length > 0}}">
         <view class="section-sep-container">
           <text class="pull-left">攻略</text>
-          <text class="pull-right" bindtap="viewAll">全部 <i class="arrow arrow-right arrow-red">▴</i></text>
+          <view class="pull-right" bindtap="viewAll">
+            <text>全部</text>
+            <image src="./icon/arrow-red.png" class="arrow-red"></image>
+          </view>
         </view>
       </view>
 
@@ -74,14 +77,17 @@
     <view class="section-sep clearfix">
       <view class="section-sep-container">
         <text class="pull-left">单品</text>
-        <text class="pull-right" bindtap="orderBy">{{orderByActionSheetItems[currentPX]}} <i class="arrow arrow-down  arrow-red">▴</i></text>
+        <view class="pull-right" bindtap="orderBy">
+          <text>{{orderByActionSheetItems[currentPX]}}</text>
+          <image src="./icon/arrow-red.png" class="arrow-red arrow-red-down {{order?'selected':''}}"></image>
+        </view>
       </view>
     </view>
 
     <view class="down-list">
       <block wx:for="{{goods}}" wx:for-item="good" wx:key="aid">
         <view class="down-list-item">
-          <navigator url="{{good.ctype ? '../article/article?id='+good.aid : '../sku/sku?sid='+good.aid }}">
+          <navigator url="{{good.ctype ? '../article/article?id='+good.aid : '../sku/sku?sid=' + good.aid }}">
             <view class="image-container">
               <image src="{{good.thumb_image_url}}"></image>
             </view>

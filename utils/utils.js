@@ -26,6 +26,7 @@ export function fetch(options) {
               resolve(res)
             } else {
               reject(res)
+              wx.navigateTo({url:'../../pages/error/error'})
             }
           } else {
             resolve(res)
@@ -39,6 +40,7 @@ export function fetch(options) {
           if (isFunction(fail)) {
             fail(res)
           }
+          wx.navigateTo({url:'../../pages/error/error'})
         },
         complete(res) {
           if (isFunction(complete)) {
@@ -221,16 +223,34 @@ export function isEmptyObject(obj) {
   return true;
 }
 
+/**
+ * 如果传入的参数是类数组对象，则转成数据对象
+ * 如果传入的参数是数组，则转换成类数组对象
+ * @param  {[Object]} obj [要转换的数据结构]
+ * @return {[Object]}     [转换之后的数据结构]
+ */
+export function convert(obj){
+  if(Array.isArray(obj)){
+    const ret = {length: obj.length}
+    obj.forEach((item, index) => {
+      ret[index] = item
+    })
+    return ret
+  }else if (isArrayLike(obj)) {
+    return Array.from(obj)
+  }
+  return null
+}
 /*
   判断传入参数是否是ArrayLike对象
 */
 export function isArrayLike(obj) {
   var length = !!obj && "length" in obj && obj.length,
-    type = type(obj);
-  if (type === "function" || isWindow(obj)) {
+    t = type(obj);
+  if ( t === "function" ) {
     return false;
   }
-  return type === "array" || length === 0 || typeof + length === "number" && length > 0 && (length - 1) in obj;
+  return t === "array" || length === 0 || typeof + length === "number" && length > 0 && (length - 1) in obj;
 }
 
 // 是否是数字或数字类型字符串。

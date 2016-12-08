@@ -2,11 +2,14 @@ import common from '../../common/app'
 import API from '../../common/API'
 import { fetch } from '../../utils/utils'
 const page = {
+  data:{
+    scrollY: true
+  },
   onLoad(options) {
     console.log('sku onload...');
     wx.showToast({ title: '玩命加载中',icon: 'loading',duration: 10000 })
     // SKU售卖链接各个常见电商的log
-    fetch(`${API.getFullSku.url}/${options.sid || 1124}.html`).then(result => {
+    fetch(`${API.getFullSku.url}/${options.sid || 1668}.html`).then(result => {
       const {errMsg, statusCode, data} = result
       if(errMsg === 'request:ok' && statusCode === 200){
         console.log(`${API.getFullSku.url}/${options.sid || 1124}.html接口错误：`, result);
@@ -54,12 +57,16 @@ const page = {
   ,buy(event){
     const url = event.target.dataset.url
     if(url){
-      wx.showModal({
-        title: '长按复制下列链接，在浏览器下打开',
-        content: url,
-        showCancel: false
-      })
+      this.setData({url, show: true, scrollY: false})
+      // wx.showModal({
+      //   title: '长按复制，在浏览器下打开',
+      //   content: url,
+      //   showCancel: false
+      // })
     }
+  }
+  ,confirm(){
+    this.setData({show: false,scrollY: true})
   }
 }
 Object.assign(page, common)

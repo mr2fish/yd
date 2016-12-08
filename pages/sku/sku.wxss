@@ -26,6 +26,7 @@
 
 /* 购买区 */
 .buy-method-tips{
+  display: block;
   font-size: 28rpx;
   line-height: 1;
   color: #616368;
@@ -99,4 +100,45 @@
 
 .value{
   flex: 1;
+}
+
+.copy-container{
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  position: fixed;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(1,1,1, .7);
+  color: #999;
+  display: -webkit-flex;
+  display: flex;
+  /*transition: all .2s ease-in;*/
+  /*display: none;*/
+  /*opacity: 0;*/
+  /*visibility: hidden;*/
+}
+.copy-box{
+  background-color: rgb(250,250,252);
+  text-align: center;
+  padding:30rpx;
+}
+
+.copy-box-title{
+  line-height: 1;
+  color:#333;
+  font-size: 34rpx;
+}
+
+.copy-box textarea{
+  /*position: absolute;*/
+  padding:30rpx 0;
+}
+
+.copy-box-confirm{
+  padding-top: 40rpx;
+  color: rgb(61,198, 60);
+  line-height: 1;
+  border-top: 1px rgb(213,213,214) solid;
 }
