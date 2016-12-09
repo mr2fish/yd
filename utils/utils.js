@@ -26,7 +26,9 @@ export function fetch(options) {
               resolve(res)
             } else {
               reject(res)
-              wx.navigateTo({url:'../../pages/error/error'})
+              // setTimeout(() => {
+              //   wx.navigateTo({redirect:true,url:'../../pages/error/error'})
+              // },120)
             }
           } else {
             resolve(res)
@@ -40,7 +42,9 @@ export function fetch(options) {
           if (isFunction(fail)) {
             fail(res)
           }
-          wx.navigateTo({url:'../../pages/error/error'})
+          // setTimeout(() => {
+          //   wx.navigateTo({redirect:true,url:'../../pages/error/error'})
+          // },120)
         },
         complete(res) {
           if (isFunction(complete)) {

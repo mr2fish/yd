@@ -20,7 +20,7 @@ const page = {
       console.log(`${API.getArticle.url}/${options.id || 1211}.html接口错误：`,result);
       this.setData({
         header: {banners: [],title: '有调机器人',  price: {type: 'datetime',value: '-0-0'},  author: {url: 'http://c.diaox2.com/cms/diaodiao/people/robot.jpg',value: '有调机器人'}},
-        contents: [{type: 'p',value: '有调机器人正在写文章...'}]
+        contents: [{type: 'p',value: '发生了错误，我们正在紧张地排查，请您换一篇文章阅读'}]
       })
     })
   }

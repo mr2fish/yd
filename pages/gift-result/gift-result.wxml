@@ -74,7 +74,7 @@
         </block>
      </view>
 
-    <view class="section-sep clearfix">
+    <view class="section-sep clearfix" wx:if="{{ goods_copy.length > 0 }}">
       <view class="section-sep-container">
         <text class="pull-left">单品</text>
         <view class="pull-right" bindtap="orderBy">
@@ -84,7 +84,7 @@
       </view>
     </view>
 
-    <view class="down-list">
+    <view class="down-list" wx:if="{{ goods_copy.length > 0 }}">
       <block wx:for="{{goods}}" wx:for-item="good" wx:key="aid">
         <view class="down-list-item">
           <navigator url="{{good.ctype ? '../article/article?id='+good.aid : '../sku/sku?sid=' + good.aid }}">
@@ -102,6 +102,13 @@
       <import src="../../common/loading.wxml"/>
       <template is="loading" data="{{done, text:'只有这些啦~'}}"/>
     </view>
+  </view>
+  <view  wx:if="{{ goods_copy.length === 0 }}" class="error-cry-container">
+    <image class="error-cry" src="../../common/icon/cry.png"></image>
+    <text class="error-msg">
+      当前条件下，找不到商品
+      换个条件试试
+    </text>
   </view>
 </scroll-view>
 

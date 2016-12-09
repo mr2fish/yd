@@ -8,7 +8,9 @@ const page = {
     })
   }
   ,toIndex(){
-    wx.navigateTo({url:'../index/index'})
+    setTimeout(() => {
+      wx.navigateTo({redirect:true, url:'../index/index'})
+    }, 120)
   }
 }
 

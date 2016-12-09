@@ -297,6 +297,22 @@
   -webkit-line-clamp: 2;
 }
 
+.error-cry-container{
+  width: 100%;
+  text-align: center;
+  margin-top: 240rpx;
+}
+
+.error-cry{
+  width: 160rpx;
+  height: 160rpx;
+  margin:40rpx 0;
+}
+.error-msg{
+  color:#999;
+}
+
+
 /*.selected {
   color:#ef4438;
   position: relative;

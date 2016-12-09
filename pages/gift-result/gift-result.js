@@ -85,13 +85,7 @@ const page = {
     pageLength = loadingLength
     start = loadingStart
     wx.showToast({ title: '玩命搜索中',icon: 'loading',duration: 10000 })
-    try{
-      this.renderByDataFromServer(this.packageQueryParam(options.queryParameter))
-    }catch(e){
-      setTimeout(() => {
-        wx.navigateTo({url:'../error/error'})
-      }, 100)
-    }
+    this.renderByDataFromServer(this.packageQueryParam(options.queryParameter))
   }
    // 滚动到底部事件监听 -start
    ,scrolltolower(){

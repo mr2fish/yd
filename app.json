@@ -2,7 +2,6 @@
   "pages": [
     "pages/index/index",
     "pages/gotogo/gotogo",
-    "pages/error/error",
     "pages/gift-result/gift-result",
     "pages/sku/sku",
     "pages/article/article",
