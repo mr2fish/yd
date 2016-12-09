@@ -1,12 +1,6 @@
-import common from '../../common/app'
+// import common from '../../common/app'
 import API from '../../common/API'
 import { handleTitle, fetch } from '../../utils/utils'
-/*
-  TODO:
-  1. onLoad 为什么不执行？
-     答：因为common.js中已经写了onLoad函数，然后使用Object.assign合并page和common时，common的onLoad给page上的onLoad覆盖了
-  2. 在app.js中ajax回调中把数据挂到app对象上，为什么在其他文件引用不到？
-*/
 const loadingLength = 20
 const loadingStart = 0
 const page = {
@@ -32,6 +26,7 @@ const page = {
       })
       this.loadNewPage(metas)
     }).catch(result => console.log(`${url}接口失败：`,result))
+
   }
   ,scrolltolower(){
     this.loadNewPage()
@@ -71,5 +66,5 @@ const page = {
 
 }
 
-Object.assign(page, common)
+// Object.assign(page, common)
 Page(page)

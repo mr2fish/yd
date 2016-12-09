@@ -2,8 +2,9 @@
  * app.js是小程序的脚本代码。我们可以在这个文件中监听并处理小程序的声明周期函数、声明全局变量
  * 调用MINA提供的丰富API
  */
+// import './utils/polyfill'
 App({
-  onLaunch(){ }
+  // onLaunch(){ }
   // onLaunch() {
     // console.log('onLaunch')
     //调用API从本地缓存中获取数据
