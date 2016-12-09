@@ -8,11 +8,13 @@ const page = {
   onLoad(options) {
     console.log('sku onload...');
     wx.showToast({ title: '玩命加载中',icon: 'loading',duration: 10000 })
+    // const url = `${API.getFullSku.url}/${options.sid || 1668}.html`
+    const url = `${API.getFullSku.url}/${options.sid}.html`
     // SKU售卖链接各个常见电商的log
-    fetch(`${API.getFullSku.url}/${options.sid || 1668}.html`).then(result => {
+    fetch(url).then(result => {
       const {errMsg, statusCode, data} = result
       if(errMsg === 'request:ok' && statusCode === 200){
-        console.log(`${API.getFullSku.url}/${options.sid || 1124}.html接口错误：`, result);
+        console.log(`${url}接口错误：`, result);
         const sku = data.data[0]
         let png = 'default.png'
         let ratio = 2.416
@@ -48,10 +50,10 @@ const page = {
         })
         this.setData({sku})
       }else{
-        console.log(`${API.getFullSku.url}/${options.sid || 1124}.html接口失败：`, result);
+        console.log(`${url}接口失败：`, result);
       }
     }).catch(result => {
-      console.log(`${API.getFullSku.url}/${options.sid || 1124}.html接口错误：`, result);
+      console.log(`${url}接口错误：`, result);
     })
   }
   ,buy(event){
