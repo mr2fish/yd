@@ -75,8 +75,10 @@
 /* 卡片3D叠加效果 */
 
 .article-list{
-  perspective: 800rpx;
-  transform-style: preserve-3d;
+  -webkit-perspective: 800rpx;
+          perspective: 800rpx;
+  -webkit-transform-style: preserve-3d;
+          transform-style: preserve-3d;
 }
 .view-all{
   position: fixed;

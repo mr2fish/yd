@@ -103,9 +103,15 @@ image{
 }
 
 .loading-container{
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
   width: 100%;
   padding:20rpx 0;
   font-size: 24rpx;
@@ -119,13 +125,10 @@ image{
   border-left: 2px red solid;
   border-radius: 50%;
   -webkit-animation:loading .7s linear infinite;
-  -moz-animation:loading .7s linear infinite;
-  -ms-animation:loading .7s linear infinite;
-  -o-animation:loading .7s linear infinite;
   animation:loading .7s linear infinite;
 }
 @-webkit-keyframes loading{from{-webkit-transform:rotate(0);} to{-webkit-transform:rotate(359deg);}}
-@keyframes loading{from{transform:rotate(0);} to{transform:rotate(359deg);}}
+@keyframes loading{from{-webkit-transform:rotate(0);transform:rotate(0);} to{-webkit-transform:rotate(359deg);transform:rotate(359deg);}}
 
 .to-top{
   position: fixed;
