@@ -328,13 +328,13 @@ const page = {
      this.loadNewPage( goods.sort((prev, next) => prev.price_num - next.price_num), true)
   }
 
-  ,onHide(){
-    this.setData({load: false})
-  }
-
-  ,onUnload() {
-    this.setData({load: false})
-  }
+  // ,onHide(){
+  //   this.setData({load: false})
+  // }
+  //
+  // ,onUnload() {
+  //   this.setData({load: false})
+  // }
   // ,onShareAppMessage: function () {
   //   return {
   //     title: '礼物挑选神器 -- 筛选结果',

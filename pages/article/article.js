@@ -30,15 +30,16 @@ const page = {
       wx.hideToast()
       this.setData({load: true})
     })
-  },
-
-  onHide(){
-    this.setData({load: false})
-  },
-
-  onUnload() {
-    this.setData({load: false})
   }
+
+  // ,onHide(){
+  //   this.setData({load: false})
+  // }
+  //
+  // ,onUnload() {
+  //   this.setData({load: false})
+  // }
+
   ,onShareAppMessage: function () {
     return {
       title: this.title,
