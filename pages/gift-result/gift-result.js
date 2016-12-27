@@ -82,9 +82,10 @@ const page = {
     // 顶部tap操作 --end
   ,onLoad(options) {
     console.log('gift-result onload...');
+    wx.showToast({ title: '玩命搜索中',icon: 'loading',duration: 10000 })
+    this.setData({load: false})
     pageLength = loadingLength
     start = loadingStart
-    wx.showToast({ title: '玩命搜索中',icon: 'loading',duration: 10000 })
     this.renderByDataFromServer(this.packageQueryParam(options.queryParameter))
   }
    // 滚动到底部事件监听 -start
@@ -126,6 +127,7 @@ const page = {
     this.setData({loading: true})
     fetch( {url,complete:() => {
         this.setData({loading: false})
+        this.setData({load: true})
       }}).then(result => {
       console.log(`${url}返回的数据：`, result);
       // console.log(result);
@@ -143,7 +145,6 @@ const page = {
         const meta_info = result[`meta_infos_${type}`][aid]
         if(!meta_info) {
           console.log('存在空的meta_info：')
-          console.error(meta_info)
           continue
         }
         const {ctype, thumb_image_url} = meta_info
@@ -325,6 +326,13 @@ const page = {
     seq === 'up_to_down'?
      this.loadNewPage( goods.sort((prev, next) => next.price_num - prev.price_num), true):
      this.loadNewPage( goods.sort((prev, next) => prev.price_num - next.price_num), true)
+  }
+  ,onHide(){
+    this.setData({load: false})
+  }
+
+  ,onUnload() {
+    this.setData({load: false})
   }
 }
 // 排序相关 end

@@ -8,8 +8,14 @@
   </block>
   <view-cancel bindtap="hideActiveSheet">取消</view-cancel>
 </view> -->
+<view class="{{load ? 'load': ''}}">
+  <view class="loading-placeholder">
+    <image src="./icon/placeholder.png"></image>
+  </view>
+</view>
+
 <scroll-view
-  class="container"
+  class="container {{load ? 'container-show': ''}}"
   scroll-y="true"
   bindscrolltolower="scrolltolower"
   lower-threshold="300"
@@ -111,8 +117,6 @@
     </text>
   </view>
 </scroll-view>
-
-
 <!-- <action-sheet hidden="{{actionSheetHidden}}" bindchange="actionSheetChange">
   <block wx:for="{{category.items}}">
     <action-sheet-item bindtap="bindItemTap" data-group="{{category.name}}" data-item="{{item}}" class="{{category.selectedIndex === index ?'selected':''}}">{{item}}</action-sheet-item>

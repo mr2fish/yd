@@ -5,7 +5,7 @@
 */
 /* 容器部分 */
 page {
-  background-color: rgb(240,240,240);
+  background-color: #F0F0F0;
   height: 100%;
   font-size: 32rpx;
   font-family: "Hiragino Sans GB", "Helvetica Neue", Helvetica, "Microsoft Yahei", heiti, Arial, sans-serif;

@@ -1,4 +1,39 @@
 /**index.wxss**/
+.container{
+  z-index: -1;
+  opacity: 0;
+  background-color: transparent;
+  transition: all .2s ease-in;
+}
+
+.loading-placeholder {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+}
+
+.loading-placeholder image{
+  width: 100%;
+  height: 100%;
+}
+
+.container-show {
+  z-index: 1;
+  opacity: 1;
+  /*background-color: rgb(240,240,240);*/
+}
+
+.load{
+  width: 0;
+  height: 0;
+  z-index: -2;
+}
+
+.load .loading-placeholder{
+  width: 0;
+  height: 0;
+}
+
 /*
  1. 不认ID
  2. 不认属性选择符

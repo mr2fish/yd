@@ -1,6 +1,6 @@
 <view class="{{load ? 'load': ''}}">
   <view class="loading-placeholder">
-    <image src="./icon/loading_channel_pane.png"></image>
+    <image src="./icon/placeholder.png"></image>
   </view>
   <view class="container">
     <!-- 文章头 -->
