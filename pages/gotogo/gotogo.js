@@ -43,7 +43,7 @@ const page = {
     }
     wx.navigateTo({url:`../all/all?key=likes`})
   }
-  
+
   ,render(queue){
     console.log('render...');
     this.setData({ queue })
@@ -89,7 +89,7 @@ const page = {
 
   ,getDataFromServer(){
     console.log('getDataFromServer...');
-    wx.showToast( { title: '玩命加载中',icon: 'loading' } )
+    wx.showToast( { title: '玩命加载中',icon: 'loading', duration: 10000 } )
     const [start, end] = this.getReadInterval(true)
     const url = `${API.giftBrowser.url}/read_interval[0]=${start}&read_interval[1]=${end}`
     this.setData({loading: true})
@@ -106,10 +106,12 @@ const page = {
         return meta_info
       })
       this.setData({loading: false})
+      wx.hideToast()
       return gotogos
     }).catch(result => {
       console.log(`${url}接口错误：`, result);
       this.setData({loading: false})
+      wx.hideToast()
     })
   }
 

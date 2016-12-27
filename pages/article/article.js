@@ -5,7 +5,8 @@ const page = {
   onLoad(options){
     this.setData({onload: false})
     console.log('article onload...');
-    wx.showToast({ title: '玩命加载中',icon: 'loading',duration: 10000 })
+    // wx.showToast({ title: '玩命加载中',icon: 'loading',duration: 300 })
+    wx.showToast({  title: '玩命加载中',icon: 'loading', duration: 10000})
     // const url = `${API.getArticle.url}/${options.id || 8108}.html`
     const url = `${API.getArticle.url}/${options.id}.html`
     fetch(url).then(result => {
@@ -17,12 +18,14 @@ const page = {
       } else {
         console.log(`${url}接口失败：`,result);
       }
+      wx.hideToast()
     }).catch(result => {
       console.log(`${url}接口错误：`,result);
       this.setData({
         header: {banners: [],title: '有调机器人',  price: {type: 'datetime',value: '-0-0'},  author: {url: 'http://c.diaox2.com/cms/diaodiao/people/robot.jpg',value: '有调机器人'}},
         contents: [{type: 'p',value: '发生了错误，我们正在紧张地排查，请您换一篇文章阅读'}]
       })
+      wx.hideToast()
     })
   }
 }

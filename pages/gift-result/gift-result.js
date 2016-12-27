@@ -124,9 +124,7 @@ const page = {
   ,renderByDataFromServer(queryObject){
     const url = `${API.giftq.url}/${objectToQueryString(queryObject)}`
     this.setData({loading: true})
-    fetch( {
-      url,
-      complete:() => {
+    fetch( {url,complete:() => {
         this.setData({loading: false})
       }}).then(result => {
       console.log(`${url}返回的数据：`, result);
@@ -143,6 +141,11 @@ const page = {
       for(let each of aids){
         const [ aid, type ] = each
         const meta_info = result[`meta_infos_${type}`][aid]
+        if(!meta_info) {
+          console.log('存在空的meta_info：')
+          console.error(meta_info)
+          continue
+        }
         const {ctype, thumb_image_url} = meta_info
 
         if( thumb_image_url && !reg.test(thumb_image_url) ){
@@ -158,7 +161,7 @@ const page = {
           const [ pic ] = meta_info.pics
           meta_info.thumb_image_url = pic.url
           goods.push(meta_info)
-        }else if(  ctype === 2 ){
+        }else if( ctype === 2 ){
           meta_info.price_num = extractPriceFromPriceString(meta_info.price)
           goods.push(meta_info)
         }
@@ -209,8 +212,12 @@ const page = {
       this.loadNewPage( goods , true)
       // console.log('单品数据：', goods);
       this.setData({raiders, goods_copy: goods, currentPX: 0})
+      wx.hideToast()
       // console.log(goods);
-    }).catch(result => console.log(`${API.giftq.url}接口错误：`,result))
+    }).catch(result => {
+      console.log(`${API.giftq.url}接口错误：`,result)
+      wx.hideToast()
+    })
   }
   /**
    * 组装查询参数，共有3个地方调用

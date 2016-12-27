@@ -52,8 +52,10 @@ const page = {
       }else{
         console.log(`${url}接口失败：`, result);
       }
+      wx.hideToast()
     }).catch(result => {
-      console.log(`${url}接口错误：`, result);
+      console.log(`${url}接口错误：`, result)
+      wx.hideToast()
     })
   }
   ,buy(event){

@@ -5,10 +5,6 @@ const page = {
   data: { categorys }
   ,onLoad(){
     console.log('filter onload...');
-    // 由于gifts是异步挂载到app上的，所以需要间隔查询数据是否ready
-    setInterval(function(){
-      // console.log(app.gifts)
-    },1000)
   }
   ,reset(){this.setData({categorys: categorys.map( category => {category.selectedIndex = 0; return category})})}
   //事件处理函数

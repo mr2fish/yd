@@ -27,8 +27,8 @@ console.log('polyfill exec ....');
   //     // Browser globals (root is window)
   //     root.returnExports = factory();
   // }
-
   factory()
+  
 }(this, function() {
   /**
      * Brings an environment as close to ECMAScript 5 compliance

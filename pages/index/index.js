@@ -11,21 +11,31 @@ const page = {
       start: loadingStart
     })
     // fetch(API.giftDefault.url).then(res => console.log(res)).catch(res => console.log(res))
-    wx.showToast({  title: '玩命加载中',icon: 'loading' })
+    wx.showToast({title: '玩命加载中',icon: 'loading', duration: 10000})
     const url = API.giftDefault.url
     fetch(url).then(result => {
       console.log(`${url}返回的数据：`,result);
       const {aids, meta_infos} = result.data
       const metas = []
       aids.forEach(id => {
+        // 克勒kk：我给父亲送过的礼物 这篇文章就没有id
+        if(!id) return console.error('存在非法的id：', id)
         const meta_info = meta_infos[id]
+        if(!meta_info) return console.error('存在空的meta_info');
+        console.log(meta_info);
+        // 因为小程序没有对应的专刊的展示页，所以过滤掉专刊数据
+        if(meta_info.ctype == 3) return console.log(`主动报错：${url}接口返回的数据包含专刊数据。id是：${id}`)
         if(!meta_info) return console.error(`主动报错：${url}接口返回的数据，aids和meta_infos不是一一对应的关系。id是：${id}`);
         meta_info.title = handleTitle(meta_info.title)
         meta_info.author.pic = `http://c.diaox2.com/cms/diaodiao/${meta_info.author.pic}`
         metas.push(meta_info)
       })
       this.loadNewPage(metas)
-    }).catch(result => console.log(`${url}接口失败：`,result))
+      wx.hideToast()
+    }).catch(result => {
+      console.log(`${url}接口失败：`,result)
+      wx.hideToast()
+    })
 
   }
   ,scrolltolower(){
