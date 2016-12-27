@@ -3,7 +3,7 @@ import API from '../../common/API'
 import { fetch } from '../../utils/utils'
 const page = {
   onLoad(options){
-    this.setData({onload: false})
+    this.setData({load: false})
     console.log('article onload...');
     // wx.showToast({ title: '玩命加载中',icon: 'loading',duration: 300 })
     wx.showToast({  title: '玩命加载中',icon: 'loading', duration: 10000})
@@ -19,6 +19,7 @@ const page = {
         console.log(`${url}接口失败：`,result);
       }
       wx.hideToast()
+      this.setData({load: true})
     }).catch(result => {
       console.log(`${url}接口错误：`,result);
       this.setData({
@@ -26,8 +27,18 @@ const page = {
         contents: [{type: 'p',value: '发生了错误，我们正在紧张地排查，请您换一篇文章阅读'}]
       })
       wx.hideToast()
+      this.setData({load: true})
     })
+  },
+  
+  onHide(){
+    this.setData({load: false})
+  },
+
+  onUnload() {
+    this.setData({load: false})
   }
+
 }
 Object.assign(page, common)
 Page(page)

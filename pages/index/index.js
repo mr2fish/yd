@@ -18,16 +18,20 @@ const page = {
       const {aids, meta_infos} = result.data
       const metas = []
       aids.forEach(id => {
-        // 克勒kk：我给父亲送过的礼物 这篇文章就没有id
-        if(!id) return console.error('存在非法的id：', id)
         const meta_info = meta_infos[id]
-        if(!meta_info) return console.error('存在空的meta_info');
-        console.log(meta_info);
-        // 因为小程序没有对应的专刊的展示页，所以过滤掉专刊数据
-        if(meta_info.ctype == 3) return console.log(`主动报错：${url}接口返回的数据包含专刊数据。id是：${id}`)
         if(!meta_info) return console.error(`主动报错：${url}接口返回的数据，aids和meta_infos不是一一对应的关系。id是：${id}`);
+        // 因为小程序没有对应的专刊的展示页，所以过滤掉专刊数据
+        if(meta_info.ctype == 3) return
+        // 克勒kk：我给父亲送过的礼物(2294) 这篇文章是首页
+        // 返回的meta没有nid这个字段
+        if( !meta_info.nid ){
+          meta_info.nid = id
+        }
         meta_info.title = handleTitle(meta_info.title)
         meta_info.author.pic = `http://c.diaox2.com/cms/diaodiao/${meta_info.author.pic}`
+        if(!/^(http(s)?:)?\/\//i.test(meta_info.thumb_image_url)){
+          meta_info.thumb_image_url = 'http://a.diaox2.com/cms/sites/default/files/' + meta_info.thumb_image_url
+        }
         metas.push(meta_info)
       })
       this.loadNewPage(metas)
@@ -44,8 +48,8 @@ const page = {
   ,loadNewPage(meta_infos = this.data.all_meta_infos){
     if(!meta_infos || meta_infos.length === 0 ) return;
     let {start, pageLength} = this.data
-    console.log(start);
-    console.log(pageLength);
+    // console.log(start);
+    // console.log(pageLength);
     const end = start + pageLength
     // 第一次执行该方法时，this.data.meta_infos 为 undefined
     const alreadyDisplay = this.data.meta_infos || []

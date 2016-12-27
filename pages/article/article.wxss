@@ -1,17 +1,33 @@
 .container{
   background-color: #fff;
+  z-index: -1;
+  opacity: 0;
+  background-color: transparent;
+  transition: all .2s ease-in;
 }
-.loading-placeholder{
+
+.loading-placeholder {
   width: 100%;
   height: 100%;
   position: fixed;
-  z-index: -1;
-  /*background: url(./icon/loading_channel_pane@2x.png) left top no-repeat;*/
-  /*background-size: 100%;*/
 }
 
-.onload{
+.loading-placeholder image{
+  padding:10rpx 24rpx 0;
+  width: 100%;
+  height: 100%;
+}
+
+.load .container {
   background-color: #fff;
+  z-index: 1;
+  opacity: 1;
+}
+
+.load .loading-placeholder {
+  width: 0;
+  height: 0;
+  z-index: -2;
 }
 
 /* 文章公共头部 */
@@ -227,45 +243,6 @@
     content: '';
     content: counter(section) '. ';
 }
-
-/*.ul-li,.ol-li{
-  color: #616368;
-  margin: 19px 12px;
-  font-size: 16px;
-  word-wrap: break-word;
-  position: relative;
-}
-
-.ul-li:before{
-    position: absolute;
-    top: 10px;
-    left: -11px;
-    width: 6px;
-    height: 6px;
-    font-size: 6px;
-    line-height: 6px;
-    border-radius: 50%;
-    background-color: #e60012;
-    content: '';
-}
-
-.ol-li{
-  counter-reset: section;
-}
-
-.ol-li{
-  counter-increment: section;
-}
-.ol-li:before{
-    position: absolute;
-    top: 5px;
-    left: -16px;
-    font-size: 16px;
-    line-height: 1;
-    content: '';
-    content: counter(section) '. ';
-}*/
-
 
 .tips{
   line-height: 1.69;
