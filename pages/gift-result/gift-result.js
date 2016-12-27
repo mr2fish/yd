@@ -327,6 +327,7 @@ const page = {
      this.loadNewPage( goods.sort((prev, next) => next.price_num - prev.price_num), true):
      this.loadNewPage( goods.sort((prev, next) => prev.price_num - next.price_num), true)
   }
+
   ,onHide(){
     this.setData({load: false})
   }
@@ -334,6 +335,12 @@ const page = {
   ,onUnload() {
     this.setData({load: false})
   }
+  // ,onShareAppMessage: function () {
+  //   return {
+  //     title: '礼物挑选神器 -- 筛选结果',
+  //     desc: '找到最好的礼物'
+  //   }
+  // }
 }
 // 排序相关 end
 Object.assign(page, common)

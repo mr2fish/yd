@@ -37,6 +37,12 @@ const page = {
     }
     wx.navigateTo({url:`../gift-result/gift-result?queryParameter=${JSON.stringify(queryParameter)}`})
   }
+  ,onShareAppMessage: function () {
+    return {
+      title: '礼物挑选神器',
+      desc: '找到最好的礼物'
+    }
+  }
 }
 
 Object.assign(page, common)

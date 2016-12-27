@@ -15,6 +15,7 @@ const page = {
         console.log(`${url}接口返回的数据：`,result);
         const {header, contents} = data
         this.setData({header,contents})
+        this.title = header.title
       } else {
         console.log(`${url}接口失败：`,result);
       }
@@ -30,13 +31,19 @@ const page = {
       this.setData({load: true})
     })
   },
-  
+
   onHide(){
     this.setData({load: false})
   },
 
   onUnload() {
     this.setData({load: false})
+  }
+  ,onShareAppMessage: function () {
+    return {
+      title: this.title,
+      desc: '找到最好的礼物'
+    }
   }
 
 }

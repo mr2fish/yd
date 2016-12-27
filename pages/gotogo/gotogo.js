@@ -207,9 +207,12 @@ const page = {
     wx.setStorage({ key: 'likes', data: likes })
     const [, end] = this.getReadInterval()
     this.setReadInterval([gotogo.gift_id, end])
-
-
-
+  }
+  ,onShareAppMessage: function () {
+    return {
+      title: '礼物挑选神器 -- 逛一逛',
+      desc: '找到最好的礼物'
+    }
   }
 }
 

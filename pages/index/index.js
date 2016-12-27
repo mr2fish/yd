@@ -72,6 +72,12 @@ const page = {
     const query = this.data.query
     wx.navigateTo({url:`../gift-result/gift-result?queryParameter=${JSON.stringify({query})}`})
   }
+  ,onShareAppMessage: function () {
+    return {
+      title: '礼物挑选神器',
+      desc: '找到最好的礼物'
+    }
+  }
 
   // ,bindChange(e) {
   //   const query = (e.detail.value || '').trim()
