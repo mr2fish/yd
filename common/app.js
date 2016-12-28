@@ -35,4 +35,5 @@ const common = {
   //   console.log('onUnload');
   // }
 }
-export default common
+// export default common
+module.exports = common

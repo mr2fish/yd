@@ -1,65 +1,59 @@
-import Promise from 'bluebird'
-import {HEADER} from '../common/API'
+// const Promise = require('./bluebird')
+//
+// exports.test1 = function(){
+//   console.log('utils test1.........')
+// }
+//
+// exports.test2 = function(){
+//   console.log('utils test2.........')
+// }
+//
+// exports.test3 = function(){
+//   console.log(Promise);
+// }
+// function test1(){
+//   console.log('utils test1.........')
+// }
+//
+// function test2(){
+//   console.log('utils test2.........')
+// }
+//
+// module.exports = {
+//   test1: test1,
+//   test2: test2
+// }
+
+// import Promise from 'bluebird'
+// import {HEADER} from '../common/API'
+// const Promise = require('./bluebird')
 /**
  * fetch wx.request的promisify封装
  * @param  {[object]} options [req配置]
  * @return {[object]}         [Promise对象]
  */
-export function fetch(options) {
-  return new Promise((resolve, reject) => {
-    if (type(options) === 'string') {
-      options = {
-        url: options
-      }
-    }
-    const {success, fail, complete, header} = options
-    // 如果传入的原始配置没有header，则用默认的替代
-    if (!header || !isPlainObject(header)) {
-      options.header = HEADER
-    }
-    try {
-      options = extend(options, {
-        success(res) {
-          const {errMsg, statusCode} = res
-          if (errMsg && statusCode) {
-            if (errMsg === 'request:ok' && statusCode === 200) {
-              resolve(res)
-            } else {
-              reject(res)
-              // setTimeout(() => {
-              //   wx.navigateTo({redirect:true,url:'../../pages/error/error'})
-              // },120)
-            }
-          } else {
-            resolve(res)
-          }
-          if (isFunction(success)) {
-            success(res)
-          }
-        },
-        fail(res) {
-          reject(res)
-          if (isFunction(fail)) {
-            fail(res)
-          }
-          // setTimeout(() => {
-          //   wx.navigateTo({redirect:true,url:'../../pages/error/error'})
-          // },120)
-        },
-        complete(res) {
-          if (isFunction(complete)) {
-            complete(res)
-          }
-        }
-      })
-      // console.log(options);
-      wx.request(options)
-    } catch (e) {
-      reject(e)
-    }
-  })
-}
-export function throttle(func, wait, options) {
+//  function request(options) {
+//     if(!options) return console.log('发送request，需要指定options')
+//     const header = options.header
+//     // 如果传入的原始配置没有header，则用默认的替代
+//     if (!header || !isPlainObject(header)) {
+//       options.header = {'Content-Type': 'application/json'}
+//     }
+//     const fail = options.fail
+//     if(!isFunction(fail)){
+//       options.fail = function(result){
+//         console.log(`${url}接口失败：`,result)
+//       }
+//     }
+//     try {
+//       wx.request(options)
+//     } catch (e) {
+//       console.log(e);
+//     }
+// }
+// exports.request = request
+
+function throttle(func, wait, options) {
   var timeout, context, args, result;
   var previous = 0;
   if (!options) options = {};
@@ -99,8 +93,9 @@ export function throttle(func, wait, options) {
 
   return throttled;
 };
+exports.throttle = throttle
 // 根据传入的价格字符串提取价格 '约￥180.23元' -> 180.23
-export function extractPriceFromPriceString(priceString) {
+function extractPriceFromPriceString(priceString) {
   let ret = 0
   if (priceString) {
     const priceReg = /\d+(\.\d+)?/
@@ -111,8 +106,9 @@ export function extractPriceFromPriceString(priceString) {
   }
   return Number(ret)
 }
+exports.extractPriceFromPriceString = extractPriceFromPriceString
 // {name:'李彦峰',age:26} -> name=李彦峰&age=26
-export function objectToQueryString(dataObject) {
+ function objectToQueryString(dataObject) {
   if (!dataObject || typeof dataObject !== 'object') {
     return ''
   }
@@ -120,8 +116,9 @@ export function objectToQueryString(dataObject) {
   Object.keys(dataObject).forEach(key => kvArr.push(`${key}=${dataObject[key]}`))
   return kvArr.join('&')
 }
+exports.objectToQueryString = objectToQueryString
 // 对象拷贝（复制）工具方法。类似于jQuery的extend方法
-export function extend(...args) {
+ function extend(...args) {
   let options,
     name,
     src,
@@ -182,11 +179,11 @@ export function extend(...args) {
   // return出去改变过后的对象
   return target;
 }
-
+exports.extend = extend
 /*
   判断传入的参数的类型
 */
-export function type(arg) {
+function type(arg) {
   const t = typeof arg
   return t === 'object'
     ? arg === null
@@ -194,44 +191,44 @@ export function type(arg) {
       : Object.prototype.toString.call(arg).slice(8, -1).toLowerCase()
     : t
 }
-
-export function isNullObject(obj) {
+exports.type = type
+function isNullObject(obj) {
   return obj == null
     ? true
     : isPlainEmptyObject(obj)
       ? true
       : false
 }
-
+exports.isNullObject = isNullObject
 /*
   判断一个对象是否是plain empty object
 */
-export function isPlainEmptyObject(obj) {
+function isPlainEmptyObject(obj) {
   if (!isPlainObject(obj)) {
     return false;
   }
   return isEmptyObject(obj);
 }
-
+exports.isPlainEmptyObject = isPlainEmptyObject
 /*
    判断一个数组和对象是否是empty
    只要传入的obj对象没有emunerable=true的属性，就返回true
 */
-export function isEmptyObject(obj) {
+function isEmptyObject(obj) {
   var name;
   for (name in obj) {
     return false;
   }
   return true;
 }
-
+exports.isEmptyObject = isEmptyObject
 /**
  * 如果传入的参数是类数组对象，则转成数据对象
  * 如果传入的参数是数组，则转换成类数组对象
  * @param  {[Object]} obj [要转换的数据结构]
  * @return {[Object]}     [转换之后的数据结构]
  */
-export function convert(obj){
+function convert(obj){
   if(Array.isArray(obj)){
     const ret = {length: obj.length}
     obj.forEach((item, index) => {
@@ -243,10 +240,11 @@ export function convert(obj){
   }
   return null
 }
+exports.convert = convert
 /*
   判断传入参数是否是ArrayLike对象
 */
-export function isArrayLike(obj) {
+ function isArrayLike(obj) {
   var length = !!obj && "length" in obj && obj.length,
     t = type(obj);
   if ( t === "function" ) {
@@ -254,24 +252,24 @@ export function isArrayLike(obj) {
   }
   return t === "array" || length === 0 || typeof + length === "number" && length > 0 && (length - 1) in obj;
 }
-
+exports.isArrayLike = isArrayLike
 // 是否是数字或数字类型字符串。
 // 123   -> true
 // '123' -> true
-export function isNumeric(obj) {
+function isNumeric(obj) {
   var str = obj && obj.toString();
   return type(obj) !== "array" && (str - parseFloat(str) + 1) >= 0;
 }
-
+exports.isNumeric = isNumeric
 // 判断一个对象是否是函数
-export function isFunction(fn) {
+ function isFunction(fn) {
   return type(fn) === 'function';
 };
-
+exports.isFunction = isFunction
 // 判断是否为普通对象
 // 即简单的字典
 // { id:xx, name:xx } -> true
-export function isPlainObject(obj) {
+function isPlainObject(obj) {
   let key;
   // 过滤非对象和global对象
   // 小程序中可以认为wx就是global
@@ -289,9 +287,9 @@ export function isPlainObject(obj) {
   for (key in obj) {}
   return key === void 0 || hasOwn.call(obj, key);
 }
-
+exports.isPlainObject = isPlainObject
 // 短id转长id
-export function getLongCid(cid) {
+function getLongCid(cid) {
   if (cid == void 0)
     return void 0;
   const C = Math.pow(2, 32);
@@ -300,20 +298,20 @@ export function getLongCid(cid) {
     ? cid
     : (C + 1) * cid;
 }
-
+exports.getLongCid = getLongCid
 // 长id短id
-export function getShortCid(cid) {
+ function getShortCid(cid) {
   if (cid == void 0)
     return void 0;
   const C = Math.pow(2, 32);
-  // 如果cid大于常数，我们认为就是长ID，直接返回即可，否则再进行处理
+  // 如果cid大于常数，我们认为就是长ID，转成短ID，否则直接返回
   return cid > C
     ? cid & 0xffffff
     : cid;
 }
-
+exports.getShortCid = getShortCid
 // ArrayLike转Arr
-export function toArray(arr) {
+function toArray(arr) {
   const ret = []
   if (!arr)
     return ret
@@ -321,22 +319,22 @@ export function toArray(arr) {
     return ret
   return Array.from(arr)
 }
-
+exports.toArray = toArray
 // 简单的深拷贝方法
-export function copy(obj) {
+function copy(obj) {
   if (type(obj) === 'object') {
     return JSON.parse(JSON.stringify(obj))
   } else if (Array.isArray(obj)) {
     return [...obj]
   }
 }
-
+exports.copy = copy
 /**
  *  handleTitle 处理title ['这是标题1', '这是标题2'] -> '这是标题1这是标题2'
  * @param  {Array}  [title=[]] [title数组]
  * @return {[String]}          [处理之后的title字符串]
  */
-export function handleTitle(title = []) {
+function handleTitle(title = []) {
   if (Array.isArray(title)) {
     return title.join('')
   }else if(type(title) === 'string'){
@@ -344,6 +342,7 @@ export function handleTitle(title = []) {
   }
   return ''
 }
+exports.handleTitle = handleTitle
 
 /**
  * [uniquePush 数组唯一推入方法，若将要推入数据的元素已经存在于数组中，则忽略之，否则推入之]
@@ -352,7 +351,7 @@ export function handleTitle(title = []) {
  * @param  {[String]}  attr [如果有值，则用它作为判断是否唯一的标志]
  * @return {[Boolean]}      [元素是否被推入数组]
  */
-export function uniquePush(arr, ele, attr) {
+ function uniquePush(arr, ele, attr) {
   let ret = false
   if (arr && Array.isArray(arr) && ele !== void 0) {
     if (type(attr) === 'string' && type(ele) === 'object') {
@@ -370,10 +369,10 @@ export function uniquePush(arr, ele, attr) {
   }
   return ret
 }
-
+exports.uniquePush = uniquePush
 // 逛一逛页面工具方法与常数 -- start
-export const LIKES_KEY = 'likes'
-export function getLikesFromStorage() {
+const LIKES_KEY  = 'likes'
+function getLikesFromStorage() {
   let likes = wx.getStorageSync(LIKES_KEY)
   // console.log(likes);
   if (!likes || !Array.isArray(likes)) {
@@ -382,7 +381,7 @@ export function getLikesFromStorage() {
   return likes
 }
 
-export function setLikesToStorage(likes, cid) {
+function setLikesToStorage(likes, cid) {
   let ls = getLikesFromStorage()
   uniquePush(ls, cid)
   console.log(ls);
@@ -390,18 +389,19 @@ export function setLikesToStorage(likes, cid) {
   wx.setStorageSync(LIKES_KEY, ls)
 }
 
-export function removeLikesFromStorate() {
+function removeLikesFromStorate() {
   return wx.removeStorageSync(LIKES_KEY)
 }
+
 // 逛一逛页面工具方法与常数 -- start
 
 // 逛一逛页面工具方法与常数 -- start
 const GOTOGOS_KEY = 'gotogos'
-export function getGotogosFromStorage() {
+function getGotogosFromStorage() {
   return wx.getStorageSync(GOTOGOS_KEY)
 }
 
-export function setGotogosToStorage(gotogos, cid) {
+function setGotogosToStorage(gotogos, cid) {
   let ls = getLikesFromStorage()
   uniquePush(ls, cid)
   console.log(ls);
@@ -409,7 +409,15 @@ export function setGotogosToStorage(gotogos, cid) {
   wx.setStorageSync(GOTOGOS_KEY, ls)
 }
 
-export function removeGotogosFromStorate() {
+function removeGotogosFromStorate() {
   return wx.removeStorageSync(GOTOGOS_KEY)
 }
+
+exports.LIKES_KEY = LIKES_KEY;
+exports.getLikesFromStorage = getLikesFromStorage
+exports.setLikesToStorage = setLikesToStorage
+exports.removeLikesFromStorate = removeLikesFromStorate
+exports.setGotogosToStorage = setGotogosToStorage
+exports.removeGotogosFromStorate = removeGotogosFromStorate
+exports.getGotogosFromStorage = getGotogosFromStorage
 // 逛一逛页面工具方法与常数 -- start

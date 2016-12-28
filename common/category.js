@@ -2,7 +2,7 @@
  *  模块单例性
  *   定义好的模块，在其他一个页面
  */
-export const defaultItem = '不限'
+const defaultItem = '不限'
 // 注意：iconPath并不是相对于当前文件的相对目录
 // 而是用到icon字段的页面（filter.wxml）所相对的页面
 const iconPath = './icon'
@@ -43,13 +43,16 @@ const categorys = {
     selectedIndex: 0 // 默认选中defaultItem即“不限”
   }
 }
-
 // gift-result 礼物搜索页需要用到的排序字段
-export const ORDER_BY = {
+const ORDER_BY = {
   zonghe:'综合排序',
   latest:'最新商品',
   price_up_to_down:'价格从高到底',
   price_down_to_up:'价格从低到高'
 }
 
-export default categorys
+exports.ORDER_BY = ORDER_BY
+exports.defaultItem = defaultItem
+exports.categorys = categorys
+
+// export default categorys

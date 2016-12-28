@@ -36,5 +36,7 @@ const API = new function(){
     }
   }
 }
-export default API
-export const HEADER = {'Content-Type': 'application/json'}
+// export default API
+// export const HEADER = {'Content-Type': 'application/json'}
+
+module.exports = API

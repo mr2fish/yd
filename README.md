@@ -8,3 +8,10 @@
  2. 等待微信更新
    1. 微信小程序本身提供ES5 polyfill
    2. 微信X5内核更新到TBS3.0（基于Chrome53）
+
+## 二. 目前已经确定在安卓下的问题，在IOS8下也存在同样的问题（已开启ES6转ES5）
+
+   1. ES6的模块在安卓和IOS8下有问题
+   2. bluebird在安卓和IOS8下有问题
+   3. 一些ES6的API不支持，比如`Object.assign`
+   相关的链接：http://blog.csdn.net/u012421719/article/details/53767619

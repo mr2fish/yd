@@ -1,6 +1,8 @@
-import common from '../../common/app'
-import { uniquePush, getLikesFromStorage, setLikesToStorage, removeLikesFromStorate, fetch, getShortCid, extend, throttle, isEmptyObject } from '../../utils/utils'
-import API from '../../common/API'
+// import { uniquePush, getLikesFromStorage, setLikesToStorage, removeLikesFromStorate, fetch, getShortCid, extend, throttle, isEmptyObject } from '../../utils/utils'
+// import API from '../../common/API'
+const API = require('../../common/API')
+const Utils = require('../../utils/utils')
+const { uniquePush, getLikesFromStorage, setLikesToStorage, removeLikesFromStorate, getShortCid, extend, throttle, isEmptyObject } = Utils
 /**
  * [page description]
  * @type {Object}
@@ -26,10 +28,12 @@ const duration = 320
 let pointer = queueLength - 1
 let restLength = queueLength
 // // 全局变量 --end
-const page = {
+Page({
 
   onLoad(){
     console.log('gotogo onload...');
+    wx.showToast( { title: '玩命加载中',icon: 'loading', duration: 10000 } )
+    this.setData({ load: false })
     this.load()
   }
 
@@ -56,7 +60,9 @@ const page = {
   ,getReadInterval(flag = false){
     // debugger
     let read_interval = wx.getStorageSync('read_interval')
-    const [start, end]  = read_interval
+    // const [start, end]  = read_interval
+    const start = read_interval[0]
+    const end = read_interval[1]
     const default_read_interval = [0, 0]
     if(!read_interval || isEmptyObject(read_interval) ){
       return default_read_interval
@@ -68,50 +74,47 @@ const page = {
   }
 
   ,setReadInterval(read_interval = [0, 0]){
-    // const [start, end] = read_interval
     wx.setStorage({ key: 'read_interval', data: read_interval.sort() })
   }
 
   ,createQueue(gotogos){
     this.setData({ gotogos })
-    const queue = gotogos.slice(0, queueLength)
-    console.log('createQueue...');
-    console.log(queue)
-    return queue
+    return gotogos.slice(0, queueLength)
   }
 
-  // ,filter(gotogos){
-  //   console.log('filter...');
-  //   const likes = getLikesFromStorage()
-  //   // TODO
-  //   return gotogos
-  // }
-
-  ,getDataFromServer(){
+  ,getDataFromServer(callback){
     console.log('getDataFromServer...');
-    wx.showToast( { title: '玩命加载中',icon: 'loading', duration: 10000 } )
-    const [start, end] = this.getReadInterval(true)
+    const read_int = this.getReadInterval(true)
+    const start = read_int[0]
+    const end = read_int[1]
+    console.log('start：', start)
+    console.log('end', end)
     const url = `${API.giftBrowser.url}/read_interval[0]=${start}&read_interval[1]=${end}`
-    this.setData({loading: true})
-    return fetch( url ).then(result => {
-      const { errMsg, statusCode, data } = result
-      const { meta_infos } = data
-      // console.log(data);
-      console.log(`${url}接口返回的数据：`, result);
-      if(!meta_infos || meta_infos.length === 0){
-        return wx.showToast({ title: '暂无数据~'})
+    wx.request({
+      url: url,
+      success: (result) => {
+        const { errMsg, statusCode, data } = result
+        const { meta_infos } = data
+        // console.log(data);
+        console.log(`${url}接口返回的数据：`, result);
+        if(!meta_infos || meta_infos.length === 0){
+          return wx.showToast({ title: '暂无数据~'})
+        }
+        const gotogos = meta_infos.map(meta_info => {
+          meta_info.cid = getShortCid(meta_info.cid)
+          console.log(meta_info.cid);
+          return meta_info
+        })
+        callback.call(this, gotogos)
+        // return gotogos
+      },
+      fail: (result) => {
+        console.log(`${url}接口错误：`, result);
+      },
+      complete: () => {
+        wx.hideToast()
+        this.setData({loading: false})
       }
-      const gotogos = meta_infos.map(meta_info => {
-        meta_info.cid = getShortCid(meta_info.cid)
-        return meta_info
-      })
-      this.setData({loading: false})
-      wx.hideToast()
-      return gotogos
-    }).catch(result => {
-      console.log(`${url}接口错误：`, result);
-      this.setData({loading: false})
-      wx.hideToast()
     })
   }
 
@@ -153,10 +156,14 @@ const page = {
     pointer = queueLength - 1
     // this.renderByDataFromServer()
     // 拿到原始数据，然后过滤，然后生成队列，然后渲染
-    this.getDataFromServer()
-        // .then(this.filter)
-        .then(this.createQueue)
-        .then(this.render).catch(e => console.log(e))
+    // this.getDataFromServer()
+    //     // .then(this.filter)
+    //     .then(this.createQueue)
+    //     .then(this.render)
+    //     .catch(e => console.log(e))
+    this.getDataFromServer((gotogos) => {
+      this.render(this.createQueue(gotogos))
+    })
   }
 
   ,shouldLoad(){
@@ -181,7 +188,7 @@ const page = {
     }
 
     const gotogo = this.animate()
-    const [, end] = this.getReadInterval()
+    const end = this.getReadInterval()[1]
     this.setReadInterval([gotogo.gift_id, end])
   }
 
@@ -205,7 +212,7 @@ const page = {
       uniquePush( likes, gotogo, 'aid' )
     }
     wx.setStorage({ key: 'likes', data: likes })
-    const [, end] = this.getReadInterval()
+    const end = this.getReadInterval()[1]
     this.setReadInterval([gotogo.gift_id, end])
   }
   ,onShareAppMessage: function () {
@@ -214,8 +221,4 @@ const page = {
       desc: '左右滑动挑选礼物，寻找你的灵感'
     }
   }
-}
-
-// assign会进行递归拷贝
-Object.assign(page, common)
-Page(page)
+})
