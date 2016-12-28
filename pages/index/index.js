@@ -75,7 +75,7 @@ const page = {
   ,onShareAppMessage: function () {
     return {
       title: '礼物挑选神器',
-      desc: '找到最好的礼物'
+      desc: '送礼不用愁，帮你找到心动好礼'
     }
   }
 }

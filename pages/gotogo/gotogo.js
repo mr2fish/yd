@@ -210,8 +210,8 @@ const page = {
   }
   ,onShareAppMessage: function () {
     return {
-      title: '礼物挑选神器 -- 逛一逛',
-      desc: '找到最好的礼物'
+      title: '礼物挑选神器',
+      desc: '左右滑动挑选礼物，寻找你的灵感'
     }
   }
 }

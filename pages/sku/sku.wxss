@@ -1,3 +1,39 @@
+/**load之前的占位图样式**/
+.container{
+  z-index: -1;
+  opacity: 0;
+  background-color: transparent;
+  transition: all .2s ease-in;
+}
+
+.loading-placeholder {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+}
+
+.loading-placeholder image{
+  width: 100%;
+  height: 100%;
+}
+
+.container-show {
+  z-index: 1;
+  opacity: 1;
+}
+
+.load{
+  width: 0;
+  height: 0;
+  z-index: -2;
+}
+
+.load .loading-placeholder{
+  width: 0;
+  height: 0;
+}
+/**load之前的占位图样式 end**/
+
 .sku{
   background-color: #fff;
   line-height: 1.71;

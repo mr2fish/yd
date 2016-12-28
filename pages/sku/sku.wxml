@@ -1,4 +1,10 @@
-<scroll-view style="height:100%;" class="container" scroll-y="{{scrollY}}">
+<view class="{{load ? 'load': ''}}">
+  <view class="loading-placeholder">
+    <image src="./icon/placeholder.png"></image>
+  </view>
+</view>
+
+<scroll-view style="height:100%;" class="container {{load ? 'container-show': ''}}" scroll-y="{{scrollY}}">
     <view class="sku">
       <image src="{{sku.images[0].url}}" style="width:150rpx;height:150rpx;"></image>
       <view class="sku-info">

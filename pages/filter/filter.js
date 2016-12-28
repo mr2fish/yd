@@ -40,7 +40,7 @@ const page = {
   ,onShareAppMessage: function () {
     return {
       title: '礼物挑选神器',
-      desc: '找到最好的礼物'
+      desc: '量身设计的选礼解决方案'
     }
   }
 }

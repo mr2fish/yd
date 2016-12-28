@@ -1,3 +1,4 @@
+/**load之前的占位图样式**/
 .container{
   background-color: #fff;
   z-index: -1;
@@ -28,6 +29,7 @@
   height: 0;
   z-index: -2;
 }
+/**load之前的占位图样式 end**/
 
 /* 文章公共头部 */
 .header{

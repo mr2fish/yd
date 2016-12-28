@@ -7,14 +7,15 @@ const page = {
   },
   onLoad(options) {
     console.log('sku onload...');
+    this.setData({load: false})
     wx.showToast({ title: '玩命加载中',icon: 'loading',duration: 10000 })
-    // const url = `${API.getFullSku.url}/${options.sid || 1668}.html`
-    const url = `${API.getFullSku.url}/${options.sid}.html`
+    const url = `${API.getFullSku.url}/${options.sid || 1668}.html`
+    // const url = `${API.getFullSku.url}/${options.sid}.html`
     // SKU售卖链接各个常见电商的log
     fetch(url).then(result => {
       const {errMsg, statusCode, data} = result
       if(errMsg === 'request:ok' && statusCode === 200){
-        console.log(`${url}接口错误：`, result);
+        console.log(`${url}接口成功：`, result);
         const sku = data.data[0]
         let png = 'default.png'
         let ratio = 2.416
@@ -53,9 +54,11 @@ const page = {
         console.log(`${url}接口失败：`, result);
       }
       wx.hideToast()
+      this.setData({load: true})
     }).catch(result => {
       console.log(`${url}接口错误：`, result)
       wx.hideToast()
+      this.setData({load: true})
     })
   }
   ,buy(event){

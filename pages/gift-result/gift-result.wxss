@@ -1,4 +1,4 @@
-/**index.wxss**/
+/**load之前的占位图样式**/
 .container{
   z-index: -1;
   opacity: 0;
@@ -33,6 +33,7 @@
   width: 0;
   height: 0;
 }
+/**load之前的占位图样式 end**/
 
 /*
  1. 不认ID
