@@ -5,7 +5,7 @@ const loadingLength = 20
 const loadingStart = 0
 const page = {
   onLoad(){
-    console.log('index onload...');
+    console.log('index onload...')
     this.setData({
       pageLength: loadingLength,
       start: loadingStart
@@ -78,12 +78,6 @@ const page = {
       desc: '找到最好的礼物'
     }
   }
-
-  // ,bindChange(e) {
-  //   const query = (e.detail.value || '').trim()
-  //   if(query){this.setData({query})}
-  // }
-
 }
 
 // Object.assign(page, common)

@@ -41,6 +41,7 @@
 .tag{
   display: block;
   padding:0 30rpx;
+  -webkit-box-sizing: border-box;
   box-sizing: border-box;
   background-color: #fff;
   line-height: 1;
@@ -62,7 +63,7 @@
 }
 
 .function-list navigator{
-  padding:50rpx 0;
+  padding: 50rpx 0;
   display: inline-block;
   width: 50%;
 }
