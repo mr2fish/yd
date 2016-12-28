@@ -87,3 +87,19 @@
   color:#999;
   font-size: 26rpx;
 }
+/*
+  经测试发现，在小屏幕上，“查看全部喜欢 >” 字体很小，且太靠上了，
+  用户点击的话容易误触摸上方的分享
+*/
+@media screen and (max-width:360px) {
+    .view-all {
+        top: 44rpx;
+        font-size: 34rpx;
+    }
+}
+@media screen and (max-width:320px) {
+    .view-all {
+      top: 44rpx;
+      font-size: 34rpx;
+    }
+}

@@ -1,13 +1,10 @@
-import common from '../../common/app'
-import category from '../../common/category'
 const loadingLength = 20
 const loadingStart = 0
-
 let pageLength = loadingLength
 let start = loadingStart
-const page = {
+
+Page({
   onLoad(options) {
-    console.log(options);
     // 来自gotogo or viewall
     const key = options.key || 'allRaiders'
     console.log('all onload...');
@@ -50,6 +47,4 @@ const page = {
    start += pageLength
  }
  // 滚动到底部事件监听 -end
-}
-Object.assign(page, common)
-Page(page)
+})

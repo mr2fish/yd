@@ -6,7 +6,7 @@ const defaultItem = '不限'
 // 注意：iconPath并不是相对于当前文件的相对目录
 // 而是用到icon字段的页面（filter.wxml）所相对的页面
 const iconPath = './icon'
-const categorys = {
+const category = {
   relation: {
     name: 'relation',
     icon:`${iconPath}/object.png`,
@@ -53,6 +53,6 @@ const ORDER_BY = {
 
 exports.ORDER_BY = ORDER_BY
 exports.defaultItem = defaultItem
-exports.categorys = categorys
+exports.category = category
 
 // export default categorys

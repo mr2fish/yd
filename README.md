@@ -14,4 +14,6 @@
    1. ES6的模块在安卓和IOS8下有问题
    2. bluebird在安卓和IOS8下有问题
    3. 一些ES6的API不支持，比如`Object.assign`
+   4. 一些ES6的语法，比如for of
+   5. IOS8下存在flexbox兼容性问题
    相关的链接：http://blog.csdn.net/u012421719/article/details/53767619

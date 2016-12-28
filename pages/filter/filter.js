@@ -1,7 +1,9 @@
 // import common from '../../common/app'
 // import category, { defaultItem } from '../../common/category'
 const cate = require('../../common/category')
-const categorys = Object.keys(cate.categorys).map(item => cate.categorys[item])
+const category = cate.category
+const categorys = Object.keys(category).map(item => category[item])
+
 Page({
   data: { categorys },
   onLoad(){
