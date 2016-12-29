@@ -211,7 +211,7 @@ const page = {
   ,onShareAppMessage: function () {
     return {
       title: '礼物挑选神器',
-      desc: '左右滑动挑选礼物，寻找你的灵感'
+      desc: '寻找你的心动好礼'
     }
   }
 }

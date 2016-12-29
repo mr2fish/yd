@@ -11,7 +11,7 @@ const page = {
     const url = `${API.getArticle.url}/${options.id}.html`
     fetch(url).then(result => {
       const {errMsg, statusCode, data} = result
-      if( errMsg === 'request:ok' && statusCode === 200 ){
+      if( errMsg === 'request:ok' && statusCode == 200 ){
         console.log(`${url}接口返回的数据：`,result);
         const {header, contents} = data
         this.setData({header,contents})

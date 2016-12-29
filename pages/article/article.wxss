@@ -66,15 +66,11 @@
   line-height: 1;
 
   display: -webkit-flex;
-  align-items: -webkit-center;
-
-  display: -webkit-box;
-
-  display: -ms-flexbox;
+  -webkit-align-items: -webkit-center;
+          align-items: -webkit-center;
 
   display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
+  -webkit-align-items: center;
           align-items: center;
 
   border-bottom: 1px solid #bababa;
@@ -93,25 +89,18 @@
 
 .author{
   display: block;
-  -webkit-box-flex: 1;
-      -ms-flex: 1;
+  -webkit-flex: 1;
           flex: 1;
 
   display: -webkit-flex;
-  justify-content: -webkit-flex-end;
+  -webkit-justify-content: -webkit-flex-end;
+          justify-content: -webkit-flex-end;
   -webkit-align-items: center;
 
-  display: -webkit-box;
-
-  display: -ms-flexbox;
-
   display: flex;
-  -webkit-box-pack: end;
-      -ms-flex-pack: end;
+  -webkit-justify-content: flex-end;
           justify-content: flex-end;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  align-items: center;
 
 }
 
@@ -122,12 +111,10 @@
 }
 
 .author text{
-  display: -webkit-box;
-  display: -ms-flexbox;
+  display: -webkit-flex;
   display: flex;
   height: 100%;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
+  -webkit-align-items: center;
           align-items: center;
   margin-left: 20rpx;
   color:#616368;
@@ -295,48 +282,39 @@
   color: #535353;
   padding: 24rpx;
   margin: 24rpx 0;
-  display: -webkit-box;
-  display: -ms-flexbox;
+  display: -webkit-flex;
   display: flex;
 }
 
 .sku-info{
-  -webkit-box-flex: 1;
-      -ms-flex: 1;
+  -webkit-flex: 1;
           flex: 1;
   margin: -9rpx 0 0 24rpx;
-  display: -webkit-box;
-  display: -ms-flexbox;
+  display: -webkit-flex;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
+  -webkit-flex-direction: column;
           flex-direction: column;
 }
 .sku-title{
-  -webkit-box-flex: 1;
-      -ms-flex: 1;
+  -webkit-flex: 1;
           flex: 1;
 }
 
 .sku-footer{
-  display: -webkit-box;
-  display: -ms-flexbox;
+  display: -webkit-flex;
   display: flex;
   font-size: 24rpx;
   line-height: 1;
-  -webkit-box-align: end;
-      -ms-flex-align: end;
+  -webkit-align-items: flex-end;
           align-items: flex-end;
 }
 .sku-footer text{
-  -webkit-box-flex: 1;
-      -ms-flex: 1;
+  -webkit-flex: 1;
           flex: 1;
 }
 .sku-footer navigator{
-  -ms-flex-item-align: end;
-      align-self: flex-end;
+  -webkit-align-self: flex-end;
+          align-self: flex-end;
   color: #fff;
   background-color: #e60012;
   text-align: center;

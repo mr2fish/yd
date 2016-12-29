@@ -14,7 +14,7 @@ const page = {
     // SKU售卖链接各个常见电商的log
     fetch(url).then(result => {
       const {errMsg, statusCode, data} = result
-      if(errMsg === 'request:ok' && statusCode === 200){
+      if(errMsg === 'request:ok' && statusCode == 200){
         console.log(`${url}接口成功：`, result);
         const sku = data.data[0]
         let png = 'default.png'

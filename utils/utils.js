@@ -22,7 +22,8 @@ export function fetch(options) {
         success(res) {
           const {errMsg, statusCode} = res
           if (errMsg && statusCode) {
-            if (errMsg === 'request:ok' && statusCode === 200) {
+            // 由于返回的statusCode是字符串'200'，故用 ==
+            if (errMsg === 'request:ok' && statusCode == 200) {
               resolve(res)
             } else {
               reject(res)
@@ -306,7 +307,7 @@ export function getShortCid(cid) {
   if (cid == void 0)
     return void 0;
   const C = Math.pow(2, 32);
-  // 如果cid大于常数，我们认为就是长ID，直接返回即可，否则再进行处理
+  // 如果cid大于常数，我们认为就是长ID，进行处理，否则就是短id
   return cid > C
     ? cid & 0xffffff
     : cid;
