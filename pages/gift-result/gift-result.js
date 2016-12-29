@@ -1,14 +1,8 @@
-// import { handleTitle, extractPriceFromPriceString, objectToQueryString, convert, type, fetch } from '../../utils/utils'
-// import API from '../../common/API'
-// import category, { defaultItem, ORDER_BY } from '../../common/category'
-
 const API = require('../../common/API')
 const Utils = require('../../utils/utils')
 const { handleTitle, extractPriceFromPriceString, objectToQueryString, convert, type } = Utils
 const cate = require('../../common/category')
 const { category, defaultItem, ORDER_BY } = cate
-
-
 const keys = Object.keys(category)
 const categorys = keys.map(item => category[item])
 console.log("category:", category);

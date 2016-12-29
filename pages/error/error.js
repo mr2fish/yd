@@ -1,5 +1,4 @@
-import common from '../../common/app'
-const page = {
+Page({
   onLoad(options){
     console.log('error onload...');
     const errorMsg = options.errorMsg || '发生了错误，请稍后重试~'
@@ -12,7 +11,4 @@ const page = {
       wx.redirectTo({url:'../index/index'})
     }, 120)
   }
-}
-
-Object.assign(page, common)
-Page(page)
+})

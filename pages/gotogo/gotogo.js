@@ -1,5 +1,3 @@
-// import { uniquePush, getLikesFromStorage, setLikesToStorage, removeLikesFromStorate, fetch, getShortCid, extend, throttle, isEmptyObject } from '../../utils/utils'
-// import API from '../../common/API'
 const API = require('../../common/API')
 const Utils = require('../../utils/utils')
 const { uniquePush, getLikesFromStorage, setLikesToStorage, removeLikesFromStorate, getShortCid, extend, throttle, isEmptyObject } = Utils

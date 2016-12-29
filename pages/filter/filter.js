@@ -1,5 +1,3 @@
-// import common from '../../common/app'
-// import category, { defaultItem } from '../../common/category'
 const cate = require('../../common/category')
 const category = cate.category
 const categorys = Object.keys(category).map(item => category[item])
