@@ -88,12 +88,18 @@ Page({
   }
     // 顶部tap操作 --end
   ,onLoad(options) {
-    console.log('gift-result onload...');
-    wx.showToast({ title: '玩命搜索中',icon: 'loading',duration: 10000 })
-    this.setData({load: false})
-    pageLength = loadingLength
-    start = loadingStart
-    this.renderByDataFromServer(this.packageQueryParam(options.queryParameter))
+    try{
+      console.log('gift-result onload...');
+      wx.showToast({ title: '玩命搜索中',icon: 'loading',duration: 10000 })
+      this.setData({load: false})
+      pageLength = loadingLength
+      start = loadingStart
+      this.renderByDataFromServer(this.packageQueryParam(options.queryParameter))
+    }catch(e){
+      console.log('发生了错误')
+      console.log(e)
+      wx.redirectTo({url:'../error/error'})
+    }
   }
    // 滚动到底部事件监听 -start
    ,scrolltolower(){
@@ -131,89 +137,95 @@ Page({
     wx.request({
       url: url,
       success: (result) => {
-        console.log(`${url}返回的数据：`, result);
-        // console.log(result);
-        result = result.data
-        const aids = result.aids
-        // raiders 攻略
-        let raiders = []
-        // goods 单品
-        let goods = []
-        const reg = /http:\/\/|https:\/\//i
-        const prefix = 'http://a.diaox2.com/cms/sites/default/files'
-        for(let i = 0, len = aids.length; i < len; i++){
-          const each = aids[i]
-          const [ aid, type ] = each
-          const meta_info = result[`meta_infos_${type}`][aid]
-          if(!meta_info) {
-            console.log('存在空的meta_info：')
-            continue
-          }
-          const {ctype, thumb_image_url} = meta_info
-
-          if( thumb_image_url && !reg.test(thumb_image_url) ){
-            meta_info.thumb_image_url = `${prefix}/${thumb_image_url}`
-          }
-
-          meta_info.aid = aid
-          meta_info.title = handleTitle(meta_info.title || meta_info.format_title)
-
-          if( ctype == void 0 ){
-            // console.log('SKU数据：', meta_info);
-            meta_info.price_num = extractPriceFromPriceString(meta_info.price)
-            const [ pic ] = meta_info.pics
-            meta_info.thumb_image_url = pic.url
-            goods.push(meta_info)
-          }else if( ctype === 2 ){
-            meta_info.price_num = extractPriceFromPriceString(meta_info.price)
-            goods.push(meta_info)
-          }
-           else if(ctype !== 2 && ctype !== 3) // 过滤掉专刊数据（ctype === 3）
-          {
-            const rendered_keywords = meta_info.rendered_keywords
-            if(rendered_keywords){
-              meta_info.rendered_keywords  = rendered_keywords.map(keywords => keywords[0])
-            }
-            raiders.push(meta_info)
-          }
-        }
-        // 在本地记录下所有攻略，以供查看“全部”
-        wx.setStorage({key: "allRaiders",data: [...raiders]})
-        // 攻略最多只有2篇
-        if( raiders.length > 2){
-          raiders = raiders.slice(0, 2)
-        }
-        // console.log('攻略数据：', raiders);
-        /**
-         * 1. ctype不准  不是不准，是文章的ctype应该是2
-         * 2. remove_aids数据不全
-         * 3. 单品无price过滤掉
-         *    price: 'N/A'
-         */
-        // 单品至少有2篇
-        // 不足2篇，remove_aids来补
-        if( goods.length < 2 ){
-          // 做一下非空判定
-          // 鹏哲说如果全部命中，则remove_aids这个字段就没有值
-          const aids = result.remove_aids || []
-          // console.log(aids);
-          for(let each of aids){
+        try{
+          console.log(`${url}返回的数据：`, result);
+          // console.log(result);
+          result = result.data
+          const aids = result.aids
+          // raiders 攻略
+          let raiders = []
+          // goods 单品
+          let goods = []
+          const reg = /http:\/\/|https:\/\//i
+          const prefix = 'http://a.diaox2.com/cms/sites/default/files'
+          for(let i = 0, len = aids.length; i < len; i++){
+            const each = aids[i]
             const [ aid, type ] = each
             const meta_info = result[`meta_infos_${type}`][aid]
-            // let meta_info = meta_infos[aid]
-            // if(!meta_info) continue
-            if(meta_info.ctype === 2){
+            if(!meta_info) {
+              console.log('存在空的meta_info：')
+              continue
+            }
+            const {ctype, thumb_image_url} = meta_info
+
+            if( thumb_image_url && !reg.test(thumb_image_url) ){
+              meta_info.thumb_image_url = `${prefix}/${thumb_image_url}`
+            }
+
+            meta_info.aid = aid
+            meta_info.title = handleTitle(meta_info.title || meta_info.format_title)
+
+            if( ctype == void 0 ){
+              // console.log('SKU数据：', meta_info);
+              meta_info.price_num = extractPriceFromPriceString(meta_info.price)
+              const [ pic ] = meta_info.pics
+              meta_info.thumb_image_url = pic.url
+              goods.push(meta_info)
+            }else if( ctype === 2 ){
               meta_info.price_num = extractPriceFromPriceString(meta_info.price)
               goods.push(meta_info)
-            }else{
-              console.log('done else');
+            }
+             else if(ctype !== 2 && ctype !== 3) // 过滤掉专刊数据（ctype === 3）
+            {
+              const rendered_keywords = meta_info.rendered_keywords
+              if(rendered_keywords){
+                meta_info.rendered_keywords  = rendered_keywords.map(keywords => keywords[0])
+              }
+              raiders.push(meta_info)
             }
           }
+          // 在本地记录下所有攻略，以供查看“全部”
+          wx.setStorage({key: "allRaiders",data: [...raiders]})
+          // 攻略最多只有2篇
+          if( raiders.length > 2){
+            raiders = raiders.slice(0, 2)
+          }
+          // console.log('攻略数据：', raiders);
+          /**
+           * 1. ctype不准  不是不准，是文章的ctype应该是2
+           * 2. remove_aids数据不全
+           * 3. 单品无price过滤掉
+           *    price: 'N/A'
+           */
+          // 单品至少有2篇
+          // 不足2篇，remove_aids来补
+          if( goods.length < 2 ){
+            // 做一下非空判定
+            // 鹏哲说如果全部命中，则remove_aids这个字段就没有值
+            const aids = result.remove_aids || []
+            // console.log(aids);
+            for(let each of aids){
+              const [ aid, type ] = each
+              const meta_info = result[`meta_infos_${type}`][aid]
+              // let meta_info = meta_infos[aid]
+              // if(!meta_info) continue
+              if(meta_info.ctype === 2){
+                meta_info.price_num = extractPriceFromPriceString(meta_info.price)
+                goods.push(meta_info)
+              }else{
+                console.log('done else');
+              }
+            }
+          }
+          this.loadNewPage( goods , true)
+          // console.log('单品数据：', goods);
+          this.setData({raiders, goods_copy: goods, currentPX: 0})
+          // console.log(goods);
+        }catch(e){
+          console.log('发生了错误')
+          console.log(e)
+          wx.redirectTo({url:'../error/error'})
         }
-        this.loadNewPage( goods , true)
-        // console.log('单品数据：', goods);
-        this.setData({raiders, goods_copy: goods, currentPX: 0})
-        // console.log(goods);
       },
       fail: (result) => {
         console.log(`${API.giftq.url}接口错误：`,result)

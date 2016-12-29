@@ -5,23 +5,33 @@ let start = loadingStart
 
 Page({
   onLoad(options) {
-    // 来自gotogo or viewall
-    const key = options.key || 'allRaiders'
-    console.log('all onload...');
-    // 那次重启页面都重置初始条件，否则在手机上会缓存这两个变量的值
-    // 下次进来时，会以上次设置的值作为初始值
-    pageLength = loadingLength
-    start = loadingStart
-    wx.getStorage({
-      key:key,
-      success: (result) => {
-        console.log('获取本地存储allRaiders的数据：', result)
-        this.loadNewPage(result.data)
-      },
-      fail(result){
-        console.log('获取本地存储allRaiders错误：', result)
-      }
-    })
+    try{
+      // 来自gotogo or viewall
+      const key = options.key || 'allRaiders'
+      console.log('all onload...');
+      // 那次重启页面都重置初始条件，否则在手机上会缓存这两个变量的值
+      // 下次进来时，会以上次设置的值作为初始值
+      pageLength = loadingLength
+      start = loadingStart
+      wx.getStorage({
+        key:key,
+        success: (result) => {
+          try{
+            console.log('获取本地存储allRaiders的数据：', result)
+            this.loadNewPage(result.data)
+          }catch(e){
+            wx.redirectTo({url:'../error/error'})
+          }
+        },
+        fail(result){
+          console.log('获取本地存储allRaiders错误：', result)
+        }
+      })
+    }catch(e){
+      console.log('发生了错误')
+      console.log(e)
+      wx.redirectTo({url:'../error/error'})
+    }
   }
   ,scrolltolower(){
     this.loadNewPage()

@@ -31,10 +31,16 @@ let restLength = queueLength
 Page({
 
   onLoad(){
-    console.log('gotogo onload...');
-    wx.showToast( { title: '玩命加载中',icon: 'loading', duration: 10000 } )
-    this.setData({ load: false })
-    this.load()
+    try {
+      console.log('gotogo onload...');
+      wx.showToast( { title: '玩命加载中',icon: 'loading', duration: 10000 } )
+      this.setData({ load: false })
+      this.load()
+    } catch (e) {
+      console.log('发生了错误')
+      console.log(e)
+      wx.redirectTo({url:'../error/error'})
+    }
   }
 
   ,viewAll(){
@@ -45,7 +51,7 @@ Page({
         showCancel: false
       })
     }
-    wx.navigateTo({url:`../all/all?key=likes`})
+    wx.navigateTo({url:'../all/all?key=likes'})
   }
 
   ,render(queue){
@@ -93,20 +99,26 @@ Page({
     wx.request({
       url: url,
       success: (result) => {
-        const { errMsg, statusCode, data } = result
-        const { meta_infos } = data
-        // console.log(data);
-        console.log(`${url}接口返回的数据：`, result);
-        if(!meta_infos || meta_infos.length === 0){
-          return wx.showToast({ title: '暂无数据~'})
+        try {
+          const { errMsg, statusCode, data } = result
+          const { meta_infos } = data
+          // console.log(data);
+          console.log(`${url}接口返回的数据：`, result);
+          if(!meta_infos || meta_infos.length === 0){
+            return wx.showToast({ title: '暂无数据~'})
+          }
+          const gotogos = meta_infos.map(meta_info => {
+            meta_info.cid = getShortCid(meta_info.cid)
+            console.log(meta_info.cid);
+            return meta_info
+          })
+          callback.call(this, gotogos)
+          // return gotogos
+        } catch (e) {
+          console.log('发生了错误')
+          console.log(e)
+          wx.redirectTo({url:'../error/error'})
         }
-        const gotogos = meta_infos.map(meta_info => {
-          meta_info.cid = getShortCid(meta_info.cid)
-          console.log(meta_info.cid);
-          return meta_info
-        })
-        callback.call(this, gotogos)
-        // return gotogos
       },
       fail: (result) => {
         console.log(`${url}接口错误：`, result);
@@ -218,7 +230,7 @@ Page({
   ,onShareAppMessage: function () {
     return {
       title: '礼物挑选神器',
-      desc: '左右滑动挑选礼物，寻找你的灵感'
+      desc: '寻找你的心动好礼'
     }
   }
 })

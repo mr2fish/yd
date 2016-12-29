@@ -3,11 +3,9 @@
 const cate = require('../../common/category')
 const category = cate.category
 const categorys = Object.keys(category).map(item => category[item])
-
 Page({
   data: { categorys },
   onLoad(){
-    console.log(cate);
     console.log('filter onload...')
   }
   ,reset(){this.setData({categorys: categorys.map( category => {category.selectedIndex = 0; return category})})}
