@@ -24,10 +24,13 @@ const queueLength = 5
 const duration = 320
 // 处理后的数据池指针。每次pointer都指向当前数据。
 let pointer = queueLength - 1
+// 为了尽量减少加载新数据对用户的影响，在逛一逛卡片还剩下 restLength 时，再加载新一批的100条数据
 let restLength = queueLength
 // // 全局变量 --end
 Page({
-
+ /**
+  * 调用栈：onload -> load -> getDataFromServer -> createQueue -> render
+  */
   onLoad(){
     try {
       console.log('gotogo onload...');
@@ -83,6 +86,7 @@ Page({
 
   ,createQueue(gotogos){
     this.setData({ gotogos })
+    // queue用来放置做动画的元素
     return gotogos.slice(0, queueLength)
   }
 
@@ -189,6 +193,7 @@ Page({
   ,dislike(){
 
     const loading = this.data.loading
+
     if(loading){
       return console.log('dislike loading是true啦....');
     }
