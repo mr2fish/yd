@@ -3,9 +3,9 @@ Page({
   onLoad(options){
     try{
       console.log('article onload...');
-      this.setData({load: false})
-      wx.showToast({  title: '玩命加载中',icon: 'loading', duration: 10000})
-      console.log(options.id)
+      this.setData({ load: false })
+      wx.showToast({ title: '玩命加载中',icon: 'loading', duration: 10000 })
+      console.log( options.id )
       // const url = `${API.getArticle.url}/${options.id || 8108}.html`
       const url = `${API.getArticle.url}/${options.id}.html`
       wx.request({

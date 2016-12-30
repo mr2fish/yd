@@ -31,7 +31,7 @@
                 <text class="value">{{sale.intro}}</text>
               </view>
             </view>
-            <text class="buy-button" bindtap="buy" data-url="{{sale.link_m_cps || sale.link_pc_cps || sale.link_m_raw || sale.link_pc_raw}}">购买 ></text>
+            <!-- <text class="buy-button" bindtap="buy" data-url="{{sale.link_m_cps || sale.link_pc_cps || sale.link_m_raw || sale.link_pc_raw}}">购买 ></text> -->
           </view>
         </view>
       </block>
