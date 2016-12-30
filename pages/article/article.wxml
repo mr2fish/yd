@@ -52,7 +52,7 @@
           <view class="sku-info">
             <text class="sku-title">{{content.value.title}}</text>
             <view class="sku-footer">
-              <text>{{content.value.price}}</text>
+              <text>{{content.value.price_str || content.value.price || ''}}</text>
               <navigator url="../sku/sku?sid={{content.value.sid}}">立即购买</navigator>
             </view>
           </view>
