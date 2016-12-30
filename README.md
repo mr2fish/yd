@@ -17,3 +17,7 @@
    4. 一些ES6的语法，比如for of
    5. IOS8下存在flexbox兼容性问题
    相关的链接：http://blog.csdn.net/u012421719/article/details/53767619
+
+## 三. 关于onload
+   在onload中发送请求，返回数据，并把返回的数据渲染到页面上，但是发现有时候并不会渲染页面，
+   解决办法是把onload中的逻辑改写在onready中

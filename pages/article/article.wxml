@@ -1,6 +1,5 @@
 <import src="../../common/load-placeholder.wxml"/>
 <template is="load-placeholder" data="{{load:load}}"/>
-
 <view class="container {{load ? 'container-show': ''}}">
   <!-- 文章头 -->
   <view class="header">

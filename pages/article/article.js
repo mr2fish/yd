@@ -1,13 +1,17 @@
 const API = require('../../common/API')
 Page({
   onLoad(options){
+    console.log('article load...')
+    this.setData({ id: options.id })
+  },
+  onReady(){
     try{
-      console.log('article onload...');
+      console.log('article onready...')
       this.setData({ load: false })
       wx.showToast({ title: '玩命加载中',icon: 'loading', duration: 10000 })
-      console.log( options.id )
-      const url = `${API.getArticle.url}/${options.id || 8108}.html`
-      // const url = `${API.getArticle.url}/${options.id}.html`
+      console.log( this.data.id )
+      // const url = `${API.getArticle.url}/${this.data.id || 8108}.html`
+      const url = `${API.getArticle.url}/${this.data.id}.html`
       wx.request({
         url: url,
         success: (result) => {
@@ -51,4 +55,7 @@ Page({
       desc: '分享自「礼物挑选神器」，送礼不用愁'
     }
   }
+  // ,onHide(){
+  //   this.setData({load: false})
+  // }
 })

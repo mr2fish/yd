@@ -344,6 +344,7 @@ Page({
   // ,onUnload() {
   //   this.setData({load: false})
   // }
+
   // ,onShareAppMessage: function () {
   //   return {
   //     title: '礼物挑选神器 -- 筛选结果',

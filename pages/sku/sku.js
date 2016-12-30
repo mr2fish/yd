@@ -3,13 +3,17 @@ Page({
   data:{
     scrollY: true
   },
-  onLoad(options) {
+  onLoad(options){
+    console.log('sku onload...')
+    this.setData({ sid: options.sid })
+  },
+  onReady() {
     try {
-      console.log('sku onload...');
+      console.log('sku onready...')
       this.setData({load: false})
       wx.showToast({ title: '玩命加载中',icon: 'loading',duration: 10000 })
-      const url = `${API.getFullSku.url}/${options.sid || 1668}.html`
-      // const url = `${API.getFullSku.url}/${options.sid}.html`
+      // const url = `${API.getFullSku.url}/${options.sid || 1668}.html`
+      const url = `${API.getFullSku.url}/${this.data.sid}.html`
       wx.request({
         url: url,
         success: (result) => {
@@ -88,4 +92,7 @@ Page({
   ,confirm(){
     this.setData({show: false,scrollY: true})
   }
+  // ,onHide(){
+  //   this.setData({load: false})
+  // }
 })
