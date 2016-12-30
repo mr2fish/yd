@@ -1,8 +1,10 @@
-<view class="{{load ? 'load': ''}}">
-  <view class="loading-placeholder">
-    <image src="./icon/placeholder.png"></image>
+<!-- <view class="{{load ? 'load': ''}}">
+  <view class="load-placeholder">
+    <text>数据加载中...</text>
   </view>
-</view>
+</view> -->
+<import src="../../common/load-placeholder.wxml"/>
+<template is="load-placeholder" data="{{load:load}}"/>
 
 <scroll-view style="height:100%;" class="container {{load ? 'container-show': ''}}" scroll-y="{{scrollY}}">
     <view class="sku">

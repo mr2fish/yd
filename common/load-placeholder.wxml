@@ -1,0 +1,7 @@
+<template name="load-placeholder">
+  <view class="{{load ? 'load': ''}}">
+    <view class="load-placeholder">
+      <text>数据加载中...</text>
+    </view>
+  </view>
+</template>

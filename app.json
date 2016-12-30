@@ -1,10 +1,10 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/article/article",
     "pages/filter/filter",
     "pages/gotogo/gotogo",
     "pages/gift-result/gift-result",
-    "pages/article/article",
     "pages/sku/sku",
     "pages/all/all",
     "pages/error/error"

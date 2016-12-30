@@ -8,11 +8,14 @@
   </block>
   <view-cancel bindtap="hideActiveSheet">取消</view-cancel>
 </view> -->
-<view class="{{load ? 'load': ''}}">
-  <view class="loading-placeholder">
-    <image src="./icon/placeholder.png"></image>
+<!-- <view class="{{load ? 'load': ''}}">
+  <view class="load-placeholder">
+    <text>数据加载中...</text>
   </view>
-</view>
+</view> -->
+<!-- import写在顶部会出问题。不知道原因。。 -->
+<import src="../../common/load-placeholder.wxml"/>
+<template is="load-placeholder" data="{{load:load}}"/>
 
 <scroll-view
   class="container {{load ? 'container-show': ''}}"
