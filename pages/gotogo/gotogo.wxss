@@ -7,9 +7,8 @@
   height: 586rpx;
   margin: 0 auto;
   margin-top: 140rpx;
-  overflow: hidden;
+  /*overflow: hidden;*/
   position: relative;
-  /*border: 1px rgb(199,199,205) solid;*/
   line-height: 1;
   box-sizing: border-box;
   border-radius: 4rpx;
@@ -102,4 +101,62 @@
       top: 44rpx;
       font-size: 34rpx;
     }
+}
+
+/*
+  用户第一次进来逛一逛需要简单提示一下用户用法
+  同时也利于审核通过
+ */
+.guide-mask {
+  width: 100%;
+  min-height: 100%;
+  background-color: rgba(1,1,1, .2);
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  display: none;
+}
+.guide-close{
+  width: 56rpx;
+  height: 60rpx;
+  position: absolute;
+  right: 25rpx;
+  top: 80rpx;
+}
+
+.guide-dislike{
+  position: absolute;
+  width: 392rpx;
+  height: 160rpx;
+  left: 25rpx;
+  top:920rpx;
+}
+
+/* 在iphone4/s等小屏幕下，应该减小top的值，防止超出屏幕 */
+@media screen and (max-height:480px) {
+  .guide-dislike{
+    top: 870rpx;
+  }
+}
+
+.guide-like {
+ position: absolute;
+ width: 342rpx;
+ height: 154rpx;
+ right: 25rpx;
+ top:780rpx;
+}
+
+.guide-view-detail{
+  display: block;
+  width: 504rpx;
+  height: 120rpx;
+  margin: 0 auto;
+  margin-top: 370rpx;
+}
+
+.is-first-visit-gotogo{
+  display: block;
 }

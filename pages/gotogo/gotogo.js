@@ -33,7 +33,8 @@ Page({
   */
   onLoad(){
     try {
-      console.log('gotogo onload...');
+      console.log('gotogo onload...')
+      this.showGuide()
       wx.showToast( { title: '玩命加载中',icon: 'loading', duration: 10000 } )
       this.setData({ load: false })
       this.load()
@@ -43,7 +44,21 @@ Page({
       wx.redirectTo({url:'../error/error'})
     }
   }
-
+  ,showGuide(){
+    // 用户第一次进来，显示提示
+    const isFirstVisitGotogo = 'isFirstVisitGotogo'
+    wx.getStorage({
+      key:isFirstVisitGotogo,
+      success: (result) => {
+        this.setData({ [isFirstVisitGotogo]: false })
+      },
+      fail: (result) => {
+        console.log(`获取本地存储${isFirstVisitGotogo}错误：`, result)
+        wx.setStorage({ key: isFirstVisitGotogo, data: true })
+        this.setData({ [isFirstVisitGotogo]: true })
+      }
+    })
+  }
   ,viewAll(){
     const likes = wx.getStorageSync('likes')
     if(!likes || likes.length === 0){
@@ -111,7 +126,7 @@ Page({
           }
           const gotogos = meta_infos.map(meta_info => {
             meta_info.cid = getShortCid(meta_info.cid)
-            console.log(meta_info.cid);
+            // console.log(meta_info.cid);
             return meta_info
           })
           callback.call(this, gotogos)
@@ -235,5 +250,8 @@ Page({
       title: '礼物挑选神器',
       desc: '寻找你的心动好礼'
     }
+  },
+  guideClose: function(){
+    this.setData({ isFirstVisitGotogo: false })
   }
 })

@@ -22,5 +22,12 @@
     <view bindtap="dislike"><image src="icon/dislike.png"></image></view>
     <view bindtap="like"><image  class="dislike" src="icon/like.png"></image></view>
   </view>
-  <text class="view-all" bindtap="viewAll" >查看全部喜欢 ></text>
+  <text class="view-all" bindtap="viewAll" >查看全部喜欢 > </text>
+</view>
+
+<view class="guide-mask {{isFirstVisitGotogo? 'is-first-visit-gotogo' : ''}}">
+  <image class="guide-close" src="./icon/guide-close.png" bindtap="guideClose"></image>
+  <image class="guide-view-detail" src="./icon/guide-view-detail.png"></image>
+  <image class="guide-dislike" src="./icon/guide-dislike.png"></image>
+  <image class="guide-like" src="./icon/guide-like.png"></image>
 </view>

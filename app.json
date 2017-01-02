@@ -1,9 +1,9 @@
 {
   "pages": [
+    "pages/gotogo/gotogo",
     "pages/index/index",
     "pages/article/article",
     "pages/filter/filter",
-    "pages/gotogo/gotogo",
     "pages/gift-result/gift-result",
     "pages/sku/sku",
     "pages/all/all",
