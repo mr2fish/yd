@@ -110,7 +110,7 @@
 .guide-mask {
   width: 100%;
   min-height: 100%;
-  background-color: rgba(1,1,1, .2);
+  background-color: rgba(1,1,1, .7);
   position: absolute;
   left: 0;
   right: 0;
@@ -118,11 +118,12 @@
   bottom: 0;
   display: none;
 }
+
 .guide-close{
   width: 56rpx;
   height: 60rpx;
   position: absolute;
-  right: 25rpx;
+  right: 32rpx;
   top: 80rpx;
 }
 
