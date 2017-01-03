@@ -38,7 +38,7 @@
   </view>
   <!-- meta列表 -->
   <view class="metainfo-area">
-    <text class="tag" data-tag="攻略"></text>
+    <text class="tag" data-tag="精选好礼"></text>
     <view class="up-list">
       <block wx:for="{{meta_infos}}" wx:key="nid" wx:for-item="meta_info">
         <view class="up-list-item">
