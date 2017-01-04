@@ -80,7 +80,7 @@ Page({
       }
     })
   }
-    // 顶部tap操作 --end
+  // 顶部tap操作 --end
   ,onLoad(options) {
     try{
       console.log('gift-result onload...');
