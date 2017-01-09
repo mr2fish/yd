@@ -98,10 +98,14 @@ exports.throttle = throttle
 function extractPriceFromPriceString(priceString) {
   let ret = 0
   if (priceString) {
-    const priceReg = /\d+(\.\d+)?/
+    // const priceReg = /\d+(\.\d+)?/
+    const priceReg = /\d+(\.|\,)?\d+/ // 原来没有考虑 1,999 这种情况
     const match = priceReg.exec(priceString)
     if (match) {
       ret = match[0]
+      if(ret){
+        ret = ret.replace(',', '')
+      }
     }
   }
   return Number(ret)
