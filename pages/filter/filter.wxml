@@ -9,7 +9,7 @@
           <view class="category-title">
             <text>{{category.allTitle}}</text>
           </view>
-          <scroll-view class="category-list" scroll-x="true">
+          <scroll-view class="category-list" scroll-x="true" scroll-left="{{scrollLeft}}">
             <view class="item" wx:for="{{category.items}}" wx:for-index="index" wx:key="items">
               <!-- 默认选中“不限” -->
               <text data-group="{{category.name}}" data-item="{{item}}" bindtap="select" class="item-text {{category.selectedIndex === index ?'selected':''}}">{{item}}</text>

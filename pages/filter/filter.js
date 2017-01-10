@@ -6,7 +6,13 @@ Page({
   onLoad(){
     console.log('filter onload...')
   }
-  ,reset(){this.setData({categorys: categorys.map( category => {category.selectedIndex = 0; return category})})}
+  ,reset(){
+    this.setData({
+      categorys: categorys.map( category => {category.selectedIndex = 0; return category}),
+      scrollLeft: 0
+    })
+
+  }
   //事件处理函数
   ,select(e){
     const {item, group} = e.target.dataset

@@ -1,4 +1,7 @@
-import API from '../../common/API'
+const API = require('../../common/API')
+const Utils = require('../../utils/utils')
+const { extractText } = Utils
+
 Page({
   data:{
     scrollY: true
@@ -52,21 +55,29 @@ Page({
                 }
                 sale.url = `http://c.diaox2.com/cms/diaodiao/mart2/${png}`
                 sale.ratio = ratio
+                sale.intro = extractText(sale.intro)
                 return sale
               })
               this.setData({sku})
             }else{
-              console.log(`${url}接口失败：`, result);
+              console.log(`${url}接口失败：`, result)
             }
           } catch (e) {
             console.log('发生了错误')
             console.log(e)
-            wx.redirectTo({url:'../error/error'})
+            // wx.redirectTo({url:'../error/error'})
+            wx.showModal({
+              title: '发生错误',
+              content: e.stack,
+              showCancel: false
+            })
           }
         },
+
         fail: (result) => {
           console.log(`${url}接口错误：`, result)
         },
+
         complete: () => {
           wx.hideToast()
           this.setData({load: true})
@@ -81,7 +92,15 @@ Page({
   ,buy(event){
     const url = event.target.dataset.url
     if(url){
-      this.setData({url, show: true, scrollY: false})
+      wx.getSystemInfo({
+        success: (res) => {
+          if( /android/ig.test(res.platform) ){
+            this.setData({url, show: true, scrollY: false, isAndroid: true})
+          }else{
+            this.setData({url, show: true, scrollY: false, isAndroid: false})
+          }
+        }
+      })
       // wx.showModal({
       //   title: '长按复制，在浏览器下打开',
       //   content: url,

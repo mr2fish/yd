@@ -190,10 +190,6 @@
   font-size: 34rpx;
 }
 
-/*.copy-box textarea{
-  padding:30rpx 0;
-}*/
-
 .copy-url{
   display: block;
   padding:30rpx 0;

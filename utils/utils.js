@@ -53,6 +53,55 @@
 // }
 // exports.request = request
 
+
+/*
+ 解析传进来的带标签的字符串，返回去掉标签之后的纯文本
+*/
+function extractText(summary) {
+  console.log('extractText exec .....');
+  if (!summary) {
+    return '';
+  }
+
+  function startsWith(str, char){
+    console.log('startsWith exec .....');
+    if(str){
+      if(str.startsWith){
+        return str.startsWith(char)
+      }else{
+        return str.indexOf(char) === 0
+      }
+    }
+  }
+
+  function endsWith(str, char){
+    console.log('endsWith exec .....');
+    if(str){
+      if(str.endsWith){
+        return str.endsWith(char)
+      }else{
+        return str.indexOf(char) === str.length - 1
+      }
+    }
+  }
+  // 如果传进来的本身就是纯本文，原样返回
+  // 在安卓TB2.0（基于Chrome37）下，不支持 startsWith 和 endsWith ，在这里改为 indexOf 判断
+  if ( !startsWith(summary, '<') && !endsWith(summary, '>') ) {
+    return summary
+  } else {
+    return summary
+        .replace(/</g, "\n<")
+        .replace(/>/g, ">\n")
+        .replace(/\n\n/g, "\n")
+        .replace(/^\n/g, "")
+        .replace(/\n$/g, "")
+        .split("\n").filter(function(item) {
+          return !startsWith(item, '<')
+        }).join('').replace(/&nbsp;?|<br\s*\/*>|\s*/ig, '')
+  }
+}
+exports.extractText = extractText
+
 function throttle(func, wait, options) {
   var timeout, context, args, result;
   var previous = 0;
