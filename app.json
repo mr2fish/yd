@@ -5,8 +5,8 @@
     "pages/article/article",
     "pages/filter/filter",
     "pages/gift-result/gift-result",
-    "pages/sku/sku",
     "pages/all/all",
+    "pages/sku/sku",
     "pages/error/error"
   ],
   "window": {

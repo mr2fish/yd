@@ -28,15 +28,15 @@
                 <text class="value">{{sale.intro}}</text>
               </view>
             </view>
-            <!-- <text class="buy-button" bindtap="buy" data-url="{{sale.link_m_cps || sale.link_pc_cps || sale.link_m_raw || sale.link_pc_raw}}">购买 ></text> -->
+            <text class="buy-button" bindtap="buy" data-url="{{sale.link_m_cps || sale.link_pc_cps || sale.link_m_raw || sale.link_pc_raw}}">购买 ></text>
           </view>
         </view>
       </block>
     </view>
     <view class="copy-container" wx:if="{{show}}">
       <view class="copy-box">
-        <text class="copy-box-title">点击链接并复制，在浏览器下打开</text>
-        <textarea auto-height maxlength="0" value="{{url || ''}}"/>
+        <text class="copy-box-title">长按复制，在浏览器下打开</text>
+        <text class="copy-url" selectable> {{ url }} </text>
         <view class="copy-box-confirm" bindtap="confirm">确定</view>
       </view>
     </view>
