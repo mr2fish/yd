@@ -70,23 +70,44 @@
 .function{
   display: -webkit-flex;
   display: flex;
+  -webkit-flex-direction: row;
+          flex-direction: row;
   border-right: 1px #d8d8d8 solid;
+  -webkit-justify-content: center;
+          justify-content: center;
+  -webkit-align-items: center;
+          align-items: center;
+}
+
+.function-icon-and-title{
+  display: -webkit-flex;
+  display: flex;
   -webkit-flex-direction: column;
           flex-direction: column;
    -webkit-align-items: center;
            align-items: center;
+  margin-right: 25rpx;
 }
+
+.function-desc{
+  font-size: 26rpx;
+  color: #9B9B9B;
+  height: 100%;
+  text-align: left;
+  line-height: 1.4;
+}
+
 .no-border{
   border:none;
 }
 
 .function image {
-  width: 64rpx;
+  width: 66rpx;
   height: 64rpx;
 }
 
-.function text {
-  margin-top: 28rpx;
+.function-title {
+  margin-top: 16rpx;
   font-size: 28rpx;
 }
 

@@ -2,14 +2,16 @@
   <view class="category-panel">
       <view class="category-section" wx:for="{{categorys}}" wx:for-item="category" wx:key="title">
         <view class="icon-left">
-          <image src="{{category.icon}}"></image>
+          <image src="{{category.icon}}" style="width:{{category.iconW}}rpx;height:{{category.iconH}}rpx;"></image>
           <view class="vertical-line" wx:if="{{category.title !== '价格'}}"></view>
         </view>
         <view class="title-and-list">
           <view class="category-title">
             <text>{{category.allTitle}}</text>
           </view>
-          <scroll-view class="category-list" scroll-x="true" scroll-left="{{scrollLeft}}">
+          <scroll-view class="category-list" scroll-x="true"
+            scroll-left="{{scrollLeft}}"
+            style="padding-right:{{ 80 * ios8Factor }}rpx;">
             <view class="item" wx:for="{{category.items}}" wx:for-index="index" wx:key="items">
               <!-- 默认选中“不限” -->
               <text data-group="{{category.name}}" data-item="{{item}}" bindtap="select" class="item-text {{category.selectedIndex === index ?'selected':''}}">{{item}}</text>

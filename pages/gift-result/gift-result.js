@@ -88,6 +88,7 @@ Page({
       this.setData({load: false})
       pageLength = loadingLength
       start = loadingStart
+      console.log(options.queryParameter)
       this.renderByDataFromServer(this.packageQueryParam(options.queryParameter))
     }catch(e){
       console.log('发生了错误')
@@ -133,7 +134,7 @@ Page({
       success: (result) => {
         try{
           console.log(`${url}返回的数据：`, result);
-          // console.log(result);
+          console.log(result);
           result = result.data
           const aids = result.aids
           // raiders 攻略

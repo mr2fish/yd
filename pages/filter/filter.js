@@ -5,13 +5,18 @@ Page({
   data: { categorys },
   onLoad(){
     console.log('filter onload...')
+    // 在TBS2.0 和 IOS8下会有一个渲染bug，目前只解决IOS8的，因为腾讯马上就要升级
+    // 到TBS3.0了，到时候，这个bug自然而然就没有了。如果现在修复的话，将来腾讯升级TBS3.0
+    // 还是会有问题，所以索性就不管了，反正也能用。
+    const res = wx.getSystemInfoSync()
+    const isIOS8 = /IOS 8/i.test(res.system)
+    this.setData({ ios8Factor: isIOS8 ? 0: 1 })
   }
   ,reset(){
     this.setData({
       categorys: categorys.map( category => {category.selectedIndex = 0; return category}),
       scrollLeft: 0
     })
-
   }
   //事件处理函数
   ,select(e){

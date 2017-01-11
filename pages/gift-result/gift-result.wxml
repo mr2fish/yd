@@ -54,7 +54,7 @@
 
       <view class="section-sep first-section-sep clearfix" wx:if="{{raiders.length > 0}}">
         <view class="section-sep-container">
-          <text class="pull-left">精选好礼</text>
+          <text class="pull-left">攻略</text>
           <view class="pull-right" bindtap="viewAll">
             <text>全部</text>
             <image src="./icon/arrow-red.png" class="arrow-red"></image>

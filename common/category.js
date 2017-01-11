@@ -9,9 +9,11 @@ const iconPath = './icon'
 const category = {
   relation: {
     name: 'relation',
-    icon:`${iconPath}/object.png`,
+    icon:`${iconPath}/relation.png`,
+    iconW: 68,
+    iconH: 82,
     title: '关系',
-    // allTitle: '送礼对象', // 目前这个字段用不着
+    allTitle: '送礼对象', // 目前这个字段用不着
     items: [defaultItem, "爸爸","妈妈","老公男友","老婆女友","基友","闺蜜","朋友","同事","老板"],
     // items: [defaultItem, "爸爸","妈妈","老公男友","老婆女友","基友"],
     selectedIndex: 0 // 默认选中defaultItem即“不限”
@@ -19,27 +21,35 @@ const category = {
   scene: {
     name:'scene',
     title: '场景',
-    // allTitle: '送礼场景',
+    allTitle: '送礼场景',
     icon:`${iconPath}/scene.png`,
-    items: [defaultItem, "圣诞节","新年","过年回家","情人节","生日","纪念日","告白","乔迁","新婚"],
+    iconW: 70,
+    iconH: 84,
+    // items: [defaultItem, "圣诞节","新年","过年回家","情人节","生日","纪念日","告白","乔迁","新婚"],
+    items: [defaultItem, "过年回家", "情人节", "生日", "纪念日", "新婚", "告白", "乔迁", "新生儿", "母亲节", "父亲节"],
     // items: [defaultItem, "圣诞节","新年","过年回家","情人节","生日"],
     selectedIndex: 0 // 默认选中defaultItem即“不限”
   },
   category: {
     name: 'category',
-    icon:`${iconPath}/gifts.png`,
+    icon:`${iconPath}/category.png`,
+    iconW: 76,
+    iconH: 74,
     title: '品类',
-    // allTitle: '送礼品类',
-    items: [defaultItem, "家具家装","生活日用","家用电器","办公用品","时尚悦己","个护化妆","科技数码","运动健康","母婴玩具","汽车户外"],
+    allTitle: '送礼品类',
+    // items: [defaultItem, "家具家装", "生活日用", "家用电器", "办公用品", "时尚悦己", "个护化妆", "科技数码", "运动健康", "母婴玩具", "汽车户外"],
+    items: [defaultItem, "科技数码", "个护化妆", "时尚悦己", "家用电器", "生活日用", "家居家装", "办公用品", "母婴用品", "运动健康", "吃喝旅行"],
     // items: [defaultItem, "家具家装","生活日用","家用电器","办公用品","时尚悦己"],
     selectedIndex: 0 // 默认选中defaultItem即“不限”
   },
   price: {
     name: 'price',
     icon:`${iconPath}/price.png`,
+    iconW: 72,
+    iconH: 56,
     title: '价格',
-    // allTitle: '礼物价格',
-    items: [defaultItem, "0-200","200-500","500-800","800+"],
+    allTitle: '礼物价格',
+    items: [defaultItem, "0-200","200-500","500-1000","1000+"],
     selectedIndex: 0 // 默认选中defaultItem即“不限”
   }
 }

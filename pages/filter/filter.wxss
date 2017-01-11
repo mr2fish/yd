@@ -84,8 +84,9 @@
   /*display: -webkit-box;*/
   display: -webkit-flex;
   display: flex;
-  padding-right: 80rpx;
+  /*padding-right: 80rpx;*/
   max-height: 78rpx;
+  width: 100%;
 }
 
 .title-and-list{

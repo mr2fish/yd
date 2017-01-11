@@ -18,9 +18,15 @@
     <view class="function-list">
       <navigator url="../filter/filter" hover-class="navigator-hover">
         <view class="function">
-            <image src="icon/filter.png"></image>
-            <text>礼物挑选器</text>
+            <view class="function-icon-and-title">
+              <image src="icon/filter.png"></image>
+              <text class="function-title">挑选器</text>
+            </view>
+            <text class="function-desc">量身设计的
+                选礼解决方案
+            </text>
         </view>
+
       </navigator>
       <!-- <navigator url="../filter/filter" hover-class="navigator-hover">
         <view class="function">
@@ -30,15 +36,20 @@
      </navigator> -->
      <navigator url="../gotogo/gotogo" hover-class="navigator-hover">
         <view class="function no-border">
-            <image src="icon/gotogo.png" style="width:88rpx;height:60rpx;"></image>
-            <text>逛一逛</text>
+          <view class="function-icon-and-title">
+            <image src="icon/gotogo.png" style="width:82rpx;height:60rpx;"></image>
+            <text class="function-title">逛一逛</text>
+          </view>
+          <text class="function-desc">精选礼物
+              寻找你的灵感
+          </text>
         </view>
      </navigator>
     </view>
   </view>
   <!-- meta列表 -->
   <view class="metainfo-area">
-    <text class="tag" data-tag="精选好礼"></text>
+    <text class="tag" data-tag="攻略"></text>
     <view class="up-list">
       <block wx:for="{{meta_infos}}" wx:key="nid" wx:for-item="meta_info">
         <view class="up-list-item">

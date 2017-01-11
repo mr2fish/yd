@@ -101,17 +101,9 @@ Page({
           }
         }
       })
-      // wx.showModal({
-      //   title: '长按复制，在浏览器下打开',
-      //   content: url,
-      //   showCancel: false
-      // })
     }
   }
   ,confirm(){
     this.setData({show: false,scrollY: true})
   }
-  // ,onHide(){
-  //   this.setData({load: false})
-  // }
 })
