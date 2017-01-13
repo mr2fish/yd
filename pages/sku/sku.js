@@ -65,12 +65,12 @@ Page({
           } catch (e) {
             console.log('发生了错误')
             console.log(e)
-            // wx.redirectTo({url:'../error/error'})
-            wx.showModal({
-              title: '发生错误',
-              content: e.stack,
-              showCancel: false
-            })
+            wx.redirectTo({url:'../error/error'})
+            // wx.showModal({
+            //   title: '发生错误',
+            //   content: e.stack,
+            //   showCancel: false
+            // })
           }
         },
 
