@@ -51,7 +51,7 @@
           <text class="sku-title">{{content.value.title}}</text>
           <view class="sku-footer">
             <text>{{content.value.price_str || content.value.price || ''}}</text>
-            <navigator url="../sku/sku?sid={{content.value.sid}}">立即购买</navigator>
+            <navigator url="../sku/sku?sid={{content.value.sid}}">购买渠道</navigator>
           </view>
         </view>
       </view>
